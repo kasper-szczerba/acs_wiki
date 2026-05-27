@@ -1,0 +1,96 @@
+# Object Interface
+
+- **Interface**: `i_object`
+- **Namespace**: `acs::core`
+- **Include**: `#include "core/interfaces/i_object.h"`
+
+## Overview
+
+Interface for object.
+
+## Inheritance Diagram
+
+### Derived Diagram
+
+```mermaid
+graph LR
+    i_object["i_object"]
+    i_camera["i_camera"] --> camera["camera"]
+    i_glfw_window["i_glfw_window"] --> glfw_window["glfw_window"]
+    i_object["i_object"] --> i_glfw_window["i_glfw_window"]
+    i_object["i_object"] --> i_threaded_object["i_threaded_object"]
+    i_object["i_object"] --> i_toml_reader["i_toml_reader"]
+    i_object["i_object"] --> i_widget["i_widget"]
+    i_object["i_object"] --> i_widget_controller["i_widget_controller"]
+    i_object["i_object"] --> i_zenoh_client["i_zenoh_client"]
+    i_object["i_object"] --> object["object"]
+    i_threaded_object["i_threaded_object"] --> i_camera["i_camera"]
+    i_threaded_object["i_threaded_object"] --> i_threaded_widget["i_threaded_widget"]
+    i_threaded_object["i_threaded_object"] --> threaded_object["threaded_object"]
+    i_threaded_widget["i_threaded_widget"] --> threaded_widget_host["threaded_widget_host"]
+    i_toml_reader["i_toml_reader"] --> toml_reader["toml_reader"]
+    i_widget["i_widget"] --> widget_host["widget_host"]
+    i_widget_controller["i_widget_controller"] --> widget_controller["widget_controller"]
+    i_zenoh_client["i_zenoh_client"] --> zenoh_client["zenoh_client"]
+    object["object"] --> glfw_window["glfw_window"]
+    object["object"] --> threaded_object["threaded_object"]
+    object["object"] --> toml_reader["toml_reader"]
+    object["object"] --> widget_controller["widget_controller"]
+    object["object"] --> widget_host["widget_host"]
+    object["object"] --> zenoh_client["zenoh_client"]
+    threaded_object["threaded_object"] --> camera["camera"]
+    threaded_object["threaded_object"] --> threaded_widget_host["threaded_widget_host"]
+    threaded_widget_host["threaded_widget_host"] --> camera_widget["camera_widget"]
+    widget_host["widget_host"] --> about_widget["about_widget"]
+```
+
+## Inheritance Hierarchy
+
+### Derived Hierarchy
+
+- [`i_object`](i_object.md)
+  - [`i_glfw_window`](../../gui/interfaces/i_glfw_window.md)
+    - [`glfw_window`](../../gui/implementations/glfw_window.md)
+  - [`i_threaded_object`](i_threaded_object.md)
+    - [`i_camera`](../../vision/interfaces/i_camera.md)
+      - [`camera`](../../vision/implementations/camera.md)
+    - [`i_threaded_widget`](../../gui/interfaces/i_threaded_widget.md)
+      - [`threaded_widget_host`](../../gui/implementations/threaded_widget_host.md)
+        - [`camera_widget`](../../gui/implementations/widgets/camera_widget.md)
+    - [`threaded_object`](../implementations/threaded_object.md)
+      - [`camera`](../../vision/implementations/camera.md)
+      - [`threaded_widget_host`](../../gui/implementations/threaded_widget_host.md)
+        - [`camera_widget`](../../gui/implementations/widgets/camera_widget.md)
+  - [`i_toml_reader`](../../utility/interfaces/i_toml_reader.md)
+    - [`toml_reader`](../../utility/implementations/toml_reader.md)
+  - [`i_widget`](../../gui/interfaces/i_widget.md)
+    - [`widget_host`](../../gui/implementations/widget_host.md)
+      - [`about_widget`](../../gui/implementations/widgets/about_widget.md)
+  - [`i_widget_controller`](../../gui/interfaces/i_widget_controller.md)
+    - [`widget_controller`](../../gui/implementations/widget_controller.md)
+  - [`i_zenoh_client`](../../utility/interfaces/i_zenoh_client.md)
+    - [`zenoh_client`](../../utility/implementations/zenoh_client.md)
+  - [`object`](../implementations/object.md)
+    - [`glfw_window`](../../gui/implementations/glfw_window.md)
+    - [`threaded_object`](../implementations/threaded_object.md)
+      - [`camera`](../../vision/implementations/camera.md)
+      - [`threaded_widget_host`](../../gui/implementations/threaded_widget_host.md)
+        - [`camera_widget`](../../gui/implementations/widgets/camera_widget.md)
+    - [`toml_reader`](../../utility/implementations/toml_reader.md)
+    - [`widget_controller`](../../gui/implementations/widget_controller.md)
+    - [`widget_host`](../../gui/implementations/widget_host.md)
+      - [`about_widget`](../../gui/implementations/widgets/about_widget.md)
+    - [`zenoh_client`](../../utility/implementations/zenoh_client.md)
+
+## API
+
+### Public Methods
+#### Get Tag
+
+```cpp
+[[nodiscard]] virtual std::string_view get_tag() const noexcept = 0;
+```
+Returns the tag.
+
+!!! note
+    Pure virtual method, must be implemented by derived classes.

@@ -1,0 +1,57 @@
+# Gui Namespace
+
+## Overview
+
+The `acs::gui` namespace contains components for user interface elements and visualization. It provides tools for rendering data, creating dashboards, and visualizing the state of the system.
+
+## Namespace Contents
+
+### Interfaces
+
+- [i_glfw_window](interfaces/i_glfw_window.md)
+- [i_threaded_widget](interfaces/i_threaded_widget.md)
+- [i_widget](interfaces/i_widget.md)
+- [i_widget_controller](interfaces/i_widget_controller.md)
+
+### Implementations
+
+- [about_widget](implementations/widgets/about_widget.md)
+- [camera_widget](implementations/widgets/camera_widget.md)
+- [glfw_window](implementations/glfw_window.md)
+- [threaded_widget_host](implementations/threaded_widget_host.md)
+- [widget_controller](implementations/widget_controller.md)
+- [widget_host](implementations/widget_host.md)
+
+## Inheritance Hierarchy
+
+```mermaid
+graph LR
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_implementations_object["object"]
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_implementations_threaded_object["threaded_object"]
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_interfaces_i_object["i_object"]
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_interfaces_i_threaded_object["i_threaded_object"]
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_implementations_glfw_window["glfw_window"]
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_implementations_threaded_widget_host["threaded_widget_host"]
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_implementations_widget_controller["widget_controller"]
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_implementations_widget_host["widget_host"]
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_implementations_widgets_about_widget["about_widget"]
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_implementations_widgets_camera_widget["camera_widget"]
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_interfaces_i_glfw_window["i_glfw_window"]
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_interfaces_i_threaded_widget["i_threaded_widget"]
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_interfaces_i_widget["i_widget"]
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_interfaces_i_widget_controller["i_widget_controller"]
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_implementations_object --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_implementations_glfw_window
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_implementations_object --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_implementations_widget_controller
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_implementations_object --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_implementations_widget_host
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_implementations_threaded_object --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_implementations_threaded_widget_host
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_interfaces_i_object --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_interfaces_i_glfw_window
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_interfaces_i_object --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_interfaces_i_widget
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_interfaces_i_object --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_interfaces_i_widget_controller
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_interfaces_i_threaded_object --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_interfaces_i_threaded_widget
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_implementations_threaded_widget_host --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_implementations_widgets_camera_widget
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_implementations_widget_host --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_implementations_widgets_about_widget
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_interfaces_i_glfw_window --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_implementations_glfw_window
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_interfaces_i_threaded_widget --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_implementations_threaded_widget_host
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_interfaces_i_widget --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_implementations_widget_host
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_interfaces_i_widget_controller --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_gui_implementations_widget_controller
+```

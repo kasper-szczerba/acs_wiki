@@ -1,0 +1,39 @@
+# overrides.toml — project-specific prose overrides.
+#
+# Copy this file to the parent tools/ directory:
+#   cp tools/docgen/overrides.toml.example tools/overrides.toml
+#
+# tools/overrides.toml is gitignored — never commit it.
+#
+# Keys match the header path relative to include/, without extension,
+# using forward slashes. Example:
+#   "vision/implementation/detection/obstacle_detector"
+#
+# Within each section:
+#   __overview__           = overview paragraph (Markdown)
+#   __constructor__        = constructor description
+#   method_name            = description for that method
+#   method_name.param_name = description for a specific parameter
+#
+# Methods already handled by naming conventions (get_*/set_*,
+# on_setup, on_teardown, on_update, setup, teardown, …) do NOT
+# need entries here unless you want to override the generated text.
+#
+# Namespace overviews can be provided under:
+#
+[__namespaces__]
+core = "The `acs::core` namespace provides the foundational component system for the autonomous control system. It defines interfaces and base classes for managing component lifecycles, updates, and threaded execution."
+gui = "The `acs::gui` namespace contains components for user interface elements and visualization. It provides tools for rendering data, creating dashboards, and visualizing the state of the system."
+opengl = "The `acs::opengl` namespace contains components for rendering 3D graphics using OpenGL."
+utility = "The `acs::utility` namespace contains helper components and interfaces for common functionality such as configuration file parsing and Zenoh communication."
+vision = "The `acs::vision` namespace contains components for camera access, scene understanding, and visualization. It implements the detection pipeline for obstacles using ZED stereo camera hardware."
+#
+# ---------------------------------------------------------------------------
+# Example:
+# ---------------------------------------------------------------------------
+#
+# ["mynamespace/implementation/my_class"]
+# __overview__    = "Does X and Y."
+# __constructor__ = "Creates a my class with the given name."
+# my_method       = "Performs the thing."
+# "my_method.param_name" = "The value to use."
