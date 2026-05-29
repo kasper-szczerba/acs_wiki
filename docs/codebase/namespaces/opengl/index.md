@@ -1,8 +1,8 @@
-# Opengl Namespace
+# OpenGL Namespace
 
 ## Overview
 
-The `acs::opengl` namespace contains components for rendering 3D graphics using OpenGL.
+The `acs::opengl` namespace contains OpenGL-focused rendering objects and helpers used by the visualization stack.
 
 ## Namespace Contents
 

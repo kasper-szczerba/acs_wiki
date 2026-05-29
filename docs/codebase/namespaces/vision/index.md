@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `acs::vision` namespace contains components for camera access, scene understanding, and visualization. It implements the detection pipeline for obstacles using ZED stereo camera hardware.
+The `acs::vision` namespace contains perception objects and interfaces for camera access, floor estimation, and obstacle detection using ZED stereo data.
 
 ## Namespace Contents
 

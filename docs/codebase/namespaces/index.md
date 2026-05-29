@@ -5,8 +5,8 @@ This page indexes the namespace documentation and the project-wide inheritance g
 ## Namespace Pages
 
 - [Core](core/index.md)
-- [Gui](gui/index.md)
-- [Opengl](opengl/index.md)
+- [GUI](gui/index.md)
+- [OpenGL](opengl/index.md)
 - [Utility](utility/index.md)
 - [Vision](vision/index.md)
 

@@ -25,6 +25,8 @@ ui = "UI"
 zed = "ZED"
 sl = "SL"
 cv = "CV"
+gui = "GUI"
+opengl = "OpenGL"
 
 [naming.phrase_expansions]
 # Phrase expansions used in generated prose.
@@ -39,6 +41,8 @@ ui = "UI"
 zed = "ZED"
 ptr = "pointer"
 ref = "reference"
+gui = "GUI"
+opengl = "OpenGL"
 
 [phrases]
 # Templates for generated fallback prose.

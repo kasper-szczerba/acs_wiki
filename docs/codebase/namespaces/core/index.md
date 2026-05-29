@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `acs::core` namespace provides the foundational component system for the autonomous control system. It defines interfaces and base classes for managing component lifecycles, updates, and threaded execution.
+The `acs::core` namespace defines the base object model for ACS. It provides `i_object` for shared identity (a debug-facing tag/name) and `i_threaded_object` for managed periodic execution in derived objects.
 
 ## Namespace Contents
 

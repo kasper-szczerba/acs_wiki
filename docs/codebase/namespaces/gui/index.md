@@ -1,8 +1,8 @@
-# Gui Namespace
+# GUI Namespace
 
 ## Overview
 
-The `acs::gui` namespace contains components for user interface elements and visualization. It provides tools for rendering data, creating dashboards, and visualizing the state of the system.
+The `acs::gui` namespace contains GUI objects and interfaces used to host windows, register widgets, and render runtime visualization views.
 
 ## Namespace Contents
 

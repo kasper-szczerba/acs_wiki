@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `acs::utility` namespace contains helper components and interfaces for common functionality such as configuration file parsing and Zenoh communication.
+The `acs::utility` namespace contains utility objects and interfaces for shared services such as configuration parsing and Zenoh connectivity.
 
 ## Namespace Contents
 
