@@ -24,11 +24,17 @@ graph LR
 graph LR
     i_threaded_object["i_threaded_object"]
     i_camera["i_camera"] --> camera["camera"]
+    i_floor_detector["i_floor_detector"] --> floor_detector["floor_detector"]
+    i_obstacle_detector["i_obstacle_detector"] --> obstacle_detector["obstacle_detector"]
     i_threaded_object["i_threaded_object"] --> i_camera["i_camera"]
+    i_threaded_object["i_threaded_object"] --> i_floor_detector["i_floor_detector"]
+    i_threaded_object["i_threaded_object"] --> i_obstacle_detector["i_obstacle_detector"]
     i_threaded_object["i_threaded_object"] --> i_threaded_widget["i_threaded_widget"]
     i_threaded_object["i_threaded_object"] --> threaded_object["threaded_object"]
     i_threaded_widget["i_threaded_widget"] --> threaded_widget_host["threaded_widget_host"]
     threaded_object["threaded_object"] --> camera["camera"]
+    threaded_object["threaded_object"] --> floor_detector["floor_detector"]
+    threaded_object["threaded_object"] --> obstacle_detector["obstacle_detector"]
     threaded_object["threaded_object"] --> threaded_widget_host["threaded_widget_host"]
     threaded_widget_host["threaded_widget_host"] --> camera_widget["camera_widget"]
 ```
@@ -45,11 +51,17 @@ graph LR
 - [`i_threaded_object`](i_threaded_object.md)
   - [`i_camera`](../../vision/interfaces/i_camera.md)
     - [`camera`](../../vision/implementations/camera.md)
+  - [`i_floor_detector`](../../vision/interfaces/i_floor_detector.md)
+    - [`floor_detector`](../../vision/implementations/floor_detector.md)
+  - [`i_obstacle_detector`](../../vision/interfaces/i_obstacle_detector.md)
+    - [`obstacle_detector`](../../vision/implementations/obstacle_detector.md)
   - [`i_threaded_widget`](../../gui/interfaces/i_threaded_widget.md)
     - [`threaded_widget_host`](../../gui/implementations/threaded_widget_host.md)
       - [`camera_widget`](../../gui/implementations/widgets/camera_widget.md)
   - [`threaded_object`](../implementations/threaded_object.md)
     - [`camera`](../../vision/implementations/camera.md)
+    - [`floor_detector`](../../vision/implementations/floor_detector.md)
+    - [`obstacle_detector`](../../vision/implementations/obstacle_detector.md)
     - [`threaded_widget_host`](../../gui/implementations/threaded_widget_host.md)
       - [`camera_widget`](../../gui/implementations/widgets/camera_widget.md)
 

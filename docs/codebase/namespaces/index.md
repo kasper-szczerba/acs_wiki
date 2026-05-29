@@ -15,6 +15,7 @@ This page indexes the namespace documentation and the project-wide inheritance g
 ```mermaid
 graph LR
     i_camera["i_camera"] --> camera["camera"]
+    i_floor_detector["i_floor_detector"] --> floor_detector["floor_detector"]
     i_glfw_window["i_glfw_window"] --> glfw_window["glfw_window"]
     i_object["i_object"] --> i_glfw_window["i_glfw_window"]
     i_object["i_object"] --> i_threaded_object["i_threaded_object"]
@@ -23,7 +24,10 @@ graph LR
     i_object["i_object"] --> i_widget_controller["i_widget_controller"]
     i_object["i_object"] --> i_zenoh_client["i_zenoh_client"]
     i_object["i_object"] --> object["object"]
+    i_obstacle_detector["i_obstacle_detector"] --> obstacle_detector["obstacle_detector"]
     i_threaded_object["i_threaded_object"] --> i_camera["i_camera"]
+    i_threaded_object["i_threaded_object"] --> i_floor_detector["i_floor_detector"]
+    i_threaded_object["i_threaded_object"] --> i_obstacle_detector["i_obstacle_detector"]
     i_threaded_object["i_threaded_object"] --> i_threaded_widget["i_threaded_widget"]
     i_threaded_object["i_threaded_object"] --> threaded_object["threaded_object"]
     i_threaded_widget["i_threaded_widget"] --> threaded_widget_host["threaded_widget_host"]
@@ -38,6 +42,8 @@ graph LR
     object["object"] --> widget_host["widget_host"]
     object["object"] --> zenoh_client["zenoh_client"]
     threaded_object["threaded_object"] --> camera["camera"]
+    threaded_object["threaded_object"] --> floor_detector["floor_detector"]
+    threaded_object["threaded_object"] --> obstacle_detector["obstacle_detector"]
     threaded_object["threaded_object"] --> threaded_widget_host["threaded_widget_host"]
     threaded_widget_host["threaded_widget_host"] --> camera_widget["camera_widget"]
     widget_host["widget_host"] --> about_widget["about_widget"]

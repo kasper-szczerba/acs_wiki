@@ -16,6 +16,7 @@ Interface for object.
 graph LR
     i_object["i_object"]
     i_camera["i_camera"] --> camera["camera"]
+    i_floor_detector["i_floor_detector"] --> floor_detector["floor_detector"]
     i_glfw_window["i_glfw_window"] --> glfw_window["glfw_window"]
     i_object["i_object"] --> i_glfw_window["i_glfw_window"]
     i_object["i_object"] --> i_threaded_object["i_threaded_object"]
@@ -24,7 +25,10 @@ graph LR
     i_object["i_object"] --> i_widget_controller["i_widget_controller"]
     i_object["i_object"] --> i_zenoh_client["i_zenoh_client"]
     i_object["i_object"] --> object["object"]
+    i_obstacle_detector["i_obstacle_detector"] --> obstacle_detector["obstacle_detector"]
     i_threaded_object["i_threaded_object"] --> i_camera["i_camera"]
+    i_threaded_object["i_threaded_object"] --> i_floor_detector["i_floor_detector"]
+    i_threaded_object["i_threaded_object"] --> i_obstacle_detector["i_obstacle_detector"]
     i_threaded_object["i_threaded_object"] --> i_threaded_widget["i_threaded_widget"]
     i_threaded_object["i_threaded_object"] --> threaded_object["threaded_object"]
     i_threaded_widget["i_threaded_widget"] --> threaded_widget_host["threaded_widget_host"]
@@ -39,6 +43,8 @@ graph LR
     object["object"] --> widget_host["widget_host"]
     object["object"] --> zenoh_client["zenoh_client"]
     threaded_object["threaded_object"] --> camera["camera"]
+    threaded_object["threaded_object"] --> floor_detector["floor_detector"]
+    threaded_object["threaded_object"] --> obstacle_detector["obstacle_detector"]
     threaded_object["threaded_object"] --> threaded_widget_host["threaded_widget_host"]
     threaded_widget_host["threaded_widget_host"] --> camera_widget["camera_widget"]
     widget_host["widget_host"] --> about_widget["about_widget"]
@@ -54,11 +60,17 @@ graph LR
   - [`i_threaded_object`](i_threaded_object.md)
     - [`i_camera`](../../vision/interfaces/i_camera.md)
       - [`camera`](../../vision/implementations/camera.md)
+    - [`i_floor_detector`](../../vision/interfaces/i_floor_detector.md)
+      - [`floor_detector`](../../vision/implementations/floor_detector.md)
+    - [`i_obstacle_detector`](../../vision/interfaces/i_obstacle_detector.md)
+      - [`obstacle_detector`](../../vision/implementations/obstacle_detector.md)
     - [`i_threaded_widget`](../../gui/interfaces/i_threaded_widget.md)
       - [`threaded_widget_host`](../../gui/implementations/threaded_widget_host.md)
         - [`camera_widget`](../../gui/implementations/widgets/camera_widget.md)
     - [`threaded_object`](../implementations/threaded_object.md)
       - [`camera`](../../vision/implementations/camera.md)
+      - [`floor_detector`](../../vision/implementations/floor_detector.md)
+      - [`obstacle_detector`](../../vision/implementations/obstacle_detector.md)
       - [`threaded_widget_host`](../../gui/implementations/threaded_widget_host.md)
         - [`camera_widget`](../../gui/implementations/widgets/camera_widget.md)
   - [`i_toml_reader`](../../utility/interfaces/i_toml_reader.md)
@@ -74,6 +86,8 @@ graph LR
     - [`glfw_window`](../../gui/implementations/glfw_window.md)
     - [`threaded_object`](../implementations/threaded_object.md)
       - [`camera`](../../vision/implementations/camera.md)
+      - [`floor_detector`](../../vision/implementations/floor_detector.md)
+      - [`obstacle_detector`](../../vision/implementations/obstacle_detector.md)
       - [`threaded_widget_host`](../../gui/implementations/threaded_widget_host.md)
         - [`camera_widget`](../../gui/implementations/widgets/camera_widget.md)
     - [`toml_reader`](../../utility/implementations/toml_reader.md)

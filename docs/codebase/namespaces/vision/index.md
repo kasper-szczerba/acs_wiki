@@ -9,11 +9,16 @@ The `acs::vision` namespace contains components for camera access, scene underst
 ### Interfaces
 
 - [i_camera](interfaces/i_camera.md)
+- [i_floor_detector](interfaces/i_floor_detector.md)
+- [i_obstacle_detector](interfaces/i_obstacle_detector.md)
 
 ### Implementations
 
 - [camera](implementations/camera.md)
+- [floor_detector](implementations/floor_detector.md)
+- [floor_plane_math](utility/floor_plane_math.md)
 - [matrix_converter](utility/matrix_converter.md)
+- [obstacle_detector](implementations/obstacle_detector.md)
 
 ## Inheritance Hierarchy
 
@@ -22,9 +27,20 @@ graph LR
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_implementations_threaded_object["threaded_object"]
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_interfaces_i_threaded_object["i_threaded_object"]
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_vision_implementations_camera["camera"]
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_vision_implementations_floor_detector["floor_detector"]
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_vision_implementations_obstacle_detector["obstacle_detector"]
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_vision_interfaces_i_camera["i_camera"]
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_vision_interfaces_i_floor_detector["i_floor_detector"]
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_vision_interfaces_i_obstacle_detector["i_obstacle_detector"]
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_vision_utility_floor_plane_math["floor_plane_math"]
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_vision_utility_matrix_converter["matrix_converter"]
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_implementations_threaded_object --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_vision_implementations_camera
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_implementations_threaded_object --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_vision_implementations_floor_detector
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_implementations_threaded_object --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_vision_implementations_obstacle_detector
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_interfaces_i_threaded_object --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_vision_interfaces_i_camera
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_interfaces_i_threaded_object --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_vision_interfaces_i_floor_detector
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_interfaces_i_threaded_object --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_vision_interfaces_i_obstacle_detector
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_vision_interfaces_i_camera --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_vision_implementations_camera
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_vision_interfaces_i_floor_detector --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_vision_implementations_floor_detector
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_vision_interfaces_i_obstacle_detector --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_vision_implementations_obstacle_detector
 ```
