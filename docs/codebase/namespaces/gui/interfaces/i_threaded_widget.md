@@ -6,7 +6,7 @@
 
 ## Overview
 
-Interface for threaded widget.
+Interface that defines the render contract for widgets that also run periodic threaded updates.
 
 ## Inheritance Diagram
 
@@ -58,7 +58,7 @@ virtual void render() = 0;
 ```cpp
 [[nodiscard]] virtual std::string_view get_title() const noexcept = 0;
 ```
-Returns the title.
+Returns the display title used when rendering the widget container.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -67,7 +67,7 @@ Returns the title.
 ```cpp
 [[nodiscard]] virtual bool& get_is_open_ref() noexcept = 0;
 ```
-Returns the is open reference.
+Returns a mutable reference to the widget visibility flag.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.

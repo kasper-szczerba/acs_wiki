@@ -6,7 +6,7 @@
 
 ## Overview
 
-Concrete implementation of `i_zenoh_client`.
+Concrete `i_zenoh_client` implementation that manages Zenoh endpoint settings and associated session/config handles.
 
 ## Inheritance Diagram
 
@@ -39,12 +39,12 @@ graph LR
 ```cpp
 zenoh_client(std::string_view tag, std::string_view address, unsigned int port);
 ```
-Creates a zenoh client with the specified name.
+Creates a Zenoh client with connection identity, remote endpoint address, and port.
 
 ##### Parameters
-- `tag`: The tag.
-- `address`: The address.
-- `port`: The port.
+- `tag`: Unique component tag used for logging and lifecycle identification.
+- `address`: Remote Zenoh endpoint address (hostname or IP).
+- `port`: Remote Zenoh endpoint port number.
 
 ### Public Methods
 

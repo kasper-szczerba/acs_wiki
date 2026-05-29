@@ -6,7 +6,7 @@
 
 ## Overview
 
-Concrete implementation of `i_floor_detector`.
+Concrete `i_floor_detector` implementation that estimates the dominant floor plane from camera data and publishes plane geometry for obstacle reasoning.
 
 ## Inheritance Diagram
 
@@ -46,12 +46,12 @@ graph LR
 ```cpp
 floor_detector(std::string_view tag, float update_rate, std::shared_ptr<i_camera> camera_ptr);
 ```
-Creates a floor detector with the specified name.
+Creates a floor detector bound to a camera source and periodic update loop.
 
 ##### Parameters
-- `tag`: The tag.
-- `update_rate`: The update rate.
-- `camera_ptr`: Shared pointer to the camera.
+- `tag`: Unique component tag used for logging and lifecycle identification.
+- `update_rate`: Requested detection frequency in Hz for floor-plane estimation.
+- `camera_ptr`: Shared camera dependency that provides synchronized RGB/depth data used during floor extraction.
 
 ### Public Methods
 
@@ -67,4 +67,4 @@ Creates a floor detector with the specified name.
 ```cpp
 void update() override;
 ```
-Performs one update cycle.
+Processes the latest camera data to detect and cache floor-plane geometry and detection state.

@@ -6,7 +6,7 @@
 
 ## Overview
 
-Interface for glfw window.
+Interface that exposes access to the native GLFW window handle used by the GUI runtime.
 
 ## Inheritance Diagram
 
@@ -46,7 +46,7 @@ graph LR
 ```cpp
 [[nodiscard]] virtual GLFWwindow* get_window_ptr() const noexcept = 0;
 ```
-Returns the window pointer.
+Returns a pointer to the underlying GLFW window instance.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.

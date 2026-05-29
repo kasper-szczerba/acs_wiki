@@ -6,7 +6,7 @@
 
 ## Overview
 
-Interface for object.
+Base interface for all ACS components, providing shared identity and lifecycle integration points.
 
 ## Inheritance Diagram
 
@@ -104,7 +104,7 @@ graph LR
 ```cpp
 [[nodiscard]] virtual std::string_view get_tag() const noexcept = 0;
 ```
-Returns the tag.
+Returns the component tag used for identification in logs, diagnostics, and component wiring.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.

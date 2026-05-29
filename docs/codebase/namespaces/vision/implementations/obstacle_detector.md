@@ -6,7 +6,7 @@
 
 ## Overview
 
-Concrete implementation of `i_obstacle_detector`.
+Concrete `i_obstacle_detector` implementation that fuses camera data and floor-plane estimation to identify obstacles in the scene.
 
 ## Inheritance Diagram
 
@@ -50,14 +50,14 @@ obstacle_detector(std::string_view tag,
                   std::shared_ptr<i_camera> camera_ptr,
                   std::shared_ptr<i_floor_detector> floor_detector_ptr);
 ```
-Creates an obstacle detector with the specified name.
+Creates an obstacle detector that runs the obstacle extraction pipeline at a fixed update rate.
 
 ##### Parameters
-- `tag`: The tag.
-- `update_rate`: The update rate.
-- `parameters`: The parameters.
-- `camera_ptr`: Shared pointer to the camera.
-- `floor_detector_ptr`: Shared pointer to the floor detector.
+- `tag`: Unique component tag used for logging and lifecycle identification.
+- `update_rate`: Requested detection frequency in Hz for obstacle analysis.
+- `parameters`: Obstacle-detection configuration bundle (thresholds, filtering, and model-specific runtime settings).
+- `camera_ptr`: Shared camera dependency that provides the live RGB/depth frames used for obstacle inference.
+- `floor_detector_ptr`: Shared floor-detector dependency used to mask floor regions and improve obstacle separation.
 
 ### Public Methods
 
@@ -77,4 +77,4 @@ Creates an obstacle detector with the specified name.
 ```cpp
 void update() override;
 ```
-Performs one update cycle.
+Runs one obstacle-detection cycle and updates cached detection outputs for consumers.

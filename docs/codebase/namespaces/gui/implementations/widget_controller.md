@@ -6,7 +6,7 @@
 
 ## Overview
 
-Concrete implementation of `i_widget_controller`.
+Concrete `i_widget_controller` implementation that owns widget registrations and orchestrates per-frame UI rendering order.
 
 ## Inheritance Diagram
 
@@ -39,10 +39,10 @@ graph LR
 ```cpp
 explicit widget_controller(std::string_view tag);
 ```
-Creates a widget controller with the specified name.
+Creates a widget controller that manages widget registration and render dispatch.
 
 ##### Parameters
-- `tag`: The tag.
+- `tag`: Unique component tag used for logging and lifecycle identification.
 
 ### Public Methods
 

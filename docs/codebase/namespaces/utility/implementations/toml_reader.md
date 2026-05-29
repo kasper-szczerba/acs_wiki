@@ -6,7 +6,7 @@
 
 ## Overview
 
-Concrete implementation of `i_toml_reader`.
+Concrete `i_toml_reader` implementation that loads and owns parsed TOML configuration for runtime component setup.
 
 ## Inheritance Diagram
 
@@ -39,11 +39,11 @@ graph LR
 ```cpp
 toml_reader(std::string_view name, std::string_view file_path);
 ```
-Creates a toml reader with the specified name.
+Creates a TOML reader bound to a logical component name and an initial configuration file path.
 
 ##### Parameters
-- `name`: The name of the component.
-- `file_path`: The file path.
+- `name`: Human-readable component name used for diagnostics and ownership context.
+- `file_path`: Path to the TOML configuration file that should be parsed.
 
 ### Public Methods
 

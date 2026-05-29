@@ -6,7 +6,7 @@
 
 ## Overview
 
-Concrete implementation of `i_camera`.
+Concrete `i_camera` implementation backed by ZED SDK capture. It acquires RGB and depth frames, tracks stream health metrics, and exposes the native camera handle for lower-level integrations.
 
 ## Inheritance Diagram
 
@@ -46,12 +46,12 @@ graph LR
 ```cpp
 camera(std::string_view tag, float update_rate, const parameters_t& parameters);
 ```
-Creates a camera with the specified name.
+Creates a camera component that initializes and manages the ZED capture pipeline.
 
 ##### Parameters
-- `tag`: The tag.
-- `update_rate`: The update rate.
-- `parameters`: The parameters.
+- `tag`: Unique component tag used for logging and lifecycle identification.
+- `update_rate`: Requested update frequency in Hz for frame acquisition and status refresh.
+- `parameters`: Camera configuration bundle (resolution, depth mode, runtime options, and related capture settings).
 
 ### Public Methods
 
@@ -71,4 +71,4 @@ Creates a camera with the specified name.
 ```cpp
 void update() override;
 ```
-Performs one update cycle.
+Polls the camera, updates color and depth frame buffers, and refreshes stream status metrics for downstream consumers.

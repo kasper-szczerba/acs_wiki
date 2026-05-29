@@ -6,7 +6,7 @@
 
 ## Overview
 
-Concrete implementation of `i_widget`.
+Base host implementation for `i_widget` that provides common widget state (title/open flag) and delegates widget-specific drawing to derived classes.
 
 ## Inheritance Diagram
 
@@ -52,11 +52,11 @@ graph LR
 ```cpp
 widget_host(std::string_view tag, std::string_view title);
 ```
-Creates a widget host with the specified name.
+Creates a widget host with a stable identity tag and display title.
 
 ##### Parameters
-- `tag`: The tag.
-- `title`: The title.
+- `tag`: Unique component tag used for logging and lifecycle identification.
+- `title`: Display title shown in the widget header or window chrome.
 
 ### Public Methods
 
@@ -72,6 +72,7 @@ Creates a widget host with the specified name.
 ```cpp
 virtual void on_render() = 0;
 ```
+Implements widget-specific rendering logic invoked by the base `render` flow.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.

@@ -6,7 +6,7 @@
 
 ## Overview
 
-Interface for camera.
+Interface that defines camera stream access for RGB/depth frames, camera metadata, and runtime health metrics.
 
 ## Inheritance Diagram
 
@@ -48,7 +48,7 @@ graph LR
 ```cpp
 [[nodiscard]] virtual cv::cuda::GpuMat get_color_frame() = 0;
 ```
-Returns the color frame.
+Returns the most recent color frame stored in GPU memory.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -57,7 +57,7 @@ Returns the color frame.
 ```cpp
 [[nodiscard]] virtual cv::cuda::GpuMat get_depth_frame() = 0;
 ```
-Returns the depth frame.
+Returns the most recent depth frame stored in GPU memory.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -66,7 +66,7 @@ Returns the depth frame.
 ```cpp
 [[nodiscard]] virtual std::string_view get_model() = 0;
 ```
-Returns the model.
+Returns the camera model identifier reported by the backend.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -75,7 +75,7 @@ Returns the model.
 ```cpp
 [[nodiscard]] virtual float get_fps() = 0;
 ```
-Returns the FPS.
+Returns the current effective capture frame rate.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -84,7 +84,7 @@ Returns the FPS.
 ```cpp
 [[nodiscard]] virtual unsigned int get_dropped_frames_count() = 0;
 ```
-Returns the dropped frames count.
+Returns the number of frames dropped by the capture pipeline.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -93,7 +93,7 @@ Returns the dropped frames count.
 ```cpp
 [[nodiscard]] virtual bool get_is_opened() = 0;
 ```
-Returns whether the camera is opened.
+Returns whether the underlying camera stream is currently open and usable.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -102,7 +102,7 @@ Returns whether the camera is opened.
 ```cpp
 [[nodiscard]] virtual sl::Camera &get_zed_camera_ref() = 0;
 ```
-Returns the ZED camera reference.
+Returns a reference to the underlying ZED camera object for advanced operations.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.

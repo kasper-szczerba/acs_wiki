@@ -6,7 +6,7 @@
 
 ## Overview
 
-Concrete implementation of `i_glfw_window`.
+Concrete `i_glfw_window` implementation that owns the native GLFW window and applies window/runtime options from project configuration.
 
 ## Inheritance Diagram
 
@@ -39,11 +39,11 @@ graph LR
 ```cpp
 glfw_window(std::string_view tag, const parameters_t& parameters);
 ```
-Creates a glfw window with the specified name.
+Creates a GLFW window wrapper with the provided identity and window parameters.
 
 ##### Parameters
-- `tag`: The tag.
-- `parameters`: The parameters.
+- `tag`: Unique component tag used for logging and lifecycle identification.
+- `parameters`: Window configuration bundle (size, title behavior, context options, and related GLFW settings).
 
 ### Public Methods
 

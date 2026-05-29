@@ -6,7 +6,7 @@
 
 ## Overview
 
-Interface for zenoh client.
+Interface for configuring Zenoh connection endpoints and exposing session/config handles.
 
 ## Inheritance Diagram
 
@@ -46,7 +46,7 @@ graph LR
 ```cpp
 [[nodiscard]] virtual std::string_view get_address() const = 0;
 ```
-Returns the address.
+Returns the configured remote Zenoh endpoint address.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -55,10 +55,10 @@ Returns the address.
 ```cpp
 virtual void set_address(std::string_view address) = 0;
 ```
-Sets the address.
+Updates the remote Zenoh endpoint address used for session setup.
 
 ##### Parameters
-- `address`: The address.
+- `address`: Remote Zenoh endpoint address (hostname or IP).
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -67,7 +67,7 @@ Sets the address.
 ```cpp
 [[nodiscard]] virtual unsigned int get_port() const = 0;
 ```
-Returns the port.
+Returns the configured remote Zenoh endpoint port.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -76,10 +76,10 @@ Returns the port.
 ```cpp
 virtual void set_port(unsigned int port) = 0;
 ```
-Sets the port.
+Updates the remote Zenoh endpoint port used for session setup.
 
 ##### Parameters
-- `port`: The port.
+- `port`: Remote Zenoh endpoint port number.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -88,7 +88,7 @@ Sets the port.
 ```cpp
 [[nodiscard]] virtual zenoh::Session *get_session_ptr() const = 0;
 ```
-Returns the session pointer.
+Returns a pointer to the active Zenoh session object, if initialized.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -97,7 +97,7 @@ Returns the session pointer.
 ```cpp
 [[nodiscard]] virtual zenoh::Config *get_config_ptr() const = 0;
 ```
-Returns the config pointer.
+Returns a pointer to the active Zenoh configuration object, if initialized.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.

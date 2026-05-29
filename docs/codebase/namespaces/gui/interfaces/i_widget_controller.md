@@ -6,7 +6,7 @@
 
 ## Overview
 
-Interface for widget controller.
+Interface that defines widget registration and frame render orchestration for GUI controllers.
 
 ## Inheritance Diagram
 
@@ -46,9 +46,10 @@ graph LR
 ```cpp
 virtual void register_widget(std::unique_ptr<i_widget> widget_ptr) = 0;
 ```
+Registers a non-threaded widget with the controller so it is included in render traversal.
 
 ##### Parameters
-- `widget_ptr`: The widget pointer.
+- `widget_ptr`: Owning pointer to the widget instance being transferred to controller management.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -57,9 +58,10 @@ virtual void register_widget(std::unique_ptr<i_widget> widget_ptr) = 0;
 ```cpp
 virtual void register_threaded_widget(std::unique_ptr<i_threaded_widget> widget_ptr) = 0;
 ```
+Registers a threaded widget with the controller so it is included in render traversal.
 
 ##### Parameters
-- `widget_ptr`: The widget pointer.
+- `widget_ptr`: Owning pointer to the threaded widget instance being transferred to controller management.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -68,6 +70,7 @@ virtual void register_threaded_widget(std::unique_ptr<i_threaded_widget> widget_
 ```cpp
 virtual void render() = 0;
 ```
+Renders all registered widgets in controller-defined order for the current frame.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.

@@ -6,7 +6,7 @@
 
 ## Overview
 
-Concrete implementation of `i_threaded_object`.
+Concrete `i_threaded_object` base implementation that provides a managed periodic update loop for derived components.
 
 ## Inheritance Diagram
 
@@ -60,11 +60,11 @@ graph LR
 ```cpp
 threaded_object(std::string_view tag, float update_rate);
 ```
-Creates a threaded object with the specified name.
+Creates a threaded object with identity metadata and initial loop frequency.
 
 ##### Parameters
-- `tag`: The tag.
-- `update_rate`: The update rate.
+- `tag`: Unique component tag used for logging, diagnostics, and lifecycle identification.
+- `update_rate`: Requested update-loop frequency in Hz.
 
 ### Public Methods
 
@@ -82,7 +82,7 @@ Creates a threaded object with the specified name.
 ```cpp
 virtual void update() = 0;
 ```
-Performs one update cycle.
+Performs one derived-class update iteration invoked by the internal thread loop.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -91,4 +91,4 @@ Performs one update cycle.
 ```cpp
 [[nodiscard]] std::mutex &get_mutex() noexcept;
 ```
-Returns the mutex.
+Returns a reference to the synchronization mutex guarding shared threaded state.

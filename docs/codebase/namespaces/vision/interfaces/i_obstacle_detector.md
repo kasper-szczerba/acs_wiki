@@ -6,7 +6,7 @@
 
 ## Overview
 
-Interface for obstacle detector.
+Interface that defines obstacle-detection outputs derived from camera and scene analysis pipelines.
 
 ## Inheritance Diagram
 
@@ -48,7 +48,7 @@ graph LR
 ```cpp
 [[nodiscard]] virtual cv::cuda::GpuMat get_color_frame() = 0;
 ```
-Returns the color frame.
+Returns the latest color frame used by the obstacle detector.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -57,7 +57,7 @@ Returns the color frame.
 ```cpp
 [[nodiscard]] virtual cv::cuda::GpuMat get_depth_frame() = 0;
 ```
-Returns the depth frame.
+Returns the latest depth frame used by the obstacle detector.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -66,7 +66,7 @@ Returns the depth frame.
 ```cpp
 [[nodiscard]] virtual std::string_view get_model() = 0;
 ```
-Returns the model.
+Returns the camera/model identifier associated with the current detector stream.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -75,7 +75,7 @@ Returns the model.
 ```cpp
 [[nodiscard]] virtual float get_fps() = 0;
 ```
-Returns the FPS.
+Returns the current effective processing or capture frame rate.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -84,7 +84,7 @@ Returns the FPS.
 ```cpp
 [[nodiscard]] virtual uint32_t get_dropped_frames_count() = 0;
 ```
-Returns the dropped frames count.
+Returns the number of frames dropped during detector input acquisition.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -93,7 +93,7 @@ Returns the dropped frames count.
 ```cpp
 [[nodiscard]] virtual bool get_is_opened() = 0;
 ```
-Returns whether the camera is opened.
+Returns whether the detector input stream is currently open and usable.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -102,7 +102,7 @@ Returns whether the camera is opened.
 ```cpp
 [[nodiscard]] virtual sl::Camera &get_native_camera_ref() = 0;
 ```
-Returns the native camera reference.
+Returns a reference to the underlying native camera object used by the detector.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.

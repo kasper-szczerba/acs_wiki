@@ -6,7 +6,7 @@
 
 ## Overview
 
-Concrete implementation of `i_threaded_widget`.
+Base host implementation for `i_threaded_widget` that combines threaded update behavior with widget rendering helpers.
 
 ## Inheritance Diagram
 
@@ -59,12 +59,12 @@ graph LR
 ```cpp
 threaded_widget_host(std::string_view tag, float update_rate, std::string_view title);
 ```
-Creates a threaded widget host with the specified name.
+Creates a threaded widget host with update cadence and UI title metadata.
 
 ##### Parameters
-- `tag`: The tag.
-- `update_rate`: The update rate.
-- `title`: The title.
+- `tag`: Unique component tag used for logging and lifecycle identification.
+- `update_rate`: Requested update frequency in Hz for the threaded widget loop.
+- `title`: Display title shown in the widget header or window chrome.
 
 ### Public Methods
 
@@ -80,6 +80,7 @@ Creates a threaded widget host with the specified name.
 ```cpp
 virtual void on_render() = 0;
 ```
+Implements widget-specific rendering logic invoked by the threaded host render flow.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.

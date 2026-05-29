@@ -6,7 +6,7 @@
 
 ## Overview
 
-Concrete implementation of `i_object`.
+Concrete `i_object` base implementation that provides stable component identity via a tag and serves as the root for non-threaded ACS components.
 
 ## Inheritance Diagram
 
@@ -68,10 +68,10 @@ graph LR
 ```cpp
 explicit object(std::string_view tag);
 ```
-Creates an object with the specified name.
+Creates a base object with a unique component tag.
 
 ##### Parameters
-- `tag`: The tag.
+- `tag`: Unique component tag used for logging, diagnostics, and lifecycle identification.
 
 ### Public Methods
 

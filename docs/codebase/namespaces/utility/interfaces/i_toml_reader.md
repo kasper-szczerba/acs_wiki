@@ -6,7 +6,7 @@
 
 ## Overview
 
-Interface for toml reader.
+Interface for loading, owning, and exposing parsed TOML configuration tables.
 
 ## Inheritance Diagram
 
@@ -64,7 +64,7 @@ Releases the parsed configuration data.
 ```cpp
 [[nodiscard]] virtual std::string_view get_file_path() const noexcept = 0;
 ```
-Returns the file path.
+Returns the currently configured TOML file path used by the reader.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -73,10 +73,10 @@ Returns the file path.
 ```cpp
 virtual void set_file_path(std::string_view file_path) = 0;
 ```
-Sets the file path.
+Updates the TOML file path to be used on the next parse operation.
 
 ##### Parameters
-- `file_path`: The file path.
+- `file_path`: New TOML file path to load when parsing is triggered.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -85,7 +85,7 @@ Sets the file path.
 ```cpp
 [[nodiscard]] virtual toml::table &get_table_ref() = 0;
 ```
-Returns the table reference.
+Returns mutable access to the parsed TOML root table.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.

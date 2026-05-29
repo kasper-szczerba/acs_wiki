@@ -45,9 +45,7 @@ Once built, run the resulting binary from the `build` directory.
 
 ### Configuration
 
-The system reads its configuration from a TOML file, see the [`toml_reader`](./codebase/namespaces/utility/implementation/toml_reader.md) documentation for details on configuration options.
-
-The default configuration file is named `config.toml` and is located in the `bin` directory.
+The system reads its configuration from a TOML file. The default configuration file is named `config.toml` and is located in the `bin` directory.
 
 ---
 

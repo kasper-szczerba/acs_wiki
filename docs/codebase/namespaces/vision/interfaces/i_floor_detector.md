@@ -6,7 +6,7 @@
 
 ## Overview
 
-Interface for floor detector.
+Interface that defines floor-plane detection outputs derived from live camera input.
 
 ## Inheritance Diagram
 
@@ -48,7 +48,7 @@ graph LR
 ```cpp
 [[nodiscard]] virtual sl::Plane get_detected_floor_plane() = 0;
 ```
-Returns the detected floor plane.
+Returns the latest detected floor plane object from the backend.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -57,7 +57,7 @@ Returns the detected floor plane.
 ```cpp
 [[nodiscard]] virtual sl::float4 get_plane_equation() = 0;
 ```
-Returns the plane equation.
+Returns the latest floor plane equation coefficients.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -66,7 +66,7 @@ Returns the plane equation.
 ```cpp
 [[nodiscard]] virtual bool get_is_floor_detected() = 0;
 ```
-Returns whether a floor has been detected.
+Returns whether a valid floor plane was detected in the latest update cycle.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.

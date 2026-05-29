@@ -6,7 +6,7 @@
 
 ## Overview
 
-Interface for threaded object.
+Interface for components that execute periodic work on a managed background thread.
 
 ## Inheritance Diagram
 
@@ -73,6 +73,7 @@ graph LR
 ```cpp
 virtual void start() = 0;
 ```
+Starts the component's background update loop.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -81,6 +82,7 @@ virtual void start() = 0;
 ```cpp
 virtual void stop() = 0;
 ```
+Stops the component's background update loop and joins associated worker resources.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -89,7 +91,7 @@ virtual void stop() = 0;
 ```cpp
 [[nodiscard]] virtual float get_update_rate() const noexcept = 0;
 ```
-Returns the update rate.
+Returns the configured update-loop frequency in Hz.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -98,10 +100,10 @@ Returns the update rate.
 ```cpp
 virtual void set_update_rate(float update_rate) = 0;
 ```
-Sets the update rate.
+Updates the target update-loop frequency in Hz.
 
 ##### Parameters
-- `update_rate`: The update rate.
+- `update_rate`: New update-loop frequency in Hz.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -110,7 +112,7 @@ Sets the update rate.
 ```cpp
 [[nodiscard]] virtual bool get_is_running() const noexcept = 0;
 ```
-Returns whether the component is running.
+Returns whether the background update loop is currently running.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
