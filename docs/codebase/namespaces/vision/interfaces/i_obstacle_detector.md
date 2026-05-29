@@ -43,66 +43,66 @@ graph LR
 ## API
 
 ### Public Methods
-#### Get Color Frame
+#### Get Floor Detector Pointer
 
 ```cpp
-[[nodiscard]] virtual cv::cuda::GpuMat get_color_frame() = 0;
+[[nodiscard]] virtual std::shared_ptr<i_floor_detector> get_floor_detector_ptr() = 0;
 ```
-Returns the latest color frame used by the obstacle detector.
+Returns the floor-detector dependency used by the obstacle pipeline.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
-#### Get Depth Frame
+#### Get Obstacle Min Range
 
 ```cpp
-[[nodiscard]] virtual cv::cuda::GpuMat get_depth_frame() = 0;
+[[nodiscard]] virtual float get_obstacle_min_range() const = 0;
 ```
-Returns the latest depth frame used by the obstacle detector.
+Returns the minimum obstacle range threshold used for filtering detections.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
-#### Get Model
+#### Get Obstacle Max Range
 
 ```cpp
-[[nodiscard]] virtual std::string_view get_model() = 0;
+[[nodiscard]] virtual float get_obstacle_max_range() const = 0;
 ```
-Returns the camera/model identifier associated with the current detector stream.
+Returns the maximum obstacle range threshold used for filtering detections.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
-#### Get FPS
+#### Get Obstacle Height Threshold
 
 ```cpp
-[[nodiscard]] virtual float get_fps() = 0;
+[[nodiscard]] virtual float get_obstacle_height_threshold() const = 0;
 ```
-Returns the current effective processing or capture frame rate.
+Returns the height threshold used to classify points as obstacle candidates above the floor plane.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
-#### Get Dropped Frames Count
+#### Get Contours
 
 ```cpp
-[[nodiscard]] virtual uint32_t get_dropped_frames_count() = 0;
+[[nodiscard]] virtual std::vector<std::vector<cv::Point>> get_contours() = 0;
 ```
-Returns the number of frames dropped during detector input acquisition.
+Returns the latest detected obstacle contours in image space.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
-#### Get Is Opened
+#### Get Union Box
 
 ```cpp
-[[nodiscard]] virtual bool get_is_opened() = 0;
+[[nodiscard]] virtual cv::Rect get_union_box() = 0;
 ```
-Returns whether the detector input stream is currently open and usable.
+Returns the bounding box that encloses all currently detected obstacle regions.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
-#### Get Native Camera Reference
+#### Get Union Crop
 
 ```cpp
-[[nodiscard]] virtual sl::Camera &get_native_camera_ref() = 0;
+[[nodiscard]] virtual cv::Mat get_union_crop() = 0;
 ```
-Returns a reference to the underlying native camera object used by the detector.
+Returns the cropped image region corresponding to the current union obstacle bounding box.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.

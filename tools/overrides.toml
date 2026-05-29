@@ -147,13 +147,13 @@ get_is_floor_detected = "Returns whether a valid floor plane was detected in the
 
 ["vision/interfaces/i_obstacle_detector"]
 __overview__ = "Interface that defines obstacle-detection outputs derived from camera and scene analysis pipelines."
-get_color_frame = "Returns the latest color frame used by the obstacle detector."
-get_depth_frame = "Returns the latest depth frame used by the obstacle detector."
-get_model = "Returns the camera/model identifier associated with the current detector stream."
-get_fps = "Returns the current effective processing or capture frame rate."
-get_dropped_frames_count = "Returns the number of frames dropped during detector input acquisition."
-get_is_opened = "Returns whether the detector input stream is currently open and usable."
-get_native_camera_ref = "Returns a reference to the underlying native camera object used by the detector."
+get_floor_detector_ptr = "Returns the floor-detector dependency used by the obstacle pipeline."
+get_obstacle_min_range = "Returns the minimum obstacle range threshold used for filtering detections."
+get_obstacle_max_range = "Returns the maximum obstacle range threshold used for filtering detections."
+get_obstacle_height_threshold = "Returns the height threshold used to classify points as obstacle candidates above the floor plane."
+get_contours = "Returns the latest detected obstacle contours in image space."
+get_union_box = "Returns the bounding box that encloses all currently detected obstacle regions."
+get_union_crop = "Returns the cropped image region corresponding to the current union obstacle bounding box."
 
 ["gui/interfaces/i_widget"]
 __overview__ = "Interface that defines the minimal render contract for GUI widgets."

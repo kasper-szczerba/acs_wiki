@@ -63,13 +63,13 @@ Creates an obstacle detector that runs the obstacle extraction pipeline at a fix
 
 #### Implementations
 - [`i_obstacle_detector`](../interfaces/i_obstacle_detector.md)
-    - [`get_color_frame`](../interfaces/i_obstacle_detector.md#get-color-frame)
-    - [`get_depth_frame`](../interfaces/i_obstacle_detector.md#get-depth-frame)
-    - [`get_model`](../interfaces/i_obstacle_detector.md#get-model)
-    - [`get_fps`](../interfaces/i_obstacle_detector.md#get-fps)
-    - [`get_dropped_frames_count`](../interfaces/i_obstacle_detector.md#get-dropped-frames-count)
-    - [`get_is_opened`](../interfaces/i_obstacle_detector.md#get-is-opened)
-    - [`get_native_camera_ref`](../interfaces/i_obstacle_detector.md#get-native-camera-reference)
+    - [`get_floor_detector_ptr`](../interfaces/i_obstacle_detector.md#get-floor-detector-pointer)
+    - [`get_obstacle_min_range`](../interfaces/i_obstacle_detector.md#get-obstacle-min-range)
+    - [`get_obstacle_max_range`](../interfaces/i_obstacle_detector.md#get-obstacle-max-range)
+    - [`get_obstacle_height_threshold`](../interfaces/i_obstacle_detector.md#get-obstacle-height-threshold)
+    - [`get_contours`](../interfaces/i_obstacle_detector.md#get-contours)
+    - [`get_union_box`](../interfaces/i_obstacle_detector.md#get-union-box)
+    - [`get_union_crop`](../interfaces/i_obstacle_detector.md#get-union-crop)
 
 ### Protected Methods
 #### Update
