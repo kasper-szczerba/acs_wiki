@@ -57,4 +57,4 @@ The default configuration file is named `config.toml` and is located in the `bin
 
 ## Codebase
 
-[Explore the codebase documentation](./codebase/index.md) to understand the architecture, components, and implementation details of the Autonomous Control System.
+[Explore the codebase documentation](./codebase/namespaces/index.md) to understand the architecture, components, and implementation details of the Autonomous Control System.
