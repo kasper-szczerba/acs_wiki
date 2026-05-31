@@ -42,8 +42,29 @@ glfw_window(std::string_view tag, const parameters_t& parameters);
 Creates a GLFW window wrapper with the provided identity and window parameters.
 
 ##### Parameters
-- `tag`: Unique component tag used for logging and lifecycle identification.
-- `parameters`: Window configuration bundle (size, title behavior, context options, and related GLFW settings).
+- `tag` (`std::string_view`): Unique component tag used for logging and lifecycle identification.
+- `parameters` (`const parameters_t&`): Window configuration bundle (size, title behavior, context options, and related GLFW settings).
+
+### Nested Types
+
+#### Structs
+##### Parameters T
+
+```cpp
+struct parameters_t {
+  std::string_view title;
+  int width;
+  int height;
+  bool start_maximized;
+  bool enable_vsync;
+};
+```
+
+- `title` (`std::string_view`): The title.
+- `width` (`int`): The width.
+- `height` (`int`): The height.
+- `start_maximized` (`bool`): The start maximized.
+- `enable_vsync` (`bool`): The enable vsync.
 
 ### Public Methods
 

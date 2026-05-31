@@ -63,8 +63,8 @@ threaded_object(std::string_view tag, float update_rate);
 Creates a threaded object with identity metadata and initial loop frequency.
 
 ##### Parameters
-- `tag`: Unique component tag used for logging, diagnostics, and lifecycle identification.
-- `update_rate`: Requested update-loop frequency in Hz.
+- `tag` (`std::string_view`): Unique component tag used for logging, diagnostics, and lifecycle identification.
+- `update_rate` (`float`): Requested update-loop frequency in Hz.
 
 ### Public Methods
 

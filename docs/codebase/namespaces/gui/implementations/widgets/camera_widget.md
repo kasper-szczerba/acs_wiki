@@ -51,10 +51,10 @@ camera_widget(std::string_view tag, float update_rate, std::string_view title, s
 Creates a camera widget with the specified name.
 
 ##### Parameters
-- `tag`: The tag.
-- `update_rate`: The update rate.
-- `title`: The title.
-- `camera`: Shared pointer to the camera.
+- `tag` (`std::string_view`): The tag.
+- `update_rate` (`float`): The update rate.
+- `title` (`std::string_view`): The title.
+- `camera` (`std::shared_ptr<vision::i_camera>`): Shared pointer to the camera.
 
 ### Protected Methods
 #### Update

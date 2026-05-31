@@ -18,7 +18,7 @@ Matrix Converter.
 ```
 
 ##### Parameters
-- `input`: The input.
+- `input` (`const sl::Mat &`): The input.
 #### Convert Depth To GPU Mat
 
 ```cpp
@@ -26,4 +26,4 @@ Matrix Converter.
 ```
 
 ##### Parameters
-- `input`: The input.
+- `input` (`const sl::Mat &`): The input.

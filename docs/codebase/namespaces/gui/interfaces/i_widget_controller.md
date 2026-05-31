@@ -49,7 +49,7 @@ virtual void register_widget(std::unique_ptr<i_widget> widget_ptr) = 0;
 Registers a non-threaded widget with the controller so it is included in render traversal.
 
 ##### Parameters
-- `widget_ptr`: Owning pointer to the widget instance being transferred to controller management.
+- `widget_ptr` (`std::unique_ptr<i_widget>`): Owning pointer to the widget instance being transferred to controller management.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -61,7 +61,7 @@ virtual void register_threaded_widget(std::unique_ptr<i_threaded_widget> widget_
 Registers a threaded widget with the controller so it is included in render traversal.
 
 ##### Parameters
-- `widget_ptr`: Owning pointer to the threaded widget instance being transferred to controller management.
+- `widget_ptr` (`std::unique_ptr<i_threaded_widget>`): Owning pointer to the threaded widget instance being transferred to controller management.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.

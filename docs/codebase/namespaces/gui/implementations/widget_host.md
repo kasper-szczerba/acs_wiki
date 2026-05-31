@@ -55,8 +55,8 @@ widget_host(std::string_view tag, std::string_view title);
 Creates a widget host with a stable identity tag and display title.
 
 ##### Parameters
-- `tag`: Unique component tag used for logging and lifecycle identification.
-- `title`: Display title shown in the widget header or window chrome.
+- `tag` (`std::string_view`): Unique component tag used for logging and lifecycle identification.
+- `title` (`std::string_view`): Display title shown in the widget header or window chrome.
 
 ### Public Methods
 

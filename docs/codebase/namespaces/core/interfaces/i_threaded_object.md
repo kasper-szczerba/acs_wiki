@@ -103,7 +103,7 @@ virtual void set_update_rate(float update_rate) = 0;
 Updates the target update-loop frequency in Hz.
 
 ##### Parameters
-- `update_rate`: New update-loop frequency in Hz.
+- `update_rate` (`float`): New update-loop frequency in Hz.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.

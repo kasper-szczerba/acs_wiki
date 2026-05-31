@@ -62,9 +62,9 @@ threaded_widget_host(std::string_view tag, float update_rate, std::string_view t
 Creates a threaded widget host with update cadence and UI title metadata.
 
 ##### Parameters
-- `tag`: Unique component tag used for logging and lifecycle identification.
-- `update_rate`: Requested update frequency in Hz for the threaded widget loop.
-- `title`: Display title shown in the widget header or window chrome.
+- `tag` (`std::string_view`): Unique component tag used for logging and lifecycle identification.
+- `update_rate` (`float`): Requested update frequency in Hz for the threaded widget loop.
+- `title` (`std::string_view`): Display title shown in the widget header or window chrome.
 
 ### Public Methods
 

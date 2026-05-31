@@ -53,11 +53,32 @@ obstacle_detector(std::string_view tag,
 Creates an obstacle detector that runs the obstacle extraction pipeline at a fixed update rate.
 
 ##### Parameters
-- `tag`: Unique component tag used for logging and lifecycle identification.
-- `update_rate`: Requested detection frequency in Hz for obstacle analysis.
-- `parameters`: Obstacle-detection configuration bundle (thresholds, filtering, and model-specific runtime settings).
-- `camera_ptr`: Shared camera dependency that provides the live RGB/depth frames used for obstacle inference.
-- `floor_detector_ptr`: Shared floor-detector dependency used to mask floor regions and improve obstacle separation.
+- `tag` (`std::string_view`): Unique component tag used for logging and lifecycle identification.
+- `update_rate` (`float`): Requested detection frequency in Hz for obstacle analysis.
+- `parameters` (`const parameters_t&`): Obstacle-detection configuration bundle (thresholds, filtering, and model-specific runtime settings).
+- `camera_ptr` (`std::shared_ptr<i_camera>`): Shared camera dependency that provides the live RGB/depth frames used for obstacle inference.
+- `floor_detector_ptr` (`std::shared_ptr<i_floor_detector>`): Shared floor-detector dependency used to mask floor regions and improve obstacle separation.
+
+### Nested Types
+
+#### Structs
+##### Parameters T
+
+```cpp
+struct parameters_t {
+  float obstacle_min_range;
+  float obstacle_max_range;
+  float obstacle_height_threshold;
+  float processing_scale;
+  float min_contour_area;
+};
+```
+
+- `obstacle_min_range` (`float`): The obstacle min range.
+- `obstacle_max_range` (`float`): The obstacle max range.
+- `obstacle_height_threshold` (`float`): The obstacle height threshold.
+- `processing_scale` (`float`): The processing scale.
+- `min_contour_area` (`float`): The min contour area.
 
 ### Public Methods
 

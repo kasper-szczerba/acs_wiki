@@ -18,7 +18,7 @@ Floor Plane Math.
 ```
 
 ##### Parameters
-- `equation`: The equation.
+- `equation` (`const sl::float4&`): The equation.
 #### Normal Length
 
 ```cpp
@@ -26,7 +26,7 @@ Floor Plane Math.
 ```
 
 ##### Parameters
-- `plane`: The plane.
+- `plane` (`const sl::float4&`): The plane.
 #### Reproject Depth Pixel
 
 ```cpp
@@ -34,13 +34,13 @@ Floor Plane Math.
 ```
 
 ##### Parameters
-- `x`: The x.
-- `y`: The y.
-- `z`: The z.
-- `fx`: The fx.
-- `fy`: The fy.
-- `cx`: The cx.
-- `cy`: The cy.
+- `x` (`int`): The x.
+- `y` (`int`): The y.
+- `z` (`float`): The z.
+- `fx` (`float`): The fx.
+- `fy` (`float`): The fy.
+- `cx` (`float`): The cx.
+- `cy` (`float`): The cy.
 #### Absolute Distance To Plane
 
 ```cpp
@@ -48,6 +48,6 @@ Floor Plane Math.
 ```
 
 ##### Parameters
-- `point`: The point.
-- `plane`: The plane.
-- `plane_normal_length`: The plane normal length.
+- `point` (`const sl::float3&`): The point.
+- `plane` (`const sl::float4&`): The plane.
+- `plane_normal_length` (`float`): The plane normal length.

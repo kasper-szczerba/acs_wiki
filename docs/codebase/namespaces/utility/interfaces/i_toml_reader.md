@@ -76,7 +76,7 @@ virtual void set_file_path(std::string_view file_path) = 0;
 Updates the TOML file path to be used on the next parse operation.
 
 ##### Parameters
-- `file_path`: New TOML file path to load when parsing is triggered.
+- `file_path` (`std::string_view`): New TOML file path to load when parsing is triggered.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.

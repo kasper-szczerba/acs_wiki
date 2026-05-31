@@ -58,7 +58,7 @@ virtual void set_address(std::string_view address) = 0;
 Updates the remote Zenoh endpoint address used for session setup.
 
 ##### Parameters
-- `address`: Remote Zenoh endpoint address (hostname or IP).
+- `address` (`std::string_view`): Remote Zenoh endpoint address (hostname or IP).
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -79,7 +79,7 @@ virtual void set_port(unsigned int port) = 0;
 Updates the remote Zenoh endpoint port used for session setup.
 
 ##### Parameters
-- `port`: Remote Zenoh endpoint port number.
+- `port` (`unsigned int`): Remote Zenoh endpoint port number.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.

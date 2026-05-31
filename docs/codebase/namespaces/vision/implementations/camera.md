@@ -49,9 +49,68 @@ camera(std::string_view tag, float update_rate, const parameters_t& parameters);
 Creates a camera component that initializes and manages the ZED capture pipeline.
 
 ##### Parameters
-- `tag`: Unique component tag used for logging and lifecycle identification.
-- `update_rate`: Requested update frequency in Hz for frame acquisition and status refresh.
-- `parameters`: Camera configuration bundle (resolution, depth mode, runtime options, and related capture settings).
+- `tag` (`std::string_view`): Unique component tag used for logging and lifecycle identification.
+- `update_rate` (`float`): Requested update frequency in Hz for frame acquisition and status refresh.
+- `parameters` (`const parameters_t&`): Camera configuration bundle (resolution, depth mode, runtime options, and related capture settings).
+
+### Nested Types
+
+#### Enums
+##### Resolution E
+
+```cpp
+enum class resolution_e : uint8_t {
+  vga,
+  hd720,
+  hd1080
+};
+```
+
+###### Values
+- `vga`: The vga.
+- `hd720`: The hd720.
+- `hd1080`: The hd1080.
+##### Depth Mode E
+
+```cpp
+enum class depth_mode_e : uint8_t {
+  none,
+  neural_light,
+  neural,
+  neural_plus,
+};
+```
+
+###### Values
+- `none`: The none.
+- `neural_light`: The neural light.
+- `neural`: The neural.
+- `neural_plus`: The neural plus.
+
+#### Structs
+##### Parameters T
+
+```cpp
+struct parameters_t {
+  resolution_e resolution;
+  depth_mode_e depth_mode;
+  int device_fps;
+  bool enable_verbose_sdk_logging;
+  float depth_minimum_distance;
+  float depth_maximum_distance;
+  int confidence_threshold;
+  int texture_confidence_threshold;
+};
+```
+
+- `resolution` (`resolution_e`): The resolution.
+- `depth_mode` (`depth_mode_e`): The depth mode.
+- `device_fps` (`int`): The device FPS.
+- `enable_verbose_sdk_logging` (`bool`): The enable verbose sdk logging.
+- `depth_minimum_distance` (`float`): The depth minimum distance.
+- `depth_maximum_distance` (`float`): The depth maximum distance.
+- `confidence_threshold` (`int`): The confidence threshold.
+- `texture_confidence_threshold` (`int`): The texture confidence threshold.
 
 ### Public Methods
 

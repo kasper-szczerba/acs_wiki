@@ -42,8 +42,8 @@ toml_reader(std::string_view name, std::string_view file_path);
 Creates a TOML reader bound to a logical component name and an initial configuration file path.
 
 ##### Parameters
-- `name`: Human-readable component name used for diagnostics and ownership context.
-- `file_path`: Path to the TOML configuration file that should be parsed.
+- `name` (`std::string_view`): Human-readable component name used for diagnostics and ownership context.
+- `file_path` (`std::string_view`): Path to the TOML configuration file that should be parsed.
 
 ### Public Methods
 

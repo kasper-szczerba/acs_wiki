@@ -42,9 +42,9 @@ zenoh_client(std::string_view tag, std::string_view address, unsigned int port);
 Creates a Zenoh client with connection identity, remote endpoint address, and port.
 
 ##### Parameters
-- `tag`: Unique component tag used for logging and lifecycle identification.
-- `address`: Remote Zenoh endpoint address (hostname or IP).
-- `port`: Remote Zenoh endpoint port number.
+- `tag` (`std::string_view`): Unique component tag used for logging and lifecycle identification.
+- `address` (`std::string_view`): Remote Zenoh endpoint address (hostname or IP).
+- `port` (`unsigned int`): Remote Zenoh endpoint port number.
 
 ### Public Methods
 

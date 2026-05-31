@@ -71,7 +71,7 @@ explicit object(std::string_view tag);
 Creates a base object with a unique component tag.
 
 ##### Parameters
-- `tag`: Unique component tag used for logging, diagnostics, and lifecycle identification.
+- `tag` (`std::string_view`): Unique component tag used for logging, diagnostics, and lifecycle identification.
 
 ### Public Methods
 

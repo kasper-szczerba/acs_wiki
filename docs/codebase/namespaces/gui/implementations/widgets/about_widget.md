@@ -44,8 +44,8 @@ about_widget(std::string_view tag, std::string_view title);
 Creates an about widget with the specified name.
 
 ##### Parameters
-- `tag`: The tag.
-- `title`: The title.
+- `tag` (`std::string_view`): The tag.
+- `title` (`std::string_view`): The title.
 
 ### Protected Methods
 #### On Render
