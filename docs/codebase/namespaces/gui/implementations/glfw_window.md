@@ -58,13 +58,13 @@ struct parameters {
   bool enable_vsync;
 };
 ```
-Window initialization options.
+Window creation options used for the GLFW host window.
 
-- `title` (`std::string_view`): Window title.
-- `width` (`int`): Window width.
-- `height` (`int`): Window height.
-- `start_maximized` (`bool`): Start maximized.
-- `enable_vsync` (`bool`): Enable VSync.
+- `title` (`std::string_view`): Initial window title.
+- `width` (`int`): Initial window width in pixels.
+- `height` (`int`): Initial window height in pixels.
+- `start_maximized` (`bool`): Starts the window maximized when true.
+- `enable_vsync` (`bool`): Enables vertical sync.
 
 ### Public Methods
 

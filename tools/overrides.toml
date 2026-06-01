@@ -46,7 +46,7 @@ __constructor__ = "Creates a camera component that initializes and manages the Z
 update = "Polls the camera, updates color and depth frame buffers, and refreshes stream status metrics for downstream consumers."
 resolution = { __description__ = "Supported camera resolution presets.", vga = "VGA resolution.", hd720 = "HD720 resolution.", hd1080 = "HD1080 resolution." }
 depth_mode = { __description__ = "Supported ZED depth presets.", none = "No depth estimation.", neural_light = "Lightweight neural depth.", neural = "Standard neural depth.", neural_plus = "Highest-quality neural depth." }
-parameters = { __description__ = "Camera configuration values.", resolution = "Camera resolution preset.", depth_mode = "Depth preset.", device_fps = "Target frame rate.", enable_verbose_sdk_logging = "Enables verbose SDK logging.", depth_minimum_distance = "Minimum valid depth distance.", depth_maximum_distance = "Maximum valid depth distance.", confidence_threshold = "Depth confidence threshold.", texture_confidence_threshold = "Texture confidence threshold." }
+parameters = { __description__ = "Camera configuration values used when opening and running the stream.", resolution = "Capture resolution preset.", depth_mode = "Depth processing preset.", device_fps = "Requested device frame rate.", enable_verbose_sdk_logging = "Enables verbose ZED SDK logging.", depth_minimum_distance = "Minimum accepted depth distance in meters.", depth_maximum_distance = "Maximum accepted depth distance in meters.", confidence_threshold = "Depth confidence cutoff.", texture_confidence_threshold = "Texture confidence cutoff." }
 
 ["vision/implementations/floor_detector"]
 __overview__ = "Concrete `i_floor_detector` implementation that estimates the dominant floor plane from camera data and publishes plane geometry for obstacle reasoning."
@@ -63,13 +63,13 @@ __constructor__ = "Creates an obstacle detector that runs the obstacle extractio
 "__constructor__.camera_ptr" = "Shared camera dependency that provides the live RGB/depth frames used for obstacle inference."
 "__constructor__.floor_detector_ptr" = "Shared floor-detector dependency used to mask floor regions and improve obstacle separation."
 update = "Runs one obstacle-detection cycle and updates cached detection outputs for consumers."
-parameters = { __description__ = "Obstacle detection settings.", obstacle_min_range = "Minimum obstacle range.", obstacle_max_range = "Maximum obstacle range.", obstacle_height_threshold = "Obstacle height threshold.", processing_scale = "Processing scale.", min_contour_area = "Minimum contour area." }
+parameters = { __description__ = "Obstacle detection settings used during scene processing.", obstacle_min_range = "Minimum obstacle range in meters.", obstacle_max_range = "Maximum obstacle range in meters.", obstacle_height_threshold = "Minimum height above the floor used to classify obstacles.", processing_scale = "Image scaling factor used during processing.", min_contour_area = "Minimum contour area kept as an obstacle candidate." }
 
 ["gui/implementations/glfw_window"]
 __overview__ = "Concrete `i_glfw_window` implementation that owns the native GLFW window and applies window/runtime options from project configuration."
 __constructor__ = "Creates a GLFW window wrapper from the provided runtime window parameters."
 "__constructor__.parameters" = "Window configuration bundle (size, title behavior, context options, and related GLFW settings)."
-parameters = { __description__ = "Window initialization options.", title = "Window title.", width = "Window width.", height = "Window height.", start_maximized = "Start maximized.", enable_vsync = "Enable VSync." }
+parameters = { __description__ = "Window creation options used for the GLFW host window.", title = "Initial window title.", width = "Initial window width in pixels.", height = "Initial window height in pixels.", start_maximized = "Starts the window maximized when true.", enable_vsync = "Enables vertical sync." }
 
 ["gui/implementations/widget_controller"]
 __overview__ = "Concrete `i_widget_controller` implementation that owns widget registrations and orchestrates per-frame UI rendering order."

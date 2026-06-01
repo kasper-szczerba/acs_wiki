@@ -103,16 +103,16 @@ struct parameters {
   int texture_confidence_threshold;
 };
 ```
-Camera configuration values.
+Camera configuration values used when opening and running the stream.
 
-- `resolution` (`resolution`): Camera resolution preset.
-- `depth_mode` (`depth_mode`): Depth preset.
-- `device_fps` (`int`): Target frame rate.
-- `enable_verbose_sdk_logging` (`bool`): Enables verbose SDK logging.
-- `depth_minimum_distance` (`float`): Minimum valid depth distance.
-- `depth_maximum_distance` (`float`): Maximum valid depth distance.
-- `confidence_threshold` (`int`): Depth confidence threshold.
-- `texture_confidence_threshold` (`int`): Texture confidence threshold.
+- `resolution` (`resolution`): Capture resolution preset.
+- `depth_mode` (`depth_mode`): Depth processing preset.
+- `device_fps` (`int`): Requested device frame rate.
+- `enable_verbose_sdk_logging` (`bool`): Enables verbose ZED SDK logging.
+- `depth_minimum_distance` (`float`): Minimum accepted depth distance in meters.
+- `depth_maximum_distance` (`float`): Maximum accepted depth distance in meters.
+- `confidence_threshold` (`int`): Depth confidence cutoff.
+- `texture_confidence_threshold` (`int`): Texture confidence cutoff.
 
 ### Public Methods
 

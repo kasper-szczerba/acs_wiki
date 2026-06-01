@@ -71,13 +71,13 @@ struct parameters {
   float min_contour_area;
 };
 ```
-Obstacle detection settings.
+Obstacle detection settings used during scene processing.
 
-- `obstacle_min_range` (`float`): Minimum obstacle range.
-- `obstacle_max_range` (`float`): Maximum obstacle range.
-- `obstacle_height_threshold` (`float`): Obstacle height threshold.
-- `processing_scale` (`float`): Processing scale.
-- `min_contour_area` (`float`): Minimum contour area.
+- `obstacle_min_range` (`float`): Minimum obstacle range in meters.
+- `obstacle_max_range` (`float`): Maximum obstacle range in meters.
+- `obstacle_height_threshold` (`float`): Minimum height above the floor used to classify obstacles.
+- `processing_scale` (`float`): Image scaling factor used during processing.
+- `min_contour_area` (`float`): Minimum contour area kept as an obstacle candidate.
 
 ### Public Methods
 
