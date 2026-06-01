@@ -44,22 +44,22 @@ graph LR
 #### Constructor
 
 ```cpp
-camera(std::string_view tag, float update_rate, const parameters_t& parameters);
+camera(std::string_view tag, float update_rate, const parameters& parameters);
 ```
 Creates a camera component that initializes and manages the ZED capture pipeline.
 
 ##### Parameters
 - `tag` (`std::string_view`): Unique component tag used for logging and lifecycle identification.
 - `update_rate` (`float`): Requested update frequency in Hz for frame acquisition and status refresh.
-- `parameters` (`const parameters_t&`): Camera configuration bundle (resolution, depth mode, runtime options, and related capture settings).
+- `parameters` (`const parameters&`): Camera configuration bundle (resolution, depth mode, runtime options, and related capture settings).
 
 ### Nested Types
 
 #### Enums
-##### Resolution E
+##### Resolution
 
 ```cpp
-enum class resolution_e : uint8_t {
+enum class resolution : uint8_t {
   vga,
   hd720,
   hd1080
@@ -70,10 +70,10 @@ enum class resolution_e : uint8_t {
 - `vga`: The vga.
 - `hd720`: The hd720.
 - `hd1080`: The hd1080.
-##### Depth Mode E
+##### Depth Mode
 
 ```cpp
-enum class depth_mode_e : uint8_t {
+enum class depth_mode : uint8_t {
   none,
   neural_light,
   neural,
@@ -88,12 +88,12 @@ enum class depth_mode_e : uint8_t {
 - `neural_plus`: The neural plus.
 
 #### Structs
-##### Parameters T
+##### Parameters
 
 ```cpp
-struct parameters_t {
-  resolution_e resolution;
-  depth_mode_e depth_mode;
+struct parameters {
+  resolution resolution;
+  depth_mode depth_mode;
   int device_fps;
   bool enable_verbose_sdk_logging;
   float depth_minimum_distance;
@@ -103,8 +103,8 @@ struct parameters_t {
 };
 ```
 
-- `resolution` (`resolution_e`): The resolution.
-- `depth_mode` (`depth_mode_e`): The depth mode.
+- `resolution` (`resolution`): The resolution.
+- `depth_mode` (`depth_mode`): The depth mode.
 - `device_fps` (`int`): The device FPS.
 - `enable_verbose_sdk_logging` (`bool`): The enable verbose sdk logging.
 - `depth_minimum_distance` (`float`): The depth minimum distance.

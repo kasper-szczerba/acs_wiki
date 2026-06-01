@@ -37,21 +37,21 @@ graph LR
 #### Constructor
 
 ```cpp
-glfw_window(std::string_view tag, const parameters_t& parameters);
+glfw_window(std::string_view tag, const parameters& parameters);
 ```
 Creates a GLFW window wrapper with the provided identity and window parameters.
 
 ##### Parameters
 - `tag` (`std::string_view`): Unique component tag used for logging and lifecycle identification.
-- `parameters` (`const parameters_t&`): Window configuration bundle (size, title behavior, context options, and related GLFW settings).
+- `parameters` (`const parameters&`): Window configuration bundle (size, title behavior, context options, and related GLFW settings).
 
 ### Nested Types
 
 #### Structs
-##### Parameters T
+##### Parameters
 
 ```cpp
-struct parameters_t {
+struct parameters {
   std::string_view title;
   int width;
   int height;

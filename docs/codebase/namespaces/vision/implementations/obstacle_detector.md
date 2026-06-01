@@ -46,7 +46,7 @@ graph LR
 ```cpp
 obstacle_detector(std::string_view tag,
                   float update_rate,
-                  const parameters_t& parameters,
+                  const parameters& parameters,
                   std::shared_ptr<i_camera> camera_ptr,
                   std::shared_ptr<i_floor_detector> floor_detector_ptr);
 ```
@@ -55,17 +55,17 @@ Creates an obstacle detector that runs the obstacle extraction pipeline at a fix
 ##### Parameters
 - `tag` (`std::string_view`): Unique component tag used for logging and lifecycle identification.
 - `update_rate` (`float`): Requested detection frequency in Hz for obstacle analysis.
-- `parameters` (`const parameters_t&`): Obstacle-detection configuration bundle (thresholds, filtering, and model-specific runtime settings).
+- `parameters` (`const parameters&`): Obstacle-detection configuration bundle (thresholds, filtering, and model-specific runtime settings).
 - `camera_ptr` (`std::shared_ptr<i_camera>`): Shared camera dependency that provides the live RGB/depth frames used for obstacle inference.
 - `floor_detector_ptr` (`std::shared_ptr<i_floor_detector>`): Shared floor-detector dependency used to mask floor regions and improve obstacle separation.
 
 ### Nested Types
 
 #### Structs
-##### Parameters T
+##### Parameters
 
 ```cpp
-struct parameters_t {
+struct parameters {
   float obstacle_min_range;
   float obstacle_max_range;
   float obstacle_height_threshold;
