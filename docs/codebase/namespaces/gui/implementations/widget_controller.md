@@ -34,15 +34,12 @@ graph LR
 ## API
 
 ### Constructors
-#### Constructor
+#### Default Constructor
 
 ```cpp
-explicit widget_controller(std::string_view tag);
+widget_controller();
 ```
 Creates a widget controller that manages widget registration and render dispatch.
-
-##### Parameters
-- `tag` (`std::string_view`): Unique component tag used for logging and lifecycle identification.
 
 ### Public Methods
 

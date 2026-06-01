@@ -6,7 +6,7 @@
 
 ## Overview
 
-Camera Widget.
+Concrete `threaded_widget_host` implementation that visualizes live camera outputs and related stream diagnostics.
 
 ## Inheritance Diagram
 
@@ -46,15 +46,13 @@ graph LR
 #### Constructor
 
 ```cpp
-camera_widget(std::string_view tag, float update_rate, std::string_view title, std::shared_ptr<vision::i_camera> camera);
+camera_widget(float update_rate, std::shared_ptr<vision::i_camera> camera);
 ```
-Creates a camera widget with the specified name.
+Creates a camera widget bound to a camera source and periodic refresh loop.
 
 ##### Parameters
-- `tag` (`std::string_view`): The tag.
-- `update_rate` (`float`): The update rate.
-- `title` (`std::string_view`): The title.
-- `camera` (`std::shared_ptr<vision::i_camera>`): Shared pointer to the camera.
+- `update_rate` (`float`): Requested widget update frequency in Hz for refreshing camera-derived content.
+- `camera` (`std::shared_ptr<vision::i_camera>`): Shared camera dependency that provides the latest frames and camera status data.
 
 ### Protected Methods
 #### Update
@@ -62,9 +60,10 @@ Creates a camera widget with the specified name.
 ```cpp
 void update() override;
 ```
-Performs one update cycle.
+Refreshes cached camera-derived view state used by the widget renderer.
 #### On Render
 
 ```cpp
 void on_render() override;
 ```
+Draws camera imagery and related diagnostic overlays in the widget UI.

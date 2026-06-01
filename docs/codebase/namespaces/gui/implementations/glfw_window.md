@@ -37,12 +37,11 @@ graph LR
 #### Constructor
 
 ```cpp
-glfw_window(std::string_view tag, const parameters& parameters);
+explicit glfw_window(const parameters& parameters);
 ```
-Creates a GLFW window wrapper with the provided identity and window parameters.
+Creates a GLFW window wrapper from the provided runtime window parameters.
 
 ##### Parameters
-- `tag` (`std::string_view`): Unique component tag used for logging and lifecycle identification.
 - `parameters` (`const parameters&`): Window configuration bundle (size, title behavior, context options, and related GLFW settings).
 
 ### Nested Types
@@ -59,12 +58,13 @@ struct parameters {
   bool enable_vsync;
 };
 ```
+Window initialization options.
 
-- `title` (`std::string_view`): The title.
-- `width` (`int`): The width.
-- `height` (`int`): The height.
-- `start_maximized` (`bool`): The start maximized.
-- `enable_vsync` (`bool`): The enable vsync.
+- `title` (`std::string_view`): Window title.
+- `width` (`int`): Window width.
+- `height` (`int`): Window height.
+- `start_maximized` (`bool`): Start maximized.
+- `enable_vsync` (`bool`): Enable VSync.
 
 ### Public Methods
 

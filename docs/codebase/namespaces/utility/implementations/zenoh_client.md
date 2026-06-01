@@ -37,12 +37,11 @@ graph LR
 #### Constructor
 
 ```cpp
-zenoh_client(std::string_view tag, std::string_view address, unsigned int port);
+zenoh_client(std::string_view address, unsigned int port);
 ```
-Creates a Zenoh client with connection identity, remote endpoint address, and port.
+Creates a Zenoh client with the specified remote endpoint address and port.
 
 ##### Parameters
-- `tag` (`std::string_view`): Unique component tag used for logging and lifecycle identification.
 - `address` (`std::string_view`): Remote Zenoh endpoint address (hostname or IP).
 - `port` (`unsigned int`): Remote Zenoh endpoint port number.
 

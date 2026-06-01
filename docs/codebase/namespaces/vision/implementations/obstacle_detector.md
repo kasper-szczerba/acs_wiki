@@ -44,8 +44,7 @@ graph LR
 #### Constructor
 
 ```cpp
-obstacle_detector(std::string_view tag,
-                  float update_rate,
+obstacle_detector(float update_rate,
                   const parameters& parameters,
                   std::shared_ptr<i_camera> camera_ptr,
                   std::shared_ptr<i_floor_detector> floor_detector_ptr);
@@ -53,7 +52,6 @@ obstacle_detector(std::string_view tag,
 Creates an obstacle detector that runs the obstacle extraction pipeline at a fixed update rate.
 
 ##### Parameters
-- `tag` (`std::string_view`): Unique component tag used for logging and lifecycle identification.
 - `update_rate` (`float`): Requested detection frequency in Hz for obstacle analysis.
 - `parameters` (`const parameters&`): Obstacle-detection configuration bundle (thresholds, filtering, and model-specific runtime settings).
 - `camera_ptr` (`std::shared_ptr<i_camera>`): Shared camera dependency that provides the live RGB/depth frames used for obstacle inference.
@@ -73,12 +71,13 @@ struct parameters {
   float min_contour_area;
 };
 ```
+Obstacle detection settings.
 
-- `obstacle_min_range` (`float`): The obstacle min range.
-- `obstacle_max_range` (`float`): The obstacle max range.
-- `obstacle_height_threshold` (`float`): The obstacle height threshold.
-- `processing_scale` (`float`): The processing scale.
-- `min_contour_area` (`float`): The min contour area.
+- `obstacle_min_range` (`float`): Minimum obstacle range.
+- `obstacle_max_range` (`float`): Maximum obstacle range.
+- `obstacle_height_threshold` (`float`): Obstacle height threshold.
+- `processing_scale` (`float`): Processing scale.
+- `min_contour_area` (`float`): Minimum contour area.
 
 ### Public Methods
 

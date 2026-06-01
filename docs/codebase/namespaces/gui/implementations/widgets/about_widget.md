@@ -6,7 +6,7 @@
 
 ## Overview
 
-About Widget.
+Concrete `widget_host` implementation that renders project/about metadata and runtime informational content in the GUI.
 
 ## Inheritance Diagram
 
@@ -36,16 +36,12 @@ graph LR
 ## API
 
 ### Constructors
-#### Constructor
+#### Default Constructor
 
 ```cpp
-about_widget(std::string_view tag, std::string_view title);
+about_widget();
 ```
-Creates an about widget with the specified name.
-
-##### Parameters
-- `tag` (`std::string_view`): The tag.
-- `title` (`std::string_view`): The title.
+Creates an about widget with default title and initial visibility state.
 
 ### Protected Methods
 #### On Render
@@ -53,3 +49,4 @@ Creates an about widget with the specified name.
 ```cpp
 void on_render() override;
 ```
+Renders the about panel content for the current frame.

@@ -41,15 +41,16 @@ vision = "The `acs::vision` namespace contains perception objects and interfaces
 ["vision/implementations/camera"]
 __overview__ = "Concrete `i_camera` implementation backed by ZED SDK capture. It acquires RGB and depth frames, tracks stream health metrics, and exposes the native camera handle for lower-level integrations."
 __constructor__ = "Creates a camera component that initializes and manages the ZED capture pipeline."
-"__constructor__.tag" = "Unique component tag used for logging and lifecycle identification."
 "__constructor__.update_rate" = "Requested update frequency in Hz for frame acquisition and status refresh."
 "__constructor__.parameters" = "Camera configuration bundle (resolution, depth mode, runtime options, and related capture settings)."
 update = "Polls the camera, updates color and depth frame buffers, and refreshes stream status metrics for downstream consumers."
+resolution = { __description__ = "Supported camera resolution presets.", vga = "VGA resolution.", hd720 = "HD720 resolution.", hd1080 = "HD1080 resolution." }
+depth_mode = { __description__ = "Supported ZED depth presets.", none = "No depth estimation.", neural_light = "Lightweight neural depth.", neural = "Standard neural depth.", neural_plus = "Highest-quality neural depth." }
+parameters = { __description__ = "Camera configuration values.", resolution = "Camera resolution preset.", depth_mode = "Depth preset.", device_fps = "Target frame rate.", enable_verbose_sdk_logging = "Enables verbose SDK logging.", depth_minimum_distance = "Minimum valid depth distance.", depth_maximum_distance = "Maximum valid depth distance.", confidence_threshold = "Depth confidence threshold.", texture_confidence_threshold = "Texture confidence threshold." }
 
 ["vision/implementations/floor_detector"]
 __overview__ = "Concrete `i_floor_detector` implementation that estimates the dominant floor plane from camera data and publishes plane geometry for obstacle reasoning."
 __constructor__ = "Creates a floor detector bound to a camera source and periodic update loop."
-"__constructor__.tag" = "Unique component tag used for logging and lifecycle identification."
 "__constructor__.update_rate" = "Requested detection frequency in Hz for floor-plane estimation."
 "__constructor__.camera_ptr" = "Shared camera dependency that provides synchronized RGB/depth data used during floor extraction."
 update = "Processes the latest camera data to detect and cache floor-plane geometry and detection state."
@@ -57,23 +58,35 @@ update = "Processes the latest camera data to detect and cache floor-plane geome
 ["vision/implementations/obstacle_detector"]
 __overview__ = "Concrete `i_obstacle_detector` implementation that fuses camera data and floor-plane estimation to identify obstacles in the scene."
 __constructor__ = "Creates an obstacle detector that runs the obstacle extraction pipeline at a fixed update rate."
-"__constructor__.tag" = "Unique component tag used for logging and lifecycle identification."
 "__constructor__.update_rate" = "Requested detection frequency in Hz for obstacle analysis."
 "__constructor__.parameters" = "Obstacle-detection configuration bundle (thresholds, filtering, and model-specific runtime settings)."
 "__constructor__.camera_ptr" = "Shared camera dependency that provides the live RGB/depth frames used for obstacle inference."
 "__constructor__.floor_detector_ptr" = "Shared floor-detector dependency used to mask floor regions and improve obstacle separation."
 update = "Runs one obstacle-detection cycle and updates cached detection outputs for consumers."
+parameters = { __description__ = "Obstacle detection settings.", obstacle_min_range = "Minimum obstacle range.", obstacle_max_range = "Maximum obstacle range.", obstacle_height_threshold = "Obstacle height threshold.", processing_scale = "Processing scale.", min_contour_area = "Minimum contour area." }
 
 ["gui/implementations/glfw_window"]
 __overview__ = "Concrete `i_glfw_window` implementation that owns the native GLFW window and applies window/runtime options from project configuration."
-__constructor__ = "Creates a GLFW window wrapper with the provided identity and window parameters."
-"__constructor__.tag" = "Unique component tag used for logging and lifecycle identification."
+__constructor__ = "Creates a GLFW window wrapper from the provided runtime window parameters."
 "__constructor__.parameters" = "Window configuration bundle (size, title behavior, context options, and related GLFW settings)."
+parameters = { __description__ = "Window initialization options.", title = "Window title.", width = "Window width.", height = "Window height.", start_maximized = "Start maximized.", enable_vsync = "Enable VSync." }
 
 ["gui/implementations/widget_controller"]
 __overview__ = "Concrete `i_widget_controller` implementation that owns widget registrations and orchestrates per-frame UI rendering order."
 __constructor__ = "Creates a widget controller that manages widget registration and render dispatch."
-"__constructor__.tag" = "Unique component tag used for logging and lifecycle identification."
+
+["gui/implementations/widgets/about_widget"]
+__overview__ = "Concrete `widget_host` implementation that renders project/about metadata and runtime informational content in the GUI."
+__constructor__ = "Creates an about widget with default title and initial visibility state."
+on_render = "Renders the about panel content for the current frame."
+
+["gui/implementations/widgets/camera_widget"]
+__overview__ = "Concrete `threaded_widget_host` implementation that visualizes live camera outputs and related stream diagnostics."
+__constructor__ = "Creates a camera widget bound to a camera source and periodic refresh loop."
+"__constructor__.update_rate" = "Requested widget update frequency in Hz for refreshing camera-derived content."
+"__constructor__.camera" = "Shared camera dependency that provides the latest frames and camera status data."
+update = "Refreshes cached camera-derived view state used by the widget renderer."
+on_render = "Draws camera imagery and related diagnostic overlays in the widget UI."
 
 ["gui/implementations/widget_host"]
 __overview__ = "Base host implementation for `i_widget` that provides common widget state (title/open flag) and delegates widget-specific drawing to derived classes."
@@ -92,14 +105,12 @@ on_render = "Implements widget-specific rendering logic invoked by the threaded 
 
 ["utility/implementations/toml_reader"]
 __overview__ = "Concrete `i_toml_reader` implementation that loads and owns parsed TOML configuration for runtime component setup."
-__constructor__ = "Creates a TOML reader bound to a logical component name and an initial configuration file path."
-"__constructor__.name" = "Human-readable component name used for diagnostics and ownership context."
+__constructor__ = "Creates a TOML reader initialized with an initial configuration file path."
 "__constructor__.file_path" = "Path to the TOML configuration file that should be parsed."
 
 ["utility/implementations/zenoh_client"]
 __overview__ = "Concrete `i_zenoh_client` implementation that manages Zenoh endpoint settings and associated session/config handles."
-__constructor__ = "Creates a Zenoh client with connection identity, remote endpoint address, and port."
-"__constructor__.tag" = "Unique component tag used for logging and lifecycle identification."
+__constructor__ = "Creates a Zenoh client with the specified remote endpoint address and port."
 "__constructor__.address" = "Remote Zenoh endpoint address (hostname or IP)."
 "__constructor__.port" = "Remote Zenoh endpoint port number."
 

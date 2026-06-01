@@ -44,12 +44,11 @@ graph LR
 #### Constructor
 
 ```cpp
-floor_detector(std::string_view tag, float update_rate, std::shared_ptr<i_camera> camera_ptr);
+floor_detector(float update_rate, std::shared_ptr<i_camera> camera_ptr);
 ```
 Creates a floor detector bound to a camera source and periodic update loop.
 
 ##### Parameters
-- `tag` (`std::string_view`): Unique component tag used for logging and lifecycle identification.
 - `update_rate` (`float`): Requested detection frequency in Hz for floor-plane estimation.
 - `camera_ptr` (`std::shared_ptr<i_camera>`): Shared camera dependency that provides synchronized RGB/depth data used during floor extraction.
 

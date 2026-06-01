@@ -44,12 +44,11 @@ graph LR
 #### Constructor
 
 ```cpp
-camera(std::string_view tag, float update_rate, const parameters& parameters);
+camera(float update_rate, const parameters& parameters);
 ```
 Creates a camera component that initializes and manages the ZED capture pipeline.
 
 ##### Parameters
-- `tag` (`std::string_view`): Unique component tag used for logging and lifecycle identification.
 - `update_rate` (`float`): Requested update frequency in Hz for frame acquisition and status refresh.
 - `parameters` (`const parameters&`): Camera configuration bundle (resolution, depth mode, runtime options, and related capture settings).
 
@@ -65,11 +64,12 @@ enum class resolution : uint8_t {
   hd1080
 };
 ```
+Supported camera resolution presets.
 
 ###### Values
-- `vga`: The vga.
-- `hd720`: The hd720.
-- `hd1080`: The hd1080.
+- `vga`: VGA resolution.
+- `hd720`: HD720 resolution.
+- `hd1080`: HD1080 resolution.
 ##### Depth Mode
 
 ```cpp
@@ -80,12 +80,13 @@ enum class depth_mode : uint8_t {
   neural_plus,
 };
 ```
+Supported ZED depth presets.
 
 ###### Values
-- `none`: The none.
-- `neural_light`: The neural light.
-- `neural`: The neural.
-- `neural_plus`: The neural plus.
+- `none`: No depth estimation.
+- `neural_light`: Lightweight neural depth.
+- `neural`: Standard neural depth.
+- `neural_plus`: Highest-quality neural depth.
 
 #### Structs
 ##### Parameters
@@ -102,15 +103,16 @@ struct parameters {
   int texture_confidence_threshold;
 };
 ```
+Camera configuration values.
 
-- `resolution` (`resolution`): The resolution.
-- `depth_mode` (`depth_mode`): The depth mode.
-- `device_fps` (`int`): The device FPS.
-- `enable_verbose_sdk_logging` (`bool`): The enable verbose sdk logging.
-- `depth_minimum_distance` (`float`): The depth minimum distance.
-- `depth_maximum_distance` (`float`): The depth maximum distance.
-- `confidence_threshold` (`int`): The confidence threshold.
-- `texture_confidence_threshold` (`int`): The texture confidence threshold.
+- `resolution` (`resolution`): Camera resolution preset.
+- `depth_mode` (`depth_mode`): Depth preset.
+- `device_fps` (`int`): Target frame rate.
+- `enable_verbose_sdk_logging` (`bool`): Enables verbose SDK logging.
+- `depth_minimum_distance` (`float`): Minimum valid depth distance.
+- `depth_maximum_distance` (`float`): Maximum valid depth distance.
+- `confidence_threshold` (`int`): Depth confidence threshold.
+- `texture_confidence_threshold` (`int`): Texture confidence threshold.
 
 ### Public Methods
 
