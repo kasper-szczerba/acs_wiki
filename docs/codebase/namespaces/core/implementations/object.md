@@ -31,6 +31,7 @@ graph LR
     object["object"] --> zenoh_client["zenoh_client"]
     threaded_object["threaded_object"] --> camera["camera"]
     threaded_object["threaded_object"] --> floor_detector["floor_detector"]
+    threaded_object["threaded_object"] --> gps["gps"]
     threaded_object["threaded_object"] --> obstacle_detector["obstacle_detector"]
     threaded_object["threaded_object"] --> threaded_widget_host["threaded_widget_host"]
     threaded_widget_host["threaded_widget_host"] --> camera_widget["camera_widget"]
@@ -52,6 +53,7 @@ graph LR
   - [`threaded_object`](threaded_object.md)
     - [`camera`](../../vision/implementations/camera.md)
     - [`floor_detector`](../../vision/implementations/floor_detector.md)
+    - [`gps`](../../utility/implementations/gps.md)
     - [`obstacle_detector`](../../vision/implementations/obstacle_detector.md)
     - [`threaded_widget_host`](../../gui/implementations/threaded_widget_host.md)
       - [`camera_widget`](../../gui/implementations/widgets/camera_widget.md)

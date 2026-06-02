@@ -45,7 +45,7 @@ graph LR
 
 ```cpp
 obstacle_detector(float update_rate,
-                  const parameters& parameters,
+                  const parameters_t& parameters,
                   std::shared_ptr<i_camera> camera_ptr,
                   std::shared_ptr<i_floor_detector> floor_detector_ptr);
 ```
@@ -53,17 +53,17 @@ Creates an obstacle detector that runs the obstacle extraction pipeline at a fix
 
 ##### Parameters
 - `update_rate` (`float`): Requested detection frequency in Hz for obstacle analysis.
-- `parameters` (`const parameters&`): Obstacle-detection configuration bundle (thresholds, filtering, and model-specific runtime settings).
+- `parameters` (`const parameters_t&`): Obstacle-detection configuration bundle (thresholds, filtering, and model-specific runtime settings).
 - `camera_ptr` (`std::shared_ptr<i_camera>`): Shared camera dependency that provides the live RGB/depth frames used for obstacle inference.
 - `floor_detector_ptr` (`std::shared_ptr<i_floor_detector>`): Shared floor-detector dependency used to mask floor regions and improve obstacle separation.
 
 ### Nested Types
 
 #### Structs
-##### Parameters
+##### Parameters T
 
 ```cpp
-struct parameters {
+struct parameters_t {
   float obstacle_min_range;
   float obstacle_max_range;
   float obstacle_height_threshold;

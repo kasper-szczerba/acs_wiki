@@ -44,9 +44,9 @@ __constructor__ = "Creates a camera component that initializes and manages the Z
 "__constructor__.update_rate" = "Requested update frequency in Hz for frame acquisition and status refresh."
 "__constructor__.parameters" = "Camera configuration bundle (resolution, depth mode, runtime options, and related capture settings)."
 update = "Polls the camera, updates color and depth frame buffers, and refreshes stream status metrics for downstream consumers."
-resolution = { __description__ = "Supported camera resolution presets.", vga = "VGA resolution.", hd720 = "HD720 resolution.", hd1080 = "HD1080 resolution." }
-depth_mode = { __description__ = "Supported ZED depth presets.", none = "No depth estimation.", neural_light = "Lightweight neural depth.", neural = "Standard neural depth.", neural_plus = "Highest-quality neural depth." }
-parameters = { __description__ = "Camera configuration values used when opening and running the stream.", resolution = "Capture resolution preset.", depth_mode = "Depth processing preset.", device_fps = "Requested device frame rate.", enable_verbose_sdk_logging = "Enables verbose ZED SDK logging.", depth_minimum_distance = "Minimum accepted depth distance in meters.", depth_maximum_distance = "Maximum accepted depth distance in meters.", confidence_threshold = "Depth confidence cutoff.", texture_confidence_threshold = "Texture confidence cutoff." }
+resolution_t = { __description__ = "Supported camera resolution presets.", vga = "VGA resolution.", hd720 = "HD720 resolution.", hd1080 = "HD1080 resolution." }
+depth_mode_t = { __description__ = "Supported ZED depth presets.", none = "No depth estimation.", neural_light = "Lightweight neural depth.", neural = "Standard neural depth.", neural_plus = "Highest-quality neural depth." }
+parameters_t = { __description__ = "Camera configuration values used when opening and running the stream.", resolution = "Capture resolution preset.", depth_mode = "Depth processing preset.", device_fps = "Requested device frame rate.", enable_verbose_sdk_logging = "Enables verbose ZED SDK logging.", depth_minimum_distance = "Minimum accepted depth distance in meters.", depth_maximum_distance = "Maximum accepted depth distance in meters.", confidence_threshold = "Depth confidence cutoff.", texture_confidence_threshold = "Texture confidence cutoff." }
 
 ["vision/implementations/floor_detector"]
 __overview__ = "Concrete `i_floor_detector` implementation that estimates the dominant floor plane from camera data and publishes plane geometry for obstacle reasoning."
@@ -63,13 +63,13 @@ __constructor__ = "Creates an obstacle detector that runs the obstacle extractio
 "__constructor__.camera_ptr" = "Shared camera dependency that provides the live RGB/depth frames used for obstacle inference."
 "__constructor__.floor_detector_ptr" = "Shared floor-detector dependency used to mask floor regions and improve obstacle separation."
 update = "Runs one obstacle-detection cycle and updates cached detection outputs for consumers."
-parameters = { __description__ = "Obstacle detection settings used during scene processing.", obstacle_min_range = "Minimum obstacle range in meters.", obstacle_max_range = "Maximum obstacle range in meters.", obstacle_height_threshold = "Minimum height above the floor used to classify obstacles.", min_contour_area = "Minimum contour area kept as an obstacle candidate.", road_width = "Nominal road width in meters used by zoning and obstacle interpretation." }
+parameters_t = { __description__ = "Obstacle detection settings used during scene processing.", obstacle_min_range = "Minimum obstacle range in meters.", obstacle_max_range = "Maximum obstacle range in meters.", obstacle_height_threshold = "Minimum height above the floor used to classify obstacles.", min_contour_area = "Minimum contour area kept as an obstacle candidate.", road_width = "Nominal road width in meters used by zoning and obstacle interpretation." }
 
 ["gui/implementations/glfw_window"]
 __overview__ = "Concrete `i_glfw_window` implementation that owns the native GLFW window and applies window/runtime options from project configuration."
 __constructor__ = "Creates a GLFW window wrapper from the provided runtime window parameters."
 "__constructor__.parameters" = "Window configuration bundle (size, title behavior, context options, and related GLFW settings)."
-parameters = { __description__ = "Window creation options used for the GLFW host window.", title = "Initial window title.", width = "Initial window width in pixels.", height = "Initial window height in pixels.", start_maximized = "Starts the window maximized when true.", enable_vsync = "Enables vertical sync." }
+parameters_t = { __description__ = "Window creation options used for the GLFW host window.", title = "Initial window title.", width = "Initial window width in pixels.", height = "Initial window height in pixels.", start_maximized = "Starts the window maximized when true.", enable_vsync = "Enables vertical sync." }
 
 ["gui/implementations/widget_controller"]
 __overview__ = "Concrete `i_widget_controller` implementation that owns widget registrations and orchestrates per-frame UI rendering order."
@@ -117,6 +117,12 @@ __overview__ = "Concrete `i_toml_reader` implementation that loads and owns pars
 __constructor__ = "Creates a TOML reader initialized with an initial configuration file path."
 "__constructor__.file_path" = "Path to the TOML configuration file that should be parsed."
 
+["utility/implementations/gps"]
+__overview__ = "Concrete `i_gps` implementation that reads NMEA and UBX input from a serial GPS receiver, converts positions for downstream consumers, and exposes the latest parsed fix."
+__constructor__ = "Creates a GPS reader configured for a serial device and its communication settings."
+"__constructor__.params" = "GPS reader configuration bundle (serial port name and baud rate)."
+parameters_t = { __description__ = "GPS reader configuration values used to open the receiver connection.", port_name = "Serial port name used to reach the GPS receiver.", baud_rate = "Serial baud rate used for GPS communication." }
+
 ["utility/implementations/zenoh_client"]
 __overview__ = "Concrete `i_zenoh_client` implementation that manages Zenoh endpoint settings and associated session/config handles."
 __constructor__ = "Creates a Zenoh client with the specified remote endpoint address and port."
@@ -138,6 +144,22 @@ get_file_path = "Returns the currently configured TOML file path used by the rea
 set_file_path = "Updates the TOML file path to be used on the next parse operation."
 "set_file_path.file_path" = "New TOML file path to load when parsing is triggered."
 get_table_ref = "Returns mutable access to the parsed TOML root table."
+
+["utility/interfaces/i_gps"]
+__overview__ = "Interface for reading GPS receiver data, parsing supported message formats, and exposing the latest position fix and conversion helpers."
+parse_nmea = "Parses a single NMEA sentence from the GPS receiver stream."
+"parse_nmea.sentence" = "NMEA sentence to parse."
+parse_ubx = "Parses a UBX binary frame from the GPS receiver stream."
+"parse_ubx.buffer" = "Raw UBX payload bytes to parse."
+get_latest_point = "Returns the most recently parsed GPS point."
+convert_to_utm = "Converts the provided latitude and longitude to UTM coordinates."
+"convert_to_utm.lat" = "Latitude in decimal degrees."
+"convert_to_utm.lon" = "Longitude in decimal degrees."
+load_reference_points = "Loads a list of reference GPS points from a file."
+"load_reference_points.file_path" = "Path to the reference-point file to load."
+read_point = "Reads a single GPS point by index from a file."
+"read_point.index" = "Zero-based point index to read."
+"read_point.file_path" = "Path to the GPS point file to read from."
 
 ["utility/interfaces/i_zenoh_client"]
 __overview__ = "Interface for configuring Zenoh connection endpoints and exposing session/config handles."

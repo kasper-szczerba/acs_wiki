@@ -18,7 +18,9 @@ graph LR
     i_camera["i_camera"] --> camera["camera"]
     i_floor_detector["i_floor_detector"] --> floor_detector["floor_detector"]
     i_glfw_window["i_glfw_window"] --> glfw_window["glfw_window"]
+    i_gps["i_gps"] --> gps["gps"]
     i_object["i_object"] --> i_glfw_window["i_glfw_window"]
+    i_object["i_object"] --> i_gps["i_gps"]
     i_object["i_object"] --> i_threaded_object["i_threaded_object"]
     i_object["i_object"] --> i_toml_reader["i_toml_reader"]
     i_object["i_object"] --> i_widget["i_widget"]
@@ -44,6 +46,7 @@ graph LR
     object["object"] --> zenoh_client["zenoh_client"]
     threaded_object["threaded_object"] --> camera["camera"]
     threaded_object["threaded_object"] --> floor_detector["floor_detector"]
+    threaded_object["threaded_object"] --> gps["gps"]
     threaded_object["threaded_object"] --> obstacle_detector["obstacle_detector"]
     threaded_object["threaded_object"] --> threaded_widget_host["threaded_widget_host"]
     threaded_widget_host["threaded_widget_host"] --> camera_widget["camera_widget"]
@@ -58,6 +61,8 @@ graph LR
 - [`i_object`](i_object.md)
   - [`i_glfw_window`](../../gui/interfaces/i_glfw_window.md)
     - [`glfw_window`](../../gui/implementations/glfw_window.md)
+  - [`i_gps`](../../utility/interfaces/i_gps.md)
+    - [`gps`](../../utility/implementations/gps.md)
   - [`i_threaded_object`](i_threaded_object.md)
     - [`i_camera`](../../vision/interfaces/i_camera.md)
       - [`camera`](../../vision/implementations/camera.md)
@@ -72,6 +77,7 @@ graph LR
     - [`threaded_object`](../implementations/threaded_object.md)
       - [`camera`](../../vision/implementations/camera.md)
       - [`floor_detector`](../../vision/implementations/floor_detector.md)
+      - [`gps`](../../utility/implementations/gps.md)
       - [`obstacle_detector`](../../vision/implementations/obstacle_detector.md)
       - [`threaded_widget_host`](../../gui/implementations/threaded_widget_host.md)
         - [`camera_widget`](../../gui/implementations/widgets/camera_widget.md)
@@ -90,6 +96,7 @@ graph LR
     - [`threaded_object`](../implementations/threaded_object.md)
       - [`camera`](../../vision/implementations/camera.md)
       - [`floor_detector`](../../vision/implementations/floor_detector.md)
+      - [`gps`](../../utility/implementations/gps.md)
       - [`obstacle_detector`](../../vision/implementations/obstacle_detector.md)
       - [`threaded_widget_host`](../../gui/implementations/threaded_widget_host.md)
         - [`camera_widget`](../../gui/implementations/widgets/camera_widget.md)

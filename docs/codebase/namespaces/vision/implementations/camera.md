@@ -44,21 +44,21 @@ graph LR
 #### Constructor
 
 ```cpp
-camera(float update_rate, const parameters& parameters);
+camera(float update_rate, const parameters_t& parameters);
 ```
 Creates a camera component that initializes and manages the ZED capture pipeline.
 
 ##### Parameters
 - `update_rate` (`float`): Requested update frequency in Hz for frame acquisition and status refresh.
-- `parameters` (`const parameters&`): Camera configuration bundle (resolution, depth mode, runtime options, and related capture settings).
+- `parameters` (`const parameters_t&`): Camera configuration bundle (resolution, depth mode, runtime options, and related capture settings).
 
 ### Nested Types
 
 #### Enums
-##### Resolution
+##### Resolution T
 
 ```cpp
-enum class resolution : uint8_t {
+enum class resolution_t : uint8_t {
   vga,
   hd720,
   hd1080
@@ -70,10 +70,10 @@ Supported camera resolution presets.
 - `vga`: VGA resolution.
 - `hd720`: HD720 resolution.
 - `hd1080`: HD1080 resolution.
-##### Depth Mode
+##### Depth Mode T
 
 ```cpp
-enum class depth_mode : uint8_t {
+enum class depth_mode_t : uint8_t {
   none,
   neural_light,
   neural,
@@ -89,12 +89,12 @@ Supported ZED depth presets.
 - `neural_plus`: Highest-quality neural depth.
 
 #### Structs
-##### Parameters
+##### Parameters T
 
 ```cpp
-struct parameters {
-  resolution resolution;
-  depth_mode depth_mode;
+struct parameters_t {
+  resolution_t resolution;
+  depth_mode_t depth_mode;
   int device_fps;
   bool enable_verbose_sdk_logging;
   float depth_minimum_distance;
@@ -105,8 +105,8 @@ struct parameters {
 ```
 Camera configuration values used when opening and running the stream.
 
-- `resolution` (`resolution`): Capture resolution preset.
-- `depth_mode` (`depth_mode`): Depth processing preset.
+- `resolution` (`resolution_t`): Capture resolution preset.
+- `depth_mode` (`depth_mode_t`): Depth processing preset.
 - `device_fps` (`int`): Requested device frame rate.
 - `enable_verbose_sdk_logging` (`bool`): Enables verbose ZED SDK logging.
 - `depth_minimum_distance` (`float`): Minimum accepted depth distance in meters.

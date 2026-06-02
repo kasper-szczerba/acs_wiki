@@ -37,20 +37,20 @@ graph LR
 #### Constructor
 
 ```cpp
-explicit glfw_window(const parameters& parameters);
+explicit glfw_window(const parameters_t& parameters);
 ```
 Creates a GLFW window wrapper from the provided runtime window parameters.
 
 ##### Parameters
-- `parameters` (`const parameters&`): Window configuration bundle (size, title behavior, context options, and related GLFW settings).
+- `parameters` (`const parameters_t&`): Window configuration bundle (size, title behavior, context options, and related GLFW settings).
 
 ### Nested Types
 
 #### Structs
-##### Parameters
+##### Parameters T
 
 ```cpp
-struct parameters {
+struct parameters_t {
   std::string_view title;
   int width;
   int height;
