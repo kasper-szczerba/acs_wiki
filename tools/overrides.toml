@@ -63,7 +63,7 @@ __constructor__ = "Creates an obstacle detector that runs the obstacle extractio
 "__constructor__.camera_ptr" = "Shared camera dependency that provides the live RGB/depth frames used for obstacle inference."
 "__constructor__.floor_detector_ptr" = "Shared floor-detector dependency used to mask floor regions and improve obstacle separation."
 update = "Runs one obstacle-detection cycle and updates cached detection outputs for consumers."
-parameters = { __description__ = "Obstacle detection settings used during scene processing.", obstacle_min_range = "Minimum obstacle range in meters.", obstacle_max_range = "Maximum obstacle range in meters.", obstacle_height_threshold = "Minimum height above the floor used to classify obstacles.", processing_scale = "Image scaling factor used during processing.", min_contour_area = "Minimum contour area kept as an obstacle candidate." }
+parameters = { __description__ = "Obstacle detection settings used during scene processing.", obstacle_min_range = "Minimum obstacle range in meters.", obstacle_max_range = "Maximum obstacle range in meters.", obstacle_height_threshold = "Minimum height above the floor used to classify obstacles.", min_contour_area = "Minimum contour area kept as an obstacle candidate.", road_width = "Nominal road width in meters used by zoning and obstacle interpretation." }
 
 ["gui/implementations/glfw_window"]
 __overview__ = "Concrete `i_glfw_window` implementation that owns the native GLFW window and applies window/runtime options from project configuration."
@@ -87,6 +87,15 @@ __constructor__ = "Creates a camera widget bound to a camera source and periodic
 "__constructor__.camera" = "Shared camera dependency that provides the latest frames and camera status data."
 update = "Refreshes cached camera-derived view state used by the widget renderer."
 on_render = "Draws camera imagery and related diagnostic overlays in the widget UI."
+
+["gui/implementations/widgets/obstacle_diagnostic_widget"]
+__overview__ = "Concrete `threaded_widget_host` implementation that visualizes obstacle-detection diagnostics, including union regions and zone-level occupancy results."
+__constructor__ = "Creates an obstacle diagnostic widget bound to camera and obstacle-detector dependencies with a periodic refresh loop."
+"__constructor__.update_rate" = "Requested widget update frequency in Hz for refreshing obstacle diagnostics."
+"__constructor__.camera_ptr" = "Shared camera dependency that provides the latest imagery used by the diagnostic view."
+"__constructor__.obstacle_detector_ptr" = "Shared obstacle-detector dependency that provides zone and union-detection outputs."
+update = "Refreshes cached obstacle-analysis state used by the widget renderer."
+on_render = "Draws obstacle diagnostics, including zone overlays and union obstacle previews, in the widget UI."
 
 ["gui/implementations/widget_host"]
 __overview__ = "Base host implementation for `i_widget` that provides common widget state (title/open flag) and delegates widget-specific drawing to derived classes."
@@ -121,6 +130,7 @@ register_widget = "Registers a non-threaded widget with the controller so it is 
 register_threaded_widget = "Registers a threaded widget with the controller so it is included in render traversal."
 "register_threaded_widget.widget_ptr" = "Owning pointer to the threaded widget instance being transferred to controller management."
 render = "Renders all registered widgets in controller-defined order for the current frame."
+stop_all_threaded_widgets = "Stops all registered threaded widgets and ensures their worker loops are shut down safely."
 
 ["utility/interfaces/i_toml_reader"]
 __overview__ = "Interface for loading, owning, and exposing parsed TOML configuration tables."
@@ -149,6 +159,7 @@ get_fps = "Returns the current effective capture frame rate."
 get_dropped_frames_count = "Returns the number of frames dropped by the capture pipeline."
 get_is_opened = "Returns whether the underlying camera stream is currently open and usable."
 get_zed_camera_ref = "Returns a reference to the underlying ZED camera object for advanced operations."
+get_intrinsics = "Returns the active camera intrinsic calibration values used for geometric projection and back-projection."
 
 ["vision/interfaces/i_floor_detector"]
 __overview__ = "Interface that defines floor-plane detection outputs derived from live camera input."
@@ -162,9 +173,40 @@ get_floor_detector_ptr = "Returns the floor-detector dependency used by the obst
 get_obstacle_min_range = "Returns the minimum obstacle range threshold used for filtering detections."
 get_obstacle_max_range = "Returns the maximum obstacle range threshold used for filtering detections."
 get_obstacle_height_threshold = "Returns the height threshold used to classify points as obstacle candidates above the floor plane."
-get_contours = "Returns the latest detected obstacle contours in image space."
+get_road_width = "Returns the configured road-width estimate used by zone-based obstacle interpretation."
 get_union_box = "Returns the bounding box that encloses all currently detected obstacle regions."
 get_union_crop = "Returns the cropped image region corresponding to the current union obstacle bounding box."
+get_zone_results = "Returns the latest per-zone obstacle-analysis results keyed by road zone."
+get_left_zone = "Returns the latest obstacle-analysis result for the left scene zone."
+get_center_zone = "Returns the latest obstacle-analysis result for the center scene zone."
+get_right_zone = "Returns the latest obstacle-analysis result for the right scene zone."
+get_horizon_y = "Returns the latest estimated horizon row (in image pixels) used by obstacle zoning."
+
+["vision/utility/floor_plane_math"]
+__overview__ = "Utility helpers for floor-plane geometry math used by vision components when normalizing plane orientation and computing camera-space distances."
+ensure_plane_faces_up = "Normalizes a plane equation so its normal points upward in camera/world convention."
+"ensure_plane_faces_up.equation" = "Input plane equation coefficients `(a, b, c, d)` to normalize."
+calculate_normal_magnitude = "Computes the Euclidean magnitude of the plane normal `(a, b, c)`."
+"calculate_normal_magnitude.plane" = "Plane equation coefficients `(a, b, c, d)` whose normal magnitude is needed."
+back_project_pixel_to_3d = "Back-projects a depth pixel into 3D camera coordinates using camera intrinsics."
+"back_project_pixel_to_3d.x" = "Pixel x-coordinate in image space."
+"back_project_pixel_to_3d.y" = "Pixel y-coordinate in image space."
+"back_project_pixel_to_3d.z" = "Depth value at the pixel in camera depth units."
+"back_project_pixel_to_3d.intrinsics" = "Camera intrinsic parameters (`fx`, `fy`, `cx`, `cy`) used for back-projection."
+project_3d_to_pixel = "Projects a 3D camera-space point onto image coordinates using camera intrinsics."
+"project_3d_to_pixel.point" = "3D point in camera coordinates to project into image space."
+"project_3d_to_pixel.intrinsics" = "Camera intrinsic parameters (`fx`, `fy`, `cx`, `cy`) used for projection."
+get_distance_to_plane = "Computes signed point-to-plane distance, normalized by the provided plane normal magnitude."
+"get_distance_to_plane.point" = "3D point to evaluate against the plane equation."
+"get_distance_to_plane.plane" = "Plane equation coefficients `(a, b, c, d)` used for distance evaluation."
+"get_distance_to_plane.plane_normal_length" = "Precomputed magnitude of the plane normal used for normalization."
+
+["vision/types/camera_intrinsics"]
+__overview__ = "Camera intrinsic calibration values used by vision utilities for pixel back-projection and geometric measurements."
+camera_intrinsics = { __description__ = "Intrinsic camera parameters in pixel units.", focal_length_x = "Horizontal focal length (`fx`) in pixels.", focal_length_y = "Vertical focal length (`fy`) in pixels.", center_point_x = "Principal-point x-coordinate (`cx`) in pixels.", center_point_y = "Principal-point y-coordinate (`cy`) in pixels." }
+
+["vision/types/zone"]
+__overview__ = "Zone classification types used by obstacle analysis to summarize free/occupied state in left, center, and right road regions."
 
 ["gui/interfaces/i_widget"]
 __overview__ = "Interface that defines the minimal render contract for GUI widgets."

@@ -74,3 +74,12 @@ Renders all registered widgets in controller-defined order for the current frame
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
+#### Stop All Threaded Widgets
+
+```cpp
+virtual void stop_all_threaded_widgets() = 0;
+```
+Stops all registered threaded widgets and ensures their worker loops are shut down safely.
+
+!!! note
+    Pure virtual method, must be implemented by derived classes.

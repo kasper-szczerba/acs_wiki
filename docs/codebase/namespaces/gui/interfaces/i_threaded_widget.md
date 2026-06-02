@@ -26,6 +26,7 @@ graph LR
     i_threaded_widget["i_threaded_widget"]
     i_threaded_widget["i_threaded_widget"] --> threaded_widget_host["threaded_widget_host"]
     threaded_widget_host["threaded_widget_host"] --> camera_widget["camera_widget"]
+    threaded_widget_host["threaded_widget_host"] --> obstacle_diagnostic_widget["obstacle_diagnostic_widget"]
 ```
 
 ## Inheritance Hierarchy
@@ -41,6 +42,7 @@ graph LR
 - [`i_threaded_widget`](i_threaded_widget.md)
   - [`threaded_widget_host`](../implementations/threaded_widget_host.md)
     - [`camera_widget`](../implementations/widgets/camera_widget.md)
+    - [`obstacle_diagnostic_widget`](../implementations/widgets/obstacle_diagnostic_widget.md)
 
 ## API
 

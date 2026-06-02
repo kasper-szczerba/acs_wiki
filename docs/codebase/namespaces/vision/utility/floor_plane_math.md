@@ -6,48 +6,59 @@
 
 ## Overview
 
-Floor Plane Math.
+Utility helpers for floor-plane geometry math used by vision components when normalizing plane orientation and computing camera-space distances.
 
 ## API
 
 ### Public Methods
-#### Orient Plane Up
+#### Ensure Plane Faces Up
 
 ```cpp
-[[nodiscard]] static sl::float4 orient_plane_up(const sl::float4& equation);
+[[nodiscard]] static sl::float4 ensure_plane_faces_up(const sl::float4& equation);
 ```
+Normalizes a plane equation so its normal points upward in camera/world convention.
 
 ##### Parameters
-- `equation` (`const sl::float4&`): The equation.
-#### Normal Length
+- `equation` (`const sl::float4&`): Input plane equation coefficients `(a, b, c, d)` to normalize.
+#### Calculate Normal Magnitude
 
 ```cpp
-[[nodiscard]] static float normal_length(const sl::float4& plane);
+[[nodiscard]] static float calculate_normal_magnitude(const sl::float4& plane);
 ```
+Computes the Euclidean magnitude of the plane normal `(a, b, c)`.
 
 ##### Parameters
-- `plane` (`const sl::float4&`): The plane.
-#### Reproject Depth Pixel
+- `plane` (`const sl::float4&`): Plane equation coefficients `(a, b, c, d)` whose normal magnitude is needed.
+#### Back Project Pixel To 3d
 
 ```cpp
-[[nodiscard]] static sl::float3 reproject_depth_pixel(int x, int y, float z, float fx, float fy, float cx, float cy);
+[[nodiscard]] static sl::float3 back_project_pixel_to_3d(int x, int y, float z, const camera_intrinsics& intrinsics);
 ```
+Back-projects a depth pixel into 3D camera coordinates using camera intrinsics.
 
 ##### Parameters
-- `x` (`int`): The x.
-- `y` (`int`): The y.
-- `z` (`float`): The z.
-- `fx` (`float`): The fx.
-- `fy` (`float`): The fy.
-- `cx` (`float`): The cx.
-- `cy` (`float`): The cy.
-#### Absolute Distance To Plane
+- `x` (`int`): Pixel x-coordinate in image space.
+- `y` (`int`): Pixel y-coordinate in image space.
+- `z` (`float`): Depth value at the pixel in camera depth units.
+- `intrinsics` (`const camera_intrinsics&`): Camera intrinsic parameters (`fx`, `fy`, `cx`, `cy`) used for back-projection.
+#### Project 3d To Pixel
 
 ```cpp
-[[nodiscard]] static float absolute_distance_to_plane(const sl::float3& point, const sl::float4& plane, float plane_normal_length);
+[[nodiscard]] static cv::Point2f project_3d_to_pixel(const sl::float3& point, const camera_intrinsics& intrinsics);
 ```
+Projects a 3D camera-space point onto image coordinates using camera intrinsics.
 
 ##### Parameters
-- `point` (`const sl::float3&`): The point.
-- `plane` (`const sl::float4&`): The plane.
-- `plane_normal_length` (`float`): The plane normal length.
+- `point` (`const sl::float3&`): 3D point in camera coordinates to project into image space.
+- `intrinsics` (`const camera_intrinsics&`): Camera intrinsic parameters (`fx`, `fy`, `cx`, `cy`) used for projection.
+#### Get Distance To Plane
+
+```cpp
+[[nodiscard]] static float get_distance_to_plane(const sl::float3& point, const sl::float4& plane, float plane_normal_length);
+```
+Computes signed point-to-plane distance, normalized by the provided plane normal magnitude.
+
+##### Parameters
+- `point` (`const sl::float3&`): 3D point to evaluate against the plane equation.
+- `plane` (`const sl::float4&`): Plane equation coefficients `(a, b, c, d)` used for distance evaluation.
+- `plane_normal_length` (`float`): Precomputed magnitude of the plane normal used for normalization.

@@ -100,9 +100,18 @@ Returns whether the underlying camera stream is currently open and usable.
 #### Get ZED Camera Reference
 
 ```cpp
-[[nodiscard]] virtual sl::Camera &get_zed_camera_ref() = 0;
+[[nodiscard]] virtual sl::Camera& get_zed_camera_ref() = 0;
 ```
 Returns a reference to the underlying ZED camera object for advanced operations.
+
+!!! note
+    Pure virtual method, must be implemented by derived classes.
+#### Get Intrinsics
+
+```cpp
+[[nodiscard]] virtual camera_intrinsics get_intrinsics() = 0;
+```
+Returns the active camera intrinsic calibration values used for geometric projection and back-projection.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.

@@ -125,6 +125,7 @@ Camera configuration values used when opening and running the stream.
     - [`get_dropped_frames_count`](../interfaces/i_camera.md#get-dropped-frames-count)
     - [`get_is_opened`](../interfaces/i_camera.md#get-is-opened)
     - [`get_zed_camera_ref`](../interfaces/i_camera.md#get-zed-camera-reference)
+    - [`get_intrinsics`](../interfaces/i_camera.md#get-intrinsics)
 
 ### Protected Methods
 #### Update

@@ -79,12 +79,12 @@ Returns the height threshold used to classify points as obstacle candidates abov
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
-#### Get Contours
+#### Get Road Width
 
 ```cpp
-[[nodiscard]] virtual std::vector<std::vector<cv::Point>> get_contours() = 0;
+[[nodiscard]] virtual float get_road_width() const = 0;
 ```
-Returns the latest detected obstacle contours in image space.
+Returns the configured road-width estimate used by zone-based obstacle interpretation.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -100,9 +100,18 @@ Returns the bounding box that encloses all currently detected obstacle regions.
 #### Get Union Crop
 
 ```cpp
-[[nodiscard]] virtual cv::Mat get_union_crop() = 0;
+[[nodiscard]] virtual cv::cuda::GpuMat get_union_crop() = 0;
 ```
 Returns the cropped image region corresponding to the current union obstacle bounding box.
+
+!!! note
+    Pure virtual method, must be implemented by derived classes.
+#### Get Zone Results
+
+```cpp
+[[nodiscard]] virtual std::map<road_zone, zone_result> get_zone_results() = 0;
+```
+Returns the latest per-zone obstacle-analysis results keyed by road zone.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.

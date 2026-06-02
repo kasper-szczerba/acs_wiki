@@ -31,6 +31,7 @@ graph LR
     threaded_object["threaded_object"] --> obstacle_detector["obstacle_detector"]
     threaded_object["threaded_object"] --> threaded_widget_host["threaded_widget_host"]
     threaded_widget_host["threaded_widget_host"] --> camera_widget["camera_widget"]
+    threaded_widget_host["threaded_widget_host"] --> obstacle_diagnostic_widget["obstacle_diagnostic_widget"]
 ```
 
 ## Inheritance Hierarchy
@@ -51,6 +52,7 @@ graph LR
   - [`obstacle_detector`](../../vision/implementations/obstacle_detector.md)
   - [`threaded_widget_host`](../../gui/implementations/threaded_widget_host.md)
     - [`camera_widget`](../../gui/implementations/widgets/camera_widget.md)
+    - [`obstacle_diagnostic_widget`](../../gui/implementations/widgets/obstacle_diagnostic_widget.md)
 
 ## API
 
@@ -89,6 +91,6 @@ Performs one derived-class update iteration invoked by the internal thread loop.
 #### Get Mutex
 
 ```cpp
-[[nodiscard]] std::mutex &get_mutex() noexcept;
+[[nodiscard]] std::recursive_mutex &get_mutex() noexcept;
 ```
 Returns a reference to the synchronization mutex guarding shared threaded state.

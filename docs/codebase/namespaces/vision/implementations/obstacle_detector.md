@@ -67,8 +67,8 @@ struct parameters {
   float obstacle_min_range;
   float obstacle_max_range;
   float obstacle_height_threshold;
-  float processing_scale;
   float min_contour_area;
+  float road_width;
 };
 ```
 Obstacle detection settings used during scene processing.
@@ -76,8 +76,8 @@ Obstacle detection settings used during scene processing.
 - `obstacle_min_range` (`float`): Minimum obstacle range in meters.
 - `obstacle_max_range` (`float`): Maximum obstacle range in meters.
 - `obstacle_height_threshold` (`float`): Minimum height above the floor used to classify obstacles.
-- `processing_scale` (`float`): Image scaling factor used during processing.
 - `min_contour_area` (`float`): Minimum contour area kept as an obstacle candidate.
+- `road_width` (`float`): Nominal road width in meters used by zoning and obstacle interpretation.
 
 ### Public Methods
 
@@ -87,9 +87,10 @@ Obstacle detection settings used during scene processing.
     - [`get_obstacle_min_range`](../interfaces/i_obstacle_detector.md#get-obstacle-min-range)
     - [`get_obstacle_max_range`](../interfaces/i_obstacle_detector.md#get-obstacle-max-range)
     - [`get_obstacle_height_threshold`](../interfaces/i_obstacle_detector.md#get-obstacle-height-threshold)
-    - [`get_contours`](../interfaces/i_obstacle_detector.md#get-contours)
+    - [`get_road_width`](../interfaces/i_obstacle_detector.md#get-road-width)
     - [`get_union_box`](../interfaces/i_obstacle_detector.md#get-union-box)
     - [`get_union_crop`](../interfaces/i_obstacle_detector.md#get-union-crop)
+    - [`get_zone_results`](../interfaces/i_obstacle_detector.md#get-zone-results)
 
 ### Protected Methods
 #### Update

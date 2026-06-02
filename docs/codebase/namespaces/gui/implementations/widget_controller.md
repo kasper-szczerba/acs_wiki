@@ -48,3 +48,4 @@ Creates a widget controller that manages widget registration and render dispatch
     - [`register_widget`](../interfaces/i_widget_controller.md#register-widget)
     - [`register_threaded_widget`](../interfaces/i_widget_controller.md#register-threaded-widget)
     - [`render`](../interfaces/i_widget_controller.md#render)
+    - [`stop_all_threaded_widgets`](../interfaces/i_widget_controller.md#stop-all-threaded-widgets)

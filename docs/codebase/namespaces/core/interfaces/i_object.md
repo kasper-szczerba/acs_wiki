@@ -47,6 +47,7 @@ graph LR
     threaded_object["threaded_object"] --> obstacle_detector["obstacle_detector"]
     threaded_object["threaded_object"] --> threaded_widget_host["threaded_widget_host"]
     threaded_widget_host["threaded_widget_host"] --> camera_widget["camera_widget"]
+    threaded_widget_host["threaded_widget_host"] --> obstacle_diagnostic_widget["obstacle_diagnostic_widget"]
     widget_host["widget_host"] --> about_widget["about_widget"]
 ```
 
@@ -67,12 +68,14 @@ graph LR
     - [`i_threaded_widget`](../../gui/interfaces/i_threaded_widget.md)
       - [`threaded_widget_host`](../../gui/implementations/threaded_widget_host.md)
         - [`camera_widget`](../../gui/implementations/widgets/camera_widget.md)
+        - [`obstacle_diagnostic_widget`](../../gui/implementations/widgets/obstacle_diagnostic_widget.md)
     - [`threaded_object`](../implementations/threaded_object.md)
       - [`camera`](../../vision/implementations/camera.md)
       - [`floor_detector`](../../vision/implementations/floor_detector.md)
       - [`obstacle_detector`](../../vision/implementations/obstacle_detector.md)
       - [`threaded_widget_host`](../../gui/implementations/threaded_widget_host.md)
         - [`camera_widget`](../../gui/implementations/widgets/camera_widget.md)
+        - [`obstacle_diagnostic_widget`](../../gui/implementations/widgets/obstacle_diagnostic_widget.md)
   - [`i_toml_reader`](../../utility/interfaces/i_toml_reader.md)
     - [`toml_reader`](../../utility/implementations/toml_reader.md)
   - [`i_widget`](../../gui/interfaces/i_widget.md)
@@ -90,6 +93,7 @@ graph LR
       - [`obstacle_detector`](../../vision/implementations/obstacle_detector.md)
       - [`threaded_widget_host`](../../gui/implementations/threaded_widget_host.md)
         - [`camera_widget`](../../gui/implementations/widgets/camera_widget.md)
+        - [`obstacle_diagnostic_widget`](../../gui/implementations/widgets/obstacle_diagnostic_widget.md)
     - [`toml_reader`](../../utility/implementations/toml_reader.md)
     - [`widget_controller`](../../gui/implementations/widget_controller.md)
     - [`widget_host`](../../gui/implementations/widget_host.md)

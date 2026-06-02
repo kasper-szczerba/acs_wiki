@@ -1,0 +1,72 @@
+# Obstacle Diagnostic Widget
+
+- **Class**: `obstacle_diagnostic_widget`
+- **Namespace**: `acs::gui`
+- **Include**: `#include "gui/implementations/widgets/obstacle_diagnostic_widget.h"`
+
+## Overview
+
+Concrete `threaded_widget_host` implementation that visualizes obstacle-detection diagnostics, including union regions and zone-level occupancy results.
+
+## Inheritance Diagram
+
+### Base Diagram
+
+```mermaid
+graph LR
+    obstacle_diagnostic_widget["obstacle_diagnostic_widget"]
+    i_threaded_object["i_threaded_object"] --> i_object["i_object"]
+    i_threaded_widget["i_threaded_widget"] --> i_threaded_object["i_threaded_object"]
+    object["object"] --> i_object["i_object"]
+    obstacle_diagnostic_widget["obstacle_diagnostic_widget"] --> threaded_widget_host["threaded_widget_host"]
+    threaded_object["threaded_object"] --> i_threaded_object["i_threaded_object"]
+    threaded_object["threaded_object"] --> object["object"]
+    threaded_widget_host["threaded_widget_host"] --> i_threaded_widget["i_threaded_widget"]
+    threaded_widget_host["threaded_widget_host"] --> threaded_object["threaded_object"]
+```
+
+## Inheritance Hierarchy
+
+### Base Hierarchy
+
+- [`obstacle_diagnostic_widget`](obstacle_diagnostic_widget.md)
+  - [`threaded_widget_host`](../threaded_widget_host.md)
+    - [`i_threaded_widget`](../../interfaces/i_threaded_widget.md)
+      - [`i_threaded_object`](../../../core/interfaces/i_threaded_object.md)
+        - [`i_object`](../../../core/interfaces/i_object.md)
+    - [`threaded_object`](../../../core/implementations/threaded_object.md)
+      - [`i_threaded_object`](../../../core/interfaces/i_threaded_object.md)
+        - [`i_object`](../../../core/interfaces/i_object.md)
+      - [`object`](../../../core/implementations/object.md)
+        - [`i_object`](../../../core/interfaces/i_object.md)
+
+## API
+
+### Constructors
+#### Constructor
+
+```cpp
+obstacle_diagnostic_widget(float update_rate,
+                           std::shared_ptr<vision::i_camera> camera_ptr,
+                           std::shared_ptr<vision::i_obstacle_detector> obstacle_detector_ptr);
+```
+Creates an obstacle diagnostic widget bound to camera and obstacle-detector dependencies with a periodic refresh loop.
+
+##### Parameters
+- `update_rate` (`float`): Requested widget update frequency in Hz for refreshing obstacle diagnostics.
+- `camera_ptr` (`std::shared_ptr<vision::i_camera>`): Shared camera dependency that provides the latest imagery used by the diagnostic view.
+- `obstacle_detector_ptr` (`std::shared_ptr<vision::i_obstacle_detector>`): Shared obstacle-detector dependency that provides zone and union-detection outputs.
+
+### Protected Methods
+#### Update
+
+```cpp
+void update() override;
+```
+Refreshes cached obstacle-analysis state used by the widget renderer.
+#### On Render
+
+```cpp
+void on_render() override;
+```
+Draws obstacle diagnostics, including zone overlays and union obstacle previews, in the widget UI.
