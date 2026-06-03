@@ -51,12 +51,12 @@ Unbinds the current texture from the active texture target.
 #### Free
 
 ```cpp
-static void free(unsigned int texture_id);
+static void free(unsigned int& texture_id);
 ```
 Deletes the texture object and releases its GPU memory allocation.
 
 ##### Parameters
-- `texture_id` (`unsigned int`): OpenGL texture object ID to delete.
+- `texture_id` (`unsigned int&`): OpenGL texture object ID to delete.
 #### Resize
 
 ```cpp

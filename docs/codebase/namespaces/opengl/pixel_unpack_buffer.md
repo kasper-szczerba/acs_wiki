@@ -41,12 +41,13 @@ Unbinds the current pixel unpack buffer from `GL_PIXEL_UNPACK_BUFFER`.
 #### Free
 
 ```cpp
-static void free(unsigned int buffer_id);
+static void free(unsigned int& buffer_id, cudaGraphicsResource_t* cuda_pbo_resource);
 ```
 Releases the pixel unpack buffer and any associated OpenGL resources.
 
 ##### Parameters
-- `buffer_id` (`unsigned int`): OpenGL buffer object ID of the PBO to release.
+- `buffer_id` (`unsigned int&`): OpenGL buffer object ID of the PBO to release.
+- `cuda_pbo_resource` (`cudaGraphicsResource_t*`): CUDA graphics resource handle associated with the PBO to unregister and release.
 #### Resize
 
 ```cpp

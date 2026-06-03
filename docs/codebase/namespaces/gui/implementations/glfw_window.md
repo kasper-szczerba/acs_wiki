@@ -55,7 +55,6 @@ struct parameters_t {
   int width;
   int height;
   bool start_maximized;
-  bool enable_vsync;
 };
 ```
 Window creation options used for the GLFW host window.
@@ -64,7 +63,6 @@ Window creation options used for the GLFW host window.
 - `width` (`int`): Initial window width in pixels.
 - `height` (`int`): Initial window height in pixels.
 - `start_maximized` (`bool`): Starts the window maximized when true.
-- `enable_vsync` (`bool`): Enables vertical sync.
 
 ### Public Methods
 

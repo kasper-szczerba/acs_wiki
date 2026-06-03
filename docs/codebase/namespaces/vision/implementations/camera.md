@@ -60,6 +60,7 @@ Creates a camera component that initializes and manages the ZED capture pipeline
 ```cpp
 enum class resolution_t : uint8_t {
   vga,
+  svga,
   hd720,
   hd1080
 };
@@ -68,6 +69,7 @@ Supported camera resolution presets.
 
 ###### Values
 - `vga`: VGA resolution.
+- `svga`: SVGA resolution.
 - `hd720`: HD720 resolution.
 - `hd1080`: HD1080 resolution.
 ##### Depth Mode T

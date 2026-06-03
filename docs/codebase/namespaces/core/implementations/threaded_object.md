@@ -31,6 +31,7 @@ graph LR
     threaded_object["threaded_object"] --> gps["gps"]
     threaded_object["threaded_object"] --> obstacle_detector["obstacle_detector"]
     threaded_object["threaded_object"] --> threaded_widget_host["threaded_widget_host"]
+    threaded_object["threaded_object"] --> traffic_light_detector["traffic_light_detector"]
     threaded_widget_host["threaded_widget_host"] --> camera_widget["camera_widget"]
     threaded_widget_host["threaded_widget_host"] --> obstacle_diagnostic_widget["obstacle_diagnostic_widget"]
 ```
@@ -55,6 +56,7 @@ graph LR
   - [`threaded_widget_host`](../../gui/implementations/threaded_widget_host.md)
     - [`camera_widget`](../../gui/implementations/widgets/camera_widget.md)
     - [`obstacle_diagnostic_widget`](../../gui/implementations/widgets/obstacle_diagnostic_widget.md)
+  - [`traffic_light_detector`](../../vision/implementations/traffic_light_detector.md)
 
 ## API
 
@@ -90,9 +92,3 @@ Performs one derived-class update iteration invoked by the internal thread loop.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
-#### Get Mutex
-
-```cpp
-[[nodiscard]] std::recursive_mutex &get_mutex() noexcept;
-```
-Returns a reference to the synchronization mutex guarding shared threaded state.

@@ -26,7 +26,7 @@ core = "The `acs::core` namespace defines the base object model for ACS. It prov
 gui = "The `acs::gui` namespace contains GUI objects and interfaces used to host windows, register widgets, and render runtime visualization views."
 opengl = "The `acs::opengl` namespace contains OpenGL-focused rendering objects and helpers used by the visualization stack."
 utility = "The `acs::utility` namespace contains utility objects and interfaces for shared services such as configuration parsing and Zenoh connectivity."
-vision = "The `acs::vision` namespace contains perception objects and interfaces for camera access, floor estimation, and obstacle detection using ZED stereo data."
+vision = "The `acs::vision` namespace contains perception objects and interfaces for camera access, floor estimation, obstacle detection, and traffic-light state inference using ZED stereo data."
 #
 # ---------------------------------------------------------------------------
 # Example:
@@ -44,7 +44,7 @@ __constructor__ = "Creates a camera component that initializes and manages the Z
 "__constructor__.update_rate" = "Requested update frequency in Hz for frame acquisition and status refresh."
 "__constructor__.parameters" = "Camera configuration bundle (resolution, depth mode, runtime options, and related capture settings)."
 update = "Polls the camera, updates color and depth frame buffers, and refreshes stream status metrics for downstream consumers."
-resolution_t = { __description__ = "Supported camera resolution presets.", vga = "VGA resolution.", hd720 = "HD720 resolution.", hd1080 = "HD1080 resolution." }
+resolution_t = { __description__ = "Supported camera resolution presets.", vga = "VGA resolution.", svga = "SVGA resolution.", hd720 = "HD720 resolution.", hd1080 = "HD1080 resolution." }
 depth_mode_t = { __description__ = "Supported ZED depth presets.", none = "No depth estimation.", neural_light = "Lightweight neural depth.", neural = "Standard neural depth.", neural_plus = "Highest-quality neural depth." }
 parameters_t = { __description__ = "Camera configuration values used when opening and running the stream.", resolution = "Capture resolution preset.", depth_mode = "Depth processing preset.", device_fps = "Requested device frame rate.", enable_verbose_sdk_logging = "Enables verbose ZED SDK logging.", depth_minimum_distance = "Minimum accepted depth distance in meters.", depth_maximum_distance = "Maximum accepted depth distance in meters.", confidence_threshold = "Depth confidence cutoff.", texture_confidence_threshold = "Texture confidence cutoff." }
 
@@ -65,11 +65,21 @@ __constructor__ = "Creates an obstacle detector that runs the obstacle extractio
 update = "Runs one obstacle-detection cycle and updates cached detection outputs for consumers."
 parameters_t = { __description__ = "Obstacle detection settings used during scene processing.", obstacle_min_range = "Minimum obstacle range in meters.", obstacle_max_range = "Maximum obstacle range in meters.", obstacle_height_threshold = "Minimum height above the floor used to classify obstacles.", min_contour_area = "Minimum contour area kept as an obstacle candidate.", road_width = "Nominal road width in meters used by zoning and obstacle interpretation." }
 
+["vision/implementations/traffic_light_detector"]
+__overview__ = "Concrete `i_traffic_light_detector` implementation that analyzes camera imagery with a DNN model and obstacle context to determine red-light state."
+__constructor__ = "Creates a traffic-light detector with update cadence, model configuration, and shared perception dependencies."
+"__constructor__.update_rate" = "Requested detection frequency in Hz for traffic-light inference."
+"__constructor__.parameters" = "Traffic-light detector configuration bundle (model settings and decision thresholds)."
+"__constructor__.camera" = "Shared camera dependency that provides live frames for traffic-light analysis."
+"__constructor__.obstacle_detector" = "Shared obstacle-detector dependency used for scene context and candidate filtering."
+update = "Runs one traffic-light detection cycle and updates cached red-light state."
+parameters_t = { __description__ = "Traffic-light detection settings used during model inference and state debouncing.", model_params = "DNN model configuration used to load and run traffic-light inference.", confidence_threshold = "Minimum detection confidence required to accept a traffic-light prediction.", red_light_class_id = "Model class ID interpreted as a red traffic light.", distance_threshold = "Maximum scene distance in meters considered for red-light candidates.", on_threshold = "Consecutive positive detections required to switch state to red-light active.", off_threshold = "Consecutive negative detections required to clear the red-light active state." }
+
 ["gui/implementations/glfw_window"]
 __overview__ = "Concrete `i_glfw_window` implementation that owns the native GLFW window and applies window/runtime options from project configuration."
 __constructor__ = "Creates a GLFW window wrapper from the provided runtime window parameters."
 "__constructor__.parameters" = "Window configuration bundle (size, title behavior, context options, and related GLFW settings)."
-parameters_t = { __description__ = "Window creation options used for the GLFW host window.", title = "Initial window title.", width = "Initial window width in pixels.", height = "Initial window height in pixels.", start_maximized = "Starts the window maximized when true.", enable_vsync = "Enables vertical sync." }
+parameters_t = { __description__ = "Window creation options used for the GLFW host window.", title = "Initial window title.", width = "Initial window width in pixels.", height = "Initial window height in pixels.", start_maximized = "Starts the window maximized when true." }
 
 ["gui/implementations/widget_controller"]
 __overview__ = "Concrete `i_widget_controller` implementation that owns widget registrations and orchestrates per-frame UI rendering order."
@@ -204,6 +214,10 @@ get_center_zone = "Returns the latest obstacle-analysis result for the center sc
 get_right_zone = "Returns the latest obstacle-analysis result for the right scene zone."
 get_horizon_y = "Returns the latest estimated horizon row (in image pixels) used by obstacle zoning."
 
+["vision/interfaces/i_traffic_light_detector"]
+__overview__ = "Interface that defines traffic-light state outputs produced by a threaded perception pipeline."
+is_red_light_detected = "Returns whether a red traffic light is currently considered detected by the pipeline."
+
 ["vision/utility/floor_plane_math"]
 __overview__ = "Utility helpers for floor-plane geometry math used by vision components when normalizing plane orientation and computing camera-space distances."
 ensure_plane_faces_up = "Normalizes a plane equation so its normal points upward in camera/world convention."
@@ -222,6 +236,14 @@ get_distance_to_plane = "Computes signed point-to-plane distance, normalized by 
 "get_distance_to_plane.point" = "3D point to evaluate against the plane equation."
 "get_distance_to_plane.plane" = "Plane equation coefficients `(a, b, c, d)` used for distance evaluation."
 "get_distance_to_plane.plane_normal_length" = "Precomputed magnitude of the plane normal used for normalization."
+
+["vision/utility/dnn_model"]
+__overview__ = "Utility wrapper for OpenCV DNN inference used by perception components to run model forward passes on CPU/GPU-backed image tensors."
+__constructor__ = "Creates a DNN model wrapper from the provided model/runtime configuration."
+"__constructor__.parameters" = "DNN model configuration bundle (network paths, input shape, and preprocessing options)."
+forward = "Runs a forward inference pass and returns model output activations for the provided input tensor."
+"forward.input" = "Input image tensor (CPU or CUDA-backed) to preprocess and feed into the model."
+parameters_t = { __description__ = "DNN model configuration values used to load the network and preprocess inputs.", model_path = "Path to the model weights file.", config_path = "Path to the model configuration/prototxt file when required by the backend.", input_width = "Model input width in pixels.", input_height = "Model input height in pixels.", scale_factor = "Scalar multiplier applied during blob preprocessing.", mean = "Per-channel mean values subtracted during input normalization.", swap_rb = "Swaps red/blue channels during preprocessing when true.", crop = "Crops the resized image during blob creation when true." }
 
 ["vision/types/camera_intrinsics"]
 __overview__ = "Camera intrinsic calibration values used by vision utilities for pixel back-projection and geometric measurements."
@@ -255,7 +277,6 @@ __constructor__ = "Creates a threaded object with identity metadata and initial 
 "__constructor__.tag" = "Unique component tag used for logging, diagnostics, and lifecycle identification."
 "__constructor__.update_rate" = "Requested update-loop frequency in Hz."
 update = "Performs one derived-class update iteration invoked by the internal thread loop."
-get_mutex = "Returns a reference to the synchronization mutex guarding shared threaded state."
 
 ["core/interfaces/i_object"]
 __overview__ = "Base interface for all ACS components, providing shared identity and lifecycle integration points."
@@ -282,6 +303,7 @@ bind = "Binds the pixel unpack buffer to `GL_PIXEL_UNPACK_BUFFER` for subsequent
 unbind = "Unbinds the current pixel unpack buffer from `GL_PIXEL_UNPACK_BUFFER`."
 free = "Releases the pixel unpack buffer and any associated OpenGL resources."
 "free.buffer_id" = "OpenGL buffer object ID of the PBO to release."
+"free.cuda_pbo_resource" = "CUDA graphics resource handle associated with the PBO to unregister and release."
 resize = "Reallocates the pixel unpack buffer for new dimensions and refreshes CUDA registration state."
 "resize.buffer_id" = "OpenGL buffer object ID of the PBO to resize."
 "resize.width" = "New target frame width in pixels."
