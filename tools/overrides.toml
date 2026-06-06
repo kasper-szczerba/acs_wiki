@@ -48,32 +48,23 @@ resolution_t = { __description__ = "Supported camera resolution presets.", vga =
 depth_mode_t = { __description__ = "Supported ZED depth presets.", none = "No depth estimation.", neural_light = "Lightweight neural depth.", neural = "Standard neural depth.", neural_plus = "Highest-quality neural depth." }
 parameters_t = { __description__ = "Camera configuration values used when opening and running the stream.", resolution = "Capture resolution preset.", depth_mode = "Depth processing preset.", device_fps = "Requested device frame rate.", enable_verbose_sdk_logging = "Enables verbose ZED SDK logging.", depth_minimum_distance = "Minimum accepted depth distance in meters.", depth_maximum_distance = "Maximum accepted depth distance in meters.", confidence_threshold = "Depth confidence cutoff.", texture_confidence_threshold = "Texture confidence cutoff." }
 
-["vision/implementations/floor_detector"]
-__overview__ = "Concrete `i_floor_detector` implementation that estimates the dominant floor plane from camera data and publishes plane geometry for obstacle reasoning."
-__constructor__ = "Creates a floor detector bound to a camera source and periodic update loop."
-"__constructor__.update_rate" = "Requested detection frequency in Hz for floor-plane estimation."
-"__constructor__.camera_ptr" = "Shared camera dependency that provides synchronized RGB/depth data used during floor extraction."
-update = "Processes the latest camera data to detect and cache floor-plane geometry and detection state."
-
 ["vision/implementations/obstacle_detector"]
-__overview__ = "Concrete `i_obstacle_detector` implementation that fuses camera data and floor-plane estimation to identify obstacles in the scene."
+__overview__ = "Concrete `i_obstacle_detector` implementation that analyzes camera data to identify obstacles in the scene and summarize zone occupancy outputs."
 __constructor__ = "Creates an obstacle detector that runs the obstacle extraction pipeline at a fixed update rate."
 "__constructor__.update_rate" = "Requested detection frequency in Hz for obstacle analysis."
 "__constructor__.parameters" = "Obstacle-detection configuration bundle (thresholds, filtering, and model-specific runtime settings)."
 "__constructor__.camera_ptr" = "Shared camera dependency that provides the live RGB/depth frames used for obstacle inference."
-"__constructor__.floor_detector_ptr" = "Shared floor-detector dependency used to mask floor regions and improve obstacle separation."
 update = "Runs one obstacle-detection cycle and updates cached detection outputs for consumers."
 parameters_t = { __description__ = "Obstacle detection settings used during scene processing.", obstacle_min_range = "Minimum obstacle range in meters.", obstacle_max_range = "Maximum obstacle range in meters.", obstacle_height_threshold = "Minimum height above the floor used to classify obstacles.", min_contour_area = "Minimum contour area kept as an obstacle candidate.", road_width = "Nominal road width in meters used by zoning and obstacle interpretation." }
 
 ["vision/implementations/traffic_light_detector"]
-__overview__ = "Concrete `i_traffic_light_detector` implementation that analyzes camera imagery with a DNN model and obstacle context to determine red-light state."
-__constructor__ = "Creates a traffic-light detector with update cadence, model configuration, and shared perception dependencies."
+__overview__ = "Concrete `i_traffic_light_detector` implementation that analyzes obstacle-region imagery with red-light scoring heuristics to determine the active signal state."
+__constructor__ = "Creates a traffic-light detector with update cadence, heuristic thresholds, and the shared obstacle-analysis dependency it consumes."
 "__constructor__.update_rate" = "Requested detection frequency in Hz for traffic-light inference."
-"__constructor__.parameters" = "Traffic-light detector configuration bundle (model settings and decision thresholds)."
-"__constructor__.camera" = "Shared camera dependency that provides live frames for traffic-light analysis."
+"__constructor__.parameters" = "Traffic-light detector configuration bundle (candidate-filtering thresholds and state-debouncing settings)."
 "__constructor__.obstacle_detector" = "Shared obstacle-detector dependency used for scene context and candidate filtering."
 update = "Runs one traffic-light detection cycle and updates cached red-light state."
-parameters_t = { __description__ = "Traffic-light detection settings used during model inference and state debouncing.", model_params = "DNN model configuration used to load and run traffic-light inference.", confidence_threshold = "Minimum detection confidence required to accept a traffic-light prediction.", red_light_class_id = "Model class ID interpreted as a red traffic light.", distance_threshold = "Maximum scene distance in meters considered for red-light candidates.", on_threshold = "Consecutive positive detections required to switch state to red-light active.", off_threshold = "Consecutive negative detections required to clear the red-light active state." }
+parameters_t = { __description__ = "Traffic-light detection settings used during candidate filtering, red-signal scoring, and state debouncing.", min_pixel_size = "Minimum candidate size in pixels required before a region is considered for traffic-light analysis.", circularity_threshold = "Minimum circularity score required for a candidate region to be treated as a plausible signal light.", core_brightness_threshold = "Minimum brightness required in the candidate core region before it is considered illuminated.", min_mean_red_activation = "Minimum mean red-channel activation required for a candidate to count as red.", min_red_blue_differential = "Minimum red-versus-blue activation gap required to classify a candidate as red.", on_threshold = "Consecutive positive detections required to switch state to red-light active.", off_threshold = "Consecutive negative detections required to clear the red-light active state." }
 
 ["gui/implementations/glfw_window"]
 __overview__ = "Concrete `i_glfw_window` implementation that owns the native GLFW window and applies window/runtime options from project configuration."
@@ -98,14 +89,20 @@ __constructor__ = "Creates a camera widget bound to a camera source and periodic
 update = "Refreshes cached camera-derived view state used by the widget renderer."
 on_render = "Draws camera imagery and related diagnostic overlays in the widget UI."
 
-["gui/implementations/widgets/obstacle_diagnostic_widget"]
-__overview__ = "Concrete `threaded_widget_host` implementation that visualizes obstacle-detection diagnostics, including union regions and zone-level occupancy results."
-__constructor__ = "Creates an obstacle diagnostic widget bound to camera and obstacle-detector dependencies with a periodic refresh loop."
+["gui/implementations/widgets/obstacle_debug_widget"]
+__overview__ = "Concrete `threaded_widget_host` implementation that visualizes obstacle-detection debug data, including union regions and zone-level occupancy results."
+__constructor__ = "Creates an obstacle debug widget bound to camera and obstacle-detector dependencies with a periodic refresh loop."
 "__constructor__.update_rate" = "Requested widget update frequency in Hz for refreshing obstacle diagnostics."
 "__constructor__.camera_ptr" = "Shared camera dependency that provides the latest imagery used by the diagnostic view."
 "__constructor__.obstacle_detector_ptr" = "Shared obstacle-detector dependency that provides zone and union-detection outputs."
 update = "Refreshes cached obstacle-analysis state used by the widget renderer."
 on_render = "Draws obstacle diagnostics, including zone overlays and union obstacle previews, in the widget UI."
+
+["gui/implementations/widgets/traffic_light_debug_widget"]
+__overview__ = "Concrete `widget_host` implementation that renders current traffic-light detection state and related debug indicators in the GUI."
+__constructor__ = "Creates a traffic-light debug widget bound to a traffic-light detector dependency."
+"__constructor__.traffic_light_detector" = "Shared traffic-light detector dependency that provides the latest inferred signal state for display."
+on_render = "Draws traffic-light detection state and related debug information in the widget UI."
 
 ["gui/implementations/widget_host"]
 __overview__ = "Base host implementation for `i_widget` that provides common widget state (title/open flag) and delegates widget-specific drawing to derived classes."
@@ -193,26 +190,18 @@ get_is_opened = "Returns whether the underlying camera stream is currently open 
 get_zed_camera_ref = "Returns a reference to the underlying ZED camera object for advanced operations."
 get_intrinsics = "Returns the active camera intrinsic calibration values used for geometric projection and back-projection."
 
-["vision/interfaces/i_floor_detector"]
-__overview__ = "Interface that defines floor-plane detection outputs derived from live camera input."
-get_detected_floor_plane = "Returns the latest detected floor plane object from the backend."
-get_plane_equation = "Returns the latest floor plane equation coefficients."
-get_is_floor_detected = "Returns whether a valid floor plane was detected in the latest update cycle."
-
 ["vision/interfaces/i_obstacle_detector"]
 __overview__ = "Interface that defines obstacle-detection outputs derived from camera and scene analysis pipelines."
-get_floor_detector_ptr = "Returns the floor-detector dependency used by the obstacle pipeline."
 get_obstacle_min_range = "Returns the minimum obstacle range threshold used for filtering detections."
 get_obstacle_max_range = "Returns the maximum obstacle range threshold used for filtering detections."
 get_obstacle_height_threshold = "Returns the height threshold used to classify points as obstacle candidates above the floor plane."
 get_road_width = "Returns the configured road-width estimate used by zone-based obstacle interpretation."
 get_union_box = "Returns the bounding box that encloses all currently detected obstacle regions."
-get_union_crop = "Returns the cropped image region corresponding to the current union obstacle bounding box."
+get_union_crop_buffer = "Returns the GPU-backed crop buffer corresponding to the current union obstacle region."
+get_left_crop_buffer = "Returns the GPU-backed crop buffer for the left obstacle-analysis region."
+get_center_crop_buffer = "Returns the GPU-backed crop buffer for the center obstacle-analysis region."
+get_right_crop_buffer = "Returns the GPU-backed crop buffer for the right obstacle-analysis region."
 get_zone_results = "Returns the latest per-zone obstacle-analysis results keyed by road zone."
-get_left_zone = "Returns the latest obstacle-analysis result for the left scene zone."
-get_center_zone = "Returns the latest obstacle-analysis result for the center scene zone."
-get_right_zone = "Returns the latest obstacle-analysis result for the right scene zone."
-get_horizon_y = "Returns the latest estimated horizon row (in image pixels) used by obstacle zoning."
 
 ["vision/interfaces/i_traffic_light_detector"]
 __overview__ = "Interface that defines traffic-light state outputs produced by a threaded perception pipeline."

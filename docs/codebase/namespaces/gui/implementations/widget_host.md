@@ -27,6 +27,7 @@ graph LR
 graph LR
     widget_host["widget_host"]
     widget_host["widget_host"] --> about_widget["about_widget"]
+    widget_host["widget_host"] --> traffic_light_debug_widget["traffic_light_debug_widget"]
 ```
 
 ## Inheritance Hierarchy
@@ -43,6 +44,7 @@ graph LR
 
 - [`widget_host`](widget_host.md)
   - [`about_widget`](widgets/about_widget.md)
+  - [`traffic_light_debug_widget`](widgets/traffic_light_debug_widget.md)
 
 ## API
 

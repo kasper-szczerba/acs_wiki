@@ -6,7 +6,7 @@
 
 ## Overview
 
-Concrete `i_obstacle_detector` implementation that fuses camera data and floor-plane estimation to identify obstacles in the scene.
+Concrete `i_obstacle_detector` implementation that analyzes camera data to identify obstacles in the scene and summarize zone occupancy outputs.
 
 ## Inheritance Diagram
 
@@ -44,10 +44,7 @@ graph LR
 #### Constructor
 
 ```cpp
-obstacle_detector(float update_rate,
-                  const parameters_t& parameters,
-                  std::shared_ptr<i_camera> camera_ptr,
-                  std::shared_ptr<i_floor_detector> floor_detector_ptr);
+obstacle_detector(float update_rate, const parameters_t& parameters, std::shared_ptr<i_camera> camera_ptr);
 ```
 Creates an obstacle detector that runs the obstacle extraction pipeline at a fixed update rate.
 
@@ -55,7 +52,6 @@ Creates an obstacle detector that runs the obstacle extraction pipeline at a fix
 - `update_rate` (`float`): Requested detection frequency in Hz for obstacle analysis.
 - `parameters` (`const parameters_t&`): Obstacle-detection configuration bundle (thresholds, filtering, and model-specific runtime settings).
 - `camera_ptr` (`std::shared_ptr<i_camera>`): Shared camera dependency that provides the live RGB/depth frames used for obstacle inference.
-- `floor_detector_ptr` (`std::shared_ptr<i_floor_detector>`): Shared floor-detector dependency used to mask floor regions and improve obstacle separation.
 
 ### Nested Types
 
@@ -83,13 +79,15 @@ Obstacle detection settings used during scene processing.
 
 #### Implementations
 - [`i_obstacle_detector`](../interfaces/i_obstacle_detector.md)
-    - [`get_floor_detector_ptr`](../interfaces/i_obstacle_detector.md#get-floor-detector-pointer)
     - [`get_obstacle_min_range`](../interfaces/i_obstacle_detector.md#get-obstacle-min-range)
     - [`get_obstacle_max_range`](../interfaces/i_obstacle_detector.md#get-obstacle-max-range)
     - [`get_obstacle_height_threshold`](../interfaces/i_obstacle_detector.md#get-obstacle-height-threshold)
     - [`get_road_width`](../interfaces/i_obstacle_detector.md#get-road-width)
     - [`get_union_box`](../interfaces/i_obstacle_detector.md#get-union-box)
-    - [`get_union_crop`](../interfaces/i_obstacle_detector.md#get-union-crop)
+    - [`get_union_crop_buffer`](../interfaces/i_obstacle_detector.md#get-union-crop-buffer)
+    - [`get_left_crop_buffer`](../interfaces/i_obstacle_detector.md#get-left-crop-buffer)
+    - [`get_center_crop_buffer`](../interfaces/i_obstacle_detector.md#get-center-crop-buffer)
+    - [`get_right_crop_buffer`](../interfaces/i_obstacle_detector.md#get-right-crop-buffer)
     - [`get_zone_results`](../interfaces/i_obstacle_detector.md#get-zone-results)
 
 ### Protected Methods

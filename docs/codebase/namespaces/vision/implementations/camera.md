@@ -98,11 +98,13 @@ struct parameters_t {
   resolution_t resolution;
   depth_mode_t depth_mode;
   int device_fps;
+  int exposure;
   bool enable_verbose_sdk_logging;
   float depth_minimum_distance;
   float depth_maximum_distance;
   int confidence_threshold;
   int texture_confidence_threshold;
+  float floor_detection_rate_hz;
 };
 ```
 Camera configuration values used when opening and running the stream.
@@ -110,11 +112,13 @@ Camera configuration values used when opening and running the stream.
 - `resolution` (`resolution_t`): Capture resolution preset.
 - `depth_mode` (`depth_mode_t`): Depth processing preset.
 - `device_fps` (`int`): Requested device frame rate.
+- `exposure` (`int`): The exposure.
 - `enable_verbose_sdk_logging` (`bool`): Enables verbose ZED SDK logging.
 - `depth_minimum_distance` (`float`): Minimum accepted depth distance in meters.
 - `depth_maximum_distance` (`float`): Maximum accepted depth distance in meters.
 - `confidence_threshold` (`int`): Depth confidence cutoff.
 - `texture_confidence_threshold` (`int`): Texture confidence cutoff.
+- `floor_detection_rate_hz` (`float`): The floor detection rate hz.
 
 ### Public Methods
 
@@ -128,6 +132,8 @@ Camera configuration values used when opening and running the stream.
     - [`get_is_opened`](../interfaces/i_camera.md#get-is-opened)
     - [`get_zed_camera_ref`](../interfaces/i_camera.md#get-zed-camera-reference)
     - [`get_intrinsics`](../interfaces/i_camera.md#get-intrinsics)
+    - [`get_floor_plane_equation`](../interfaces/i_camera.md#get-floor-plane-equation)
+    - [`get_is_floor_detected`](../interfaces/i_camera.md#get-is-floor-detected)
 
 ### Protected Methods
 #### Update

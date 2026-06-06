@@ -29,28 +29,26 @@ Computes the Euclidean magnitude of the plane normal `(a, b, c)`.
 
 ##### Parameters
 - `plane` (`const sl::float4&`): Plane equation coefficients `(a, b, c, d)` whose normal magnitude is needed.
-#### Back Project Pixel To 3d
+#### Back Project Pixel To 3 D
 
 ```cpp
-[[nodiscard]] static sl::float3 back_project_pixel_to_3d(int x, int y, float z, const camera_intrinsics& intrinsics);
+[[nodiscard]] static sl::float3 back_project_pixel_to_3_d(int x, int y, float z, const camera_intrinsics& intrinsics);
 ```
-Back-projects a depth pixel into 3D camera coordinates using camera intrinsics.
 
 ##### Parameters
-- `x` (`int`): Pixel x-coordinate in image space.
-- `y` (`int`): Pixel y-coordinate in image space.
-- `z` (`float`): Depth value at the pixel in camera depth units.
-- `intrinsics` (`const camera_intrinsics&`): Camera intrinsic parameters (`fx`, `fy`, `cx`, `cy`) used for back-projection.
-#### Project 3d To Pixel
+- `x` (`int`): The x.
+- `y` (`int`): The y.
+- `z` (`float`): The z.
+- `intrinsics` (`const camera_intrinsics&`): The intrinsics.
+#### Project 3 D To Pixel
 
 ```cpp
-[[nodiscard]] static cv::Point2f project_3d_to_pixel(const sl::float3& point, const camera_intrinsics& intrinsics);
+[[nodiscard]] static cv::Point2f project_3_d_to_pixel(const sl::float3& point, const camera_intrinsics& intrinsics);
 ```
-Projects a 3D camera-space point onto image coordinates using camera intrinsics.
 
 ##### Parameters
-- `point` (`const sl::float3&`): 3D point in camera coordinates to project into image space.
-- `intrinsics` (`const camera_intrinsics&`): Camera intrinsic parameters (`fx`, `fy`, `cx`, `cy`) used for projection.
+- `point` (`const sl::float3&`): The point.
+- `intrinsics` (`const camera_intrinsics&`): The intrinsics.
 #### Get Distance To Plane
 
 ```cpp

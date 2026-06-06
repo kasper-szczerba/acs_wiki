@@ -115,3 +115,21 @@ Returns the active camera intrinsic calibration values used for geometric projec
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
+#### Get Floor Plane Equation
+
+```cpp
+[[nodiscard]] virtual sl::float4 get_floor_plane_equation() = 0;
+```
+Returns the floor plane equation.
+
+!!! note
+    Pure virtual method, must be implemented by derived classes.
+#### Get Is Floor Detected
+
+```cpp
+[[nodiscard]] virtual bool get_is_floor_detected() = 0;
+```
+Returns whether a floor has been detected.
+
+!!! note
+    Pure virtual method, must be implemented by derived classes.

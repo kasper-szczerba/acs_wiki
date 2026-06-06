@@ -1,12 +1,12 @@
-# Obstacle Diagnostic Widget
+# Obstacle Debug Widget
 
-- **Class**: `obstacle_diagnostic_widget`
+- **Class**: `obstacle_debug_widget`
 - **Namespace**: `acs::gui`
-- **Include**: `#include "gui/implementations/widgets/obstacle_diagnostic_widget.h"`
+- **Include**: `#include "gui/implementations/widgets/obstacle_debug_widget.h"`
 
 ## Overview
 
-Concrete `threaded_widget_host` implementation that visualizes obstacle-detection diagnostics, including union regions and zone-level occupancy results.
+Concrete `threaded_widget_host` implementation that visualizes obstacle-detection debug data, including union regions and zone-level occupancy results.
 
 ## Inheritance Diagram
 
@@ -14,11 +14,11 @@ Concrete `threaded_widget_host` implementation that visualizes obstacle-detectio
 
 ```mermaid
 graph LR
-    obstacle_diagnostic_widget["obstacle_diagnostic_widget"]
+    obstacle_debug_widget["obstacle_debug_widget"]
     i_threaded_object["i_threaded_object"] --> i_object["i_object"]
     i_threaded_widget["i_threaded_widget"] --> i_threaded_object["i_threaded_object"]
     object["object"] --> i_object["i_object"]
-    obstacle_diagnostic_widget["obstacle_diagnostic_widget"] --> threaded_widget_host["threaded_widget_host"]
+    obstacle_debug_widget["obstacle_debug_widget"] --> threaded_widget_host["threaded_widget_host"]
     threaded_object["threaded_object"] --> i_threaded_object["i_threaded_object"]
     threaded_object["threaded_object"] --> object["object"]
     threaded_widget_host["threaded_widget_host"] --> i_threaded_widget["i_threaded_widget"]
@@ -29,7 +29,7 @@ graph LR
 
 ### Base Hierarchy
 
-- [`obstacle_diagnostic_widget`](obstacle_diagnostic_widget.md)
+- [`obstacle_debug_widget`](obstacle_debug_widget.md)
   - [`threaded_widget_host`](../threaded_widget_host.md)
     - [`i_threaded_widget`](../../interfaces/i_threaded_widget.md)
       - [`i_threaded_object`](../../../core/interfaces/i_threaded_object.md)
@@ -46,11 +46,11 @@ graph LR
 #### Constructor
 
 ```cpp
-obstacle_diagnostic_widget(float update_rate,
-                           std::shared_ptr<vision::i_camera> camera_ptr,
-                           std::shared_ptr<vision::i_obstacle_detector> obstacle_detector_ptr);
+obstacle_debug_widget(float update_rate,
+                      std::shared_ptr<vision::i_camera> camera_ptr,
+                      std::shared_ptr<vision::i_obstacle_detector> obstacle_detector_ptr);
 ```
-Creates an obstacle diagnostic widget bound to camera and obstacle-detector dependencies with a periodic refresh loop.
+Creates an obstacle debug widget bound to camera and obstacle-detector dependencies with a periodic refresh loop.
 
 ##### Parameters
 - `update_rate` (`float`): Requested widget update frequency in Hz for refreshing obstacle diagnostics.

@@ -43,15 +43,6 @@ graph LR
 ## API
 
 ### Public Methods
-#### Get Floor Detector Pointer
-
-```cpp
-[[nodiscard]] virtual std::shared_ptr<i_floor_detector> get_floor_detector_ptr() = 0;
-```
-Returns the floor-detector dependency used by the obstacle pipeline.
-
-!!! note
-    Pure virtual method, must be implemented by derived classes.
 #### Get Obstacle Min Range
 
 ```cpp
@@ -97,12 +88,39 @@ Returns the bounding box that encloses all currently detected obstacle regions.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
-#### Get Union Crop
+#### Get Union Crop Buffer
 
 ```cpp
-[[nodiscard]] virtual cv::cuda::GpuMat get_union_crop() = 0;
+[[nodiscard]] virtual cv::cuda::GpuMat get_union_crop_buffer() = 0;
 ```
-Returns the cropped image region corresponding to the current union obstacle bounding box.
+Returns the GPU-backed crop buffer corresponding to the current union obstacle region.
+
+!!! note
+    Pure virtual method, must be implemented by derived classes.
+#### Get Left Crop Buffer
+
+```cpp
+[[nodiscard]] virtual cv::cuda::GpuMat get_left_crop_buffer() = 0;
+```
+Returns the GPU-backed crop buffer for the left obstacle-analysis region.
+
+!!! note
+    Pure virtual method, must be implemented by derived classes.
+#### Get Center Crop Buffer
+
+```cpp
+[[nodiscard]] virtual cv::cuda::GpuMat get_center_crop_buffer() = 0;
+```
+Returns the GPU-backed crop buffer for the center obstacle-analysis region.
+
+!!! note
+    Pure virtual method, must be implemented by derived classes.
+#### Get Right Crop Buffer
+
+```cpp
+[[nodiscard]] virtual cv::cuda::GpuMat get_right_crop_buffer() = 0;
+```
+Returns the GPU-backed crop buffer for the right obstacle-analysis region.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
