@@ -60,22 +60,18 @@ Creates a traffic-light detector with update cadence, heuristic thresholds, and 
 
 ```cpp
 struct parameters_t {
-  float min_pixel_size;
-  float circularity_threshold;
-  float core_brightness_threshold;
-  float min_mean_red_activation;
-  float min_red_blue_differential;
+  int min_pixel_size;
+  int min_blown_core_pixels;
+  float max_aspect_ratio;
   int on_threshold;
   int off_threshold;
 };
 ```
 Traffic-light detection settings used during candidate filtering, red-signal scoring, and state debouncing.
 
-- `min_pixel_size` (`float`): Minimum candidate size in pixels required before a region is considered for traffic-light analysis.
-- `circularity_threshold` (`float`): Minimum circularity score required for a candidate region to be treated as a plausible signal light.
-- `core_brightness_threshold` (`float`): Minimum brightness required in the candidate core region before it is considered illuminated.
-- `min_mean_red_activation` (`float`): Minimum mean red-channel activation required for a candidate to count as red.
-- `min_red_blue_differential` (`float`): Minimum red-versus-blue activation gap required to classify a candidate as red.
+- `min_pixel_size` (`int`): Minimum candidate size in pixels required before a region is considered for traffic-light analysis.
+- `min_blown_core_pixels` (`int`): The min blown core pixels.
+- `max_aspect_ratio` (`float`): The max aspect ratio.
 - `on_threshold` (`int`): Consecutive positive detections required to switch state to red-light active.
 - `off_threshold` (`int`): Consecutive negative detections required to clear the red-light active state.
 

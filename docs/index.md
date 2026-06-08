@@ -36,12 +36,18 @@ The following libraries are managed via [vcpkg](https://vcpkg.io/) and resolved 
 ### Building
 
 ```bash
-cmake --build build
+cmake --preset=jetson-orin-release
+cmake --build --preset=jetson-orin-release
+cmake --install --preset=jetson-orin-release
 ```
 
 ### Running
 
-Once built, run the resulting binary from the `build` directory.
+After installation, the main executable can be run with:
+
+```bash
+./jetson-orin-release/install/bin/acs
+```
 
 ### Configuration
 

@@ -134,6 +134,8 @@ Camera configuration values used when opening and running the stream.
     - [`get_intrinsics`](../interfaces/i_camera.md#get-intrinsics)
     - [`get_floor_plane_equation`](../interfaces/i_camera.md#get-floor-plane-equation)
     - [`get_is_floor_detected`](../interfaces/i_camera.md#get-is-floor-detected)
+    - [`get_exposure`](../interfaces/i_camera.md#get-exposure)
+    - [`set_exposure`](../interfaces/i_camera.md#set-exposure)
 
 ### Protected Methods
 #### Update

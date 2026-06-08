@@ -133,3 +133,24 @@ Returns whether a floor has been detected.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
+#### Get Exposure
+
+```cpp
+[[nodiscard]] virtual int get_exposure() = 0;
+```
+Returns the exposure.
+
+!!! note
+    Pure virtual method, must be implemented by derived classes.
+#### Set Exposure
+
+```cpp
+virtual void set_exposure(int exposure) = 0;
+```
+Sets the exposure.
+
+##### Parameters
+- `exposure` (`int`): The exposure.
+
+!!! note
+    Pure virtual method, must be implemented by derived classes.

@@ -43,11 +43,12 @@ graph LR
 #### Constructor
 
 ```cpp
-explicit gps(const parameters_t& params);
+explicit gps(float update_rate, const parameters_t& params);
 ```
 Creates a GPS reader configured for a serial device and its communication settings.
 
 ##### Parameters
+- `update_rate` (`float`): The update rate.
 - `params` (`const parameters_t&`): GPS reader configuration bundle (serial port name and baud rate).
 
 ### Nested Types
@@ -58,13 +59,17 @@ Creates a GPS reader configured for a serial device and its communication settin
 ```cpp
 struct parameters_t {
   std::string port_name;
-  unsigned int baud_rate;
+  int baud_rate;
+  std::string source_epsg;
+  std::string target_epsg;
 };
 ```
 GPS reader configuration values used to open the receiver connection.
 
 - `port_name` (`std::string`): Serial port name used to reach the GPS receiver.
-- `baud_rate` (`unsigned int`): Serial baud rate used for GPS communication.
+- `baud_rate` (`int`): Serial baud rate used for GPS communication.
+- `source_epsg` (`std::string`): The source epsg.
+- `target_epsg` (`std::string`): The target epsg.
 
 ### Public Methods
 
