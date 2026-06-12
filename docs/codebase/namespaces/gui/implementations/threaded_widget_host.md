@@ -30,6 +30,7 @@ graph LR
 graph LR
     threaded_widget_host["threaded_widget_host"]
     threaded_widget_host["threaded_widget_host"] --> camera_widget["camera_widget"]
+    threaded_widget_host["threaded_widget_host"] --> gps_widget["gps_widget"]
     threaded_widget_host["threaded_widget_host"] --> obstacle_debug_widget["obstacle_debug_widget"]
 ```
 
@@ -51,6 +52,7 @@ graph LR
 
 - [`threaded_widget_host`](threaded_widget_host.md)
   - [`camera_widget`](widgets/camera_widget.md)
+  - [`gps_widget`](widgets/gps_widget.md)
   - [`obstacle_debug_widget`](widgets/obstacle_debug_widget.md)
 
 ## API

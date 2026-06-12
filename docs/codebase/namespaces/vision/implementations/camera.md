@@ -104,7 +104,6 @@ struct parameters_t {
   float depth_maximum_distance;
   int confidence_threshold;
   int texture_confidence_threshold;
-  float floor_detection_rate_hz;
 };
 ```
 Camera configuration values used when opening and running the stream.
@@ -118,7 +117,6 @@ Camera configuration values used when opening and running the stream.
 - `depth_maximum_distance` (`float`): Maximum accepted depth distance in meters.
 - `confidence_threshold` (`int`): Depth confidence cutoff.
 - `texture_confidence_threshold` (`int`): Texture confidence cutoff.
-- `floor_detection_rate_hz` (`float`): The floor detection rate hz.
 
 ### Public Methods
 
@@ -132,8 +130,6 @@ Camera configuration values used when opening and running the stream.
     - [`get_is_opened`](../interfaces/i_camera.md#get-is-opened)
     - [`get_zed_camera_ref`](../interfaces/i_camera.md#get-zed-camera-reference)
     - [`get_intrinsics`](../interfaces/i_camera.md#get-intrinsics)
-    - [`get_floor_plane_equation`](../interfaces/i_camera.md#get-floor-plane-equation)
-    - [`get_is_floor_detected`](../interfaces/i_camera.md#get-is-floor-detected)
     - [`get_exposure`](../interfaces/i_camera.md#get-exposure)
     - [`set_exposure`](../interfaces/i_camera.md#set-exposure)
 

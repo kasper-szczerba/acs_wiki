@@ -8,5 +8,4 @@ The `acs::opengl` namespace contains OpenGL-focused rendering objects and helper
 
 ### Implementations
 
-- [pixel_unpack_buffer](pixel_unpack_buffer.md)
-- [texture](texture.md)
+- [cuda_gl_texture](cuda_gl_texture.md)

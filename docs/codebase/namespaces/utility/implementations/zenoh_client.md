@@ -49,9 +49,12 @@ Creates a Zenoh client with the specified remote endpoint address and port.
 
 #### Implementations
 - [`i_zenoh_client`](../interfaces/i_zenoh_client.md)
+    - [`disconnect`](../interfaces/i_zenoh_client.md#disconnect)
     - [`get_address`](../interfaces/i_zenoh_client.md#get-address)
     - [`set_address`](../interfaces/i_zenoh_client.md#set-address)
     - [`get_port`](../interfaces/i_zenoh_client.md#get-port)
     - [`set_port`](../interfaces/i_zenoh_client.md#set-port)
     - [`get_session_ptr`](../interfaces/i_zenoh_client.md#get-session-pointer)
     - [`get_config_ptr`](../interfaces/i_zenoh_client.md#get-config-pointer)
+    - [`put`](../interfaces/i_zenoh_client.md#put)
+    - [`convert_to_zenoh_bytes`](../interfaces/i_zenoh_client.md#convert-to-zenoh-bytes)

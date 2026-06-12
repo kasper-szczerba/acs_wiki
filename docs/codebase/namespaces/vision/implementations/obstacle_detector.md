@@ -44,7 +44,10 @@ graph LR
 #### Constructor
 
 ```cpp
-obstacle_detector(float update_rate, const parameters_t& parameters, std::shared_ptr<i_camera> camera_ptr);
+obstacle_detector(float update_rate,
+                  const parameters_t& parameters,
+                  std::shared_ptr<i_camera> camera_ptr,
+                  std::shared_ptr<i_floor_detector> floor_detector_ptr);
 ```
 Creates an obstacle detector that runs the obstacle extraction pipeline at a fixed update rate.
 
@@ -52,6 +55,7 @@ Creates an obstacle detector that runs the obstacle extraction pipeline at a fix
 - `update_rate` (`float`): Requested detection frequency in Hz for obstacle analysis.
 - `parameters` (`const parameters_t&`): Obstacle-detection configuration bundle (thresholds, filtering, and model-specific runtime settings).
 - `camera_ptr` (`std::shared_ptr<i_camera>`): Shared camera dependency that provides the live RGB/depth frames used for obstacle inference.
+- `floor_detector_ptr` (`std::shared_ptr<i_floor_detector>`): Shared pointer to the floor detector.
 
 ### Nested Types
 

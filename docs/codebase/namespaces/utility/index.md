@@ -9,12 +9,14 @@ The `acs::utility` namespace contains utility objects and interfaces for shared 
 ### Interfaces
 
 - [i_gps](interfaces/i_gps.md)
+- [i_gps_helper](interfaces/i_gps_helper.md)
 - [i_toml_reader](interfaces/i_toml_reader.md)
 - [i_zenoh_client](interfaces/i_zenoh_client.md)
 
 ### Implementations
 
 - [gps](implementations/gps.md)
+- [gps_helper](implementations/gps_helper.md)
 - [toml_reader](implementations/toml_reader.md)
 - [zenoh_client](implementations/zenoh_client.md)
 
@@ -25,18 +27,22 @@ graph LR
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_implementations_object["object"]
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_implementations_threaded_object["threaded_object"]
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_interfaces_i_object["i_object"]
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_interfaces_i_threaded_object["i_threaded_object"]
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_utility_implementations_gps["gps"]
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_utility_implementations_gps_helper["gps_helper"]
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_utility_implementations_toml_reader["toml_reader"]
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_utility_implementations_zenoh_client["zenoh_client"]
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_utility_interfaces_i_gps["i_gps"]
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_utility_interfaces_i_gps_helper["i_gps_helper"]
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_utility_interfaces_i_toml_reader["i_toml_reader"]
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_utility_interfaces_i_zenoh_client["i_zenoh_client"]
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_implementations_object --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_utility_implementations_toml_reader
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_implementations_object --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_utility_implementations_zenoh_client
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_implementations_threaded_object --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_utility_implementations_gps
-    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_interfaces_i_object --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_utility_interfaces_i_gps
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_interfaces_i_object --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_utility_interfaces_i_gps_helper
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_interfaces_i_object --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_utility_interfaces_i_toml_reader
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_interfaces_i_object --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_utility_interfaces_i_zenoh_client
+    C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_core_interfaces_i_threaded_object --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_utility_interfaces_i_gps
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_utility_interfaces_i_gps --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_utility_implementations_gps
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_utility_interfaces_i_toml_reader --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_utility_implementations_toml_reader
     C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_utility_interfaces_i_zenoh_client --> C__DEV_vs_projects_acs_wiki_docs_codebase_namespaces_utility_implementations_zenoh_client

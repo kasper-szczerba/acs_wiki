@@ -115,30 +115,12 @@ Returns the active camera intrinsic calibration values used for geometric projec
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
-#### Get Floor Plane Equation
-
-```cpp
-[[nodiscard]] virtual sl::float4 get_floor_plane_equation() = 0;
-```
-Returns the floor plane equation.
-
-!!! note
-    Pure virtual method, must be implemented by derived classes.
-#### Get Is Floor Detected
-
-```cpp
-[[nodiscard]] virtual bool get_is_floor_detected() = 0;
-```
-Returns whether a floor has been detected.
-
-!!! note
-    Pure virtual method, must be implemented by derived classes.
 #### Get Exposure
 
 ```cpp
 [[nodiscard]] virtual int get_exposure() = 0;
 ```
-Returns the exposure.
+Returns the active camera exposure setting.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
@@ -147,10 +129,10 @@ Returns the exposure.
 ```cpp
 virtual void set_exposure(int exposure) = 0;
 ```
-Sets the exposure.
+Updates the camera exposure setting used by the capture backend.
 
 ##### Parameters
-- `exposure` (`int`): The exposure.
+- `exposure` (`int`): Exposure value to apply to the camera backend.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.

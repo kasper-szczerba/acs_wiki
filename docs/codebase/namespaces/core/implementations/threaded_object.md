@@ -27,11 +27,13 @@ graph LR
 graph LR
     threaded_object["threaded_object"]
     threaded_object["threaded_object"] --> camera["camera"]
+    threaded_object["threaded_object"] --> floor_detector["floor_detector"]
     threaded_object["threaded_object"] --> gps["gps"]
     threaded_object["threaded_object"] --> obstacle_detector["obstacle_detector"]
     threaded_object["threaded_object"] --> threaded_widget_host["threaded_widget_host"]
     threaded_object["threaded_object"] --> traffic_light_detector["traffic_light_detector"]
     threaded_widget_host["threaded_widget_host"] --> camera_widget["camera_widget"]
+    threaded_widget_host["threaded_widget_host"] --> gps_widget["gps_widget"]
     threaded_widget_host["threaded_widget_host"] --> obstacle_debug_widget["obstacle_debug_widget"]
 ```
 
@@ -49,10 +51,12 @@ graph LR
 
 - [`threaded_object`](threaded_object.md)
   - [`camera`](../../vision/implementations/camera.md)
+  - [`floor_detector`](../../vision/implementations/floor_detector.md)
   - [`gps`](../../utility/implementations/gps.md)
   - [`obstacle_detector`](../../vision/implementations/obstacle_detector.md)
   - [`threaded_widget_host`](../../gui/implementations/threaded_widget_host.md)
     - [`camera_widget`](../../gui/implementations/widgets/camera_widget.md)
+    - [`gps_widget`](../../gui/implementations/widgets/gps_widget.md)
     - [`obstacle_debug_widget`](../../gui/implementations/widgets/obstacle_debug_widget.md)
   - [`traffic_light_detector`](../../vision/implementations/traffic_light_detector.md)
 
@@ -90,3 +94,9 @@ Performs one derived-class update iteration invoked by the internal thread loop.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
+#### Get Mutex
+
+```cpp
+[[nodiscard]] std::mutex& get_mutex() const;
+```
+Returns the internal synchronization mutex used to guard shared state in derived threaded components.

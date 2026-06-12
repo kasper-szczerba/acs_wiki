@@ -27,6 +27,7 @@ graph LR
 graph LR
     widget_host["widget_host"]
     widget_host["widget_host"] --> about_widget["about_widget"]
+    widget_host["widget_host"] --> state_machine_debug_widget["state_machine_debug_widget"]
     widget_host["widget_host"] --> traffic_light_debug_widget["traffic_light_debug_widget"]
 ```
 
@@ -44,6 +45,7 @@ graph LR
 
 - [`widget_host`](widget_host.md)
   - [`about_widget`](widgets/about_widget.md)
+  - [`state_machine_debug_widget`](widgets/state_machine_debug_widget.md)
   - [`traffic_light_debug_widget`](widgets/traffic_light_debug_widget.md)
 
 ## API

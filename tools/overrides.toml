@@ -24,6 +24,7 @@
 [__namespaces__]
 core = "The `acs::core` namespace defines the base object model for ACS. It provides `i_object` for shared identity (a debug-facing tag/name) and `i_threaded_object` for managed periodic execution in derived objects."
 gui = "The `acs::gui` namespace contains GUI objects and interfaces used to host windows, register widgets, and render runtime visualization views."
+logic = "The `acs::logic` namespace contains navigation and behavior coordination components that consume perception and GPS inputs to produce steering and runtime state decisions."
 opengl = "The `acs::opengl` namespace contains OpenGL-focused rendering objects and helpers used by the visualization stack."
 utility = "The `acs::utility` namespace contains utility objects and interfaces for shared services such as configuration parsing and Zenoh connectivity."
 vision = "The `acs::vision` namespace contains perception objects and interfaces for camera access, floor estimation, obstacle detection, and traffic-light state inference using ZED stereo data."
@@ -95,8 +96,24 @@ __constructor__ = "Creates an obstacle debug widget bound to camera and obstacle
 "__constructor__.update_rate" = "Requested widget update frequency in Hz for refreshing obstacle diagnostics."
 "__constructor__.camera_ptr" = "Shared camera dependency that provides the latest imagery used by the diagnostic view."
 "__constructor__.obstacle_detector_ptr" = "Shared obstacle-detector dependency that provides zone and union-detection outputs."
+"__constructor__.floor_detector_ptr" = "Shared floor-detector dependency that provides the latest estimated floor plane for obstacle-context visualization."
 update = "Refreshes cached obstacle-analysis state used by the widget renderer."
 on_render = "Draws obstacle diagnostics, including zone overlays and union obstacle previews, in the widget UI."
+
+["gui/implementations/widgets/gps_widget"]
+__overview__ = "Concrete `threaded_widget_host` implementation that visualizes live GPS position, heading, and navigation preview state from runtime services."
+__constructor__ = "Creates a GPS widget bound to GPS and state-machine dependencies with a periodic refresh loop."
+"__constructor__.update_rate" = "Requested widget update frequency in Hz for refreshing GPS and navigation preview data."
+"__constructor__.gps" = "Shared GPS dependency that provides the latest parsed position and heading inputs."
+"__constructor__.state_machine" = "Shared state-machine dependency that provides navigation preview values rendered by the widget."
+update = "Refreshes cached GPS and navigation preview state used by the widget renderer."
+on_render = "Draws GPS and navigation preview diagnostics in the widget UI."
+
+["gui/implementations/widgets/state_machine_debug_widget"]
+__overview__ = "Concrete `widget_host` implementation that renders current runtime behavior state and navigation debug details from the state machine."
+__constructor__ = "Creates a state-machine debug widget bound to a state-machine dependency."
+"__constructor__.state_machine_ptr" = "Shared state-machine dependency that provides the latest state and navigation preview values for display."
+on_render = "Draws state-machine status and related debug details in the widget UI."
 
 ["gui/implementations/widgets/traffic_light_debug_widget"]
 __overview__ = "Concrete `widget_host` implementation that renders current traffic-light detection state and related debug indicators in the GUI."
@@ -127,8 +144,31 @@ __constructor__ = "Creates a TOML reader initialized with an initial configurati
 ["utility/implementations/gps"]
 __overview__ = "Concrete `i_gps` implementation that reads NMEA and UBX input from a serial GPS receiver, converts positions for downstream consumers, and exposes the latest parsed fix."
 __constructor__ = "Creates a GPS reader configured for a serial device and its communication settings."
+"__constructor__.update_rate" = "Requested update-loop frequency in Hz for serial polling and parser updates."
 "__constructor__.params" = "GPS reader configuration bundle (serial port name and baud rate)."
-parameters_t = { __description__ = "GPS reader configuration values used to open the receiver connection.", port_name = "Serial port name used to reach the GPS receiver.", baud_rate = "Serial baud rate used for GPS communication." }
+parameters_t = { __description__ = "GPS reader configuration values used to open the receiver connection and coordinate-frame conversion.", port_name = "Serial port name used to reach the GPS receiver.", baud_rate = "Serial baud rate used for GPS communication.", source_epsg = "Source CRS/EPSG code used for incoming latitude/longitude interpretation.", target_epsg = "Target CRS/EPSG code used for converted UTM/projected coordinates." }
+
+["utility/implementations/gps_helper"]
+__overview__ = "Concrete `i_gps_helper` implementation that provides reusable geometry and pure-pursuit helper functions for trajectory processing and steering command conversion."
+average_heading = "Computes a representative heading angle from a sequence of 2D trajectory points."
+"average_heading.points" = "Ordered 2D points used to estimate the aggregate heading direction."
+pp_angle_to_servo = "Maps a steering angle in degrees to a bounded servo command range using configured mechanical limits."
+"pp_angle_to_servo.degree" = "Steering angle in degrees to convert to a servo command."
+"pp_angle_to_servo.min_deg" = "Minimum steering angle supported by the conversion mapping."
+"pp_angle_to_servo.max_deg" = "Maximum steering angle supported by the conversion mapping."
+"pp_angle_to_servo.min_cmd" = "Servo command value corresponding to the minimum steering angle."
+"pp_angle_to_servo.max_cmd" = "Servo command value corresponding to the maximum steering angle."
+distance_between_points = "Computes Euclidean distance between two 2D points."
+"distance_between_points.p1" = "First 2D point."
+"distance_between_points.p2" = "Second 2D point."
+get_closest_and_lookahead_points = "Finds the closest trajectory point to the current position and a forward lookahead target point."
+"get_closest_and_lookahead_points.trajectory" = "Reference trajectory points used for nearest/forward target selection."
+"get_closest_and_lookahead_points.current_position" = "Current vehicle position in the same coordinate frame as the trajectory."
+"get_closest_and_lookahead_points.lookahead_distance" = "Desired forward distance used when selecting the lookahead point."
+offset_track = "Builds a laterally offset copy of a reference track relative to a heading direction."
+"offset_track.ref_pts" = "Reference track points to offset."
+"offset_track.offset_metres" = "Signed lateral offset distance in meters."
+"offset_track.heading_rad" = "Reference heading angle in radians used to orient the lateral offset."
 
 ["utility/implementations/zenoh_client"]
 __overview__ = "Concrete `i_zenoh_client` implementation that manages Zenoh endpoint settings and associated session/config handles."
@@ -162,14 +202,32 @@ get_latest_point = "Returns the most recently parsed GPS point."
 convert_to_utm = "Converts the provided latitude and longitude to UTM coordinates."
 "convert_to_utm.lat" = "Latitude in decimal degrees."
 "convert_to_utm.lon" = "Longitude in decimal degrees."
-load_reference_points = "Loads a list of reference GPS points from a file."
-"load_reference_points.file_path" = "Path to the reference-point file to load."
-read_point = "Reads a single GPS point by index from a file."
-"read_point.index" = "Zero-based point index to read."
-"read_point.file_path" = "Path to the GPS point file to read from."
+
+["utility/interfaces/i_gps_helper"]
+__overview__ = "Interface for reusable GPS/trajectory helper math used by navigation and steering components."
+average_heading = "Computes a representative heading angle from a sequence of 2D trajectory points."
+"average_heading.points" = "Ordered 2D points used to estimate the aggregate heading direction."
+pp_angle_to_servo = "Maps a steering angle in degrees to a bounded servo command range using configured limits."
+"pp_angle_to_servo.degree" = "Steering angle in degrees to convert to a servo command."
+"pp_angle_to_servo.min_deg" = "Minimum steering angle supported by the conversion mapping."
+"pp_angle_to_servo.max_deg" = "Maximum steering angle supported by the conversion mapping."
+"pp_angle_to_servo.min_cmd" = "Servo command value corresponding to the minimum steering angle."
+"pp_angle_to_servo.max_cmd" = "Servo command value corresponding to the maximum steering angle."
+distance_between_points = "Computes Euclidean distance between two 2D points."
+"distance_between_points.p1" = "First 2D point."
+"distance_between_points.p2" = "Second 2D point."
+get_closest_and_lookahead_points = "Finds the closest trajectory point and a forward lookahead target point for pure-pursuit logic."
+"get_closest_and_lookahead_points.trajectory" = "Reference trajectory points used for nearest/forward target selection."
+"get_closest_and_lookahead_points.current_position" = "Current vehicle position in the same coordinate frame as the trajectory."
+"get_closest_and_lookahead_points.lookahead_distance" = "Desired forward distance used when selecting the lookahead point."
+offset_track = "Builds a laterally offset copy of a reference track relative to a heading direction."
+"offset_track.ref_pts" = "Reference track points to offset."
+"offset_track.offset_metres" = "Signed lateral offset distance in meters."
+"offset_track.heading_rad" = "Reference heading angle in radians used to orient the lateral offset."
 
 ["utility/interfaces/i_zenoh_client"]
 __overview__ = "Interface for configuring Zenoh connection endpoints and exposing session/config handles."
+disconnect = "Closes any active Zenoh session and releases related transport resources."
 get_address = "Returns the configured remote Zenoh endpoint address."
 set_address = "Updates the remote Zenoh endpoint address used for session setup."
 "set_address.address" = "Remote Zenoh endpoint address (hostname or IP)."
@@ -178,6 +236,11 @@ set_port = "Updates the remote Zenoh endpoint port used for session setup."
 "set_port.port" = "Remote Zenoh endpoint port number."
 get_session_ptr = "Returns a pointer to the active Zenoh session object, if initialized."
 get_config_ptr = "Returns a pointer to the active Zenoh configuration object, if initialized."
+put = "Publishes a value to the specified Zenoh key expression/topic."
+"put.key" = "Zenoh key expression/topic to publish to."
+"put.value" = "Type-erased payload value to serialize and publish."
+convert_to_zenoh_bytes = "Converts a type-erased payload into a Zenoh byte buffer suitable for publishing."
+"convert_to_zenoh_bytes.value" = "Type-erased payload value to serialize into `zenoh::Bytes`."
 
 ["vision/interfaces/i_camera"]
 __overview__ = "Interface that defines camera stream access for RGB/depth frames, camera metadata, and runtime health metrics."
@@ -189,6 +252,22 @@ get_dropped_frames_count = "Returns the number of frames dropped by the capture 
 get_is_opened = "Returns whether the underlying camera stream is currently open and usable."
 get_zed_camera_ref = "Returns a reference to the underlying ZED camera object for advanced operations."
 get_intrinsics = "Returns the active camera intrinsic calibration values used for geometric projection and back-projection."
+get_exposure = "Returns the active camera exposure setting."
+set_exposure = "Updates the camera exposure setting used by the capture backend."
+"set_exposure.exposure" = "Exposure value to apply to the camera backend."
+
+["vision/interfaces/i_floor_detector"]
+__overview__ = "Interface that defines floor-plane detection outputs produced by the threaded floor-estimation pipeline."
+get_detected_floor_plane = "Returns the latest detected floor plane object reported by the backend."
+get_floor_plane_equation = "Returns the latest floor plane equation coefficients `(a, b, c, d)`."
+get_is_floor_detected = "Returns whether floor detection has successfully produced a valid plane estimate."
+
+["vision/implementations/floor_detector"]
+__overview__ = "Concrete `i_floor_detector` implementation that estimates the floor plane from camera depth/stereo inputs and exposes cached floor geometry outputs."
+__constructor__ = "Creates a floor detector with update cadence and a shared camera dependency for depth/stereo input."
+"__constructor__.update_rate" = "Requested floor-detection frequency in Hz."
+"__constructor__.camera_ptr" = "Shared camera dependency that provides the latest image/depth data used for floor estimation."
+update = "Runs one floor-detection cycle and updates cached plane outputs."
 
 ["vision/interfaces/i_obstacle_detector"]
 __overview__ = "Interface that defines obstacle-detection outputs derived from camera and scene analysis pipelines."
@@ -266,6 +345,70 @@ __constructor__ = "Creates a threaded object with identity metadata and initial 
 "__constructor__.tag" = "Unique component tag used for logging, diagnostics, and lifecycle identification."
 "__constructor__.update_rate" = "Requested update-loop frequency in Hz."
 update = "Performs one derived-class update iteration invoked by the internal thread loop."
+get_mutex = "Returns the internal synchronization mutex used to guard shared state in derived threaded components."
+
+["logic/navigation_manager"]
+__overview__ = "Navigation manager that consumes GPS/state data, tracks route geometry, and produces steering preview/command outputs for higher-level control logic."
+__constructor__ = "Creates a navigation manager with GPS dependency and route/steering parameters."
+"__constructor__.gps_ptr" = "Shared GPS dependency that provides current position/heading inputs."
+"__constructor__.parameters" = "Navigation configuration bundle including track source and pure-pursuit tuning values."
+compute_steering_command = "Computes a steering command from the current position using configured route-following logic."
+"compute_steering_command.current_position" = "Current vehicle position in map/projected coordinates."
+get_preview = "Returns the latest navigation preview snapshot including selected points and steering diagnostics."
+has_track = "Returns whether a valid reference track is currently loaded."
+reset_history = "Clears cached navigation history and intermediate preview state."
+track_object_kind = { __description__ = "Classifies semantic objects associated with a route track.", stop_sign = "Stop-sign marker.", crosswalk = "Crosswalk marker.", traffic_light = "Traffic-light marker.", unknown = "Unknown or unclassified marker." }
+track_object_t = { __description__ = "Track-annotated object metadata used for route context.", id = "Stable object identifier.", kind = "Semantic object kind.", type_name = "Source-provided object type label.", section = "Route section label associated with the object.", position = "Object position in map/projected coordinates." }
+parameters_t = { __description__ = "Navigation configuration values for route following and steering preview.", track_file = "Path to the route/track file to load.", lookahead_distance = "Forward lookahead distance in meters used by steering logic.", wheelbase = "Vehicle wheelbase in meters used for curvature-to-angle conversion.", steering_gain = "Gain applied to steering response." }
+preview_t = { __description__ = "Navigation preview snapshot used by debug/visualization components.", has_track = "Indicates whether a valid reference track is loaded.", has_steering_solution = "Indicates whether a valid steering solution was computed.", current_position = "Current vehicle position in map/projected coordinates.", closest_point = "Nearest point on the reference track.", lookahead_point = "Selected lookahead target point on the reference track.", heading_rad = "Current heading angle in radians.", steering_angle_deg = "Computed steering angle in degrees.", cross_track_error_m = "Lateral cross-track error in meters.", steering_command = "Computed actuator steering command.", reference_track = "Reference track points used by navigation logic.", track_objects = "Track-associated semantic objects used for context." }
+
+["logic/state_machine"]
+__overview__ = "Runtime behavior state machine that coordinates driving decisions using navigation preview, obstacle context, and traffic-light detection inputs."
+__constructor__ = "Creates a state machine with GPS, Zenoh, obstacle, and traffic-light dependencies plus runtime parameters."
+"__constructor__.gps_ptr" = "Shared GPS dependency that provides current position/heading inputs."
+"__constructor__.zenoh_client_ptr" = "Shared Zenoh client used to publish control outputs."
+"__constructor__.obstacle_detector_ptr" = "Shared obstacle-detector dependency used for obstacle context."
+"__constructor__.traffic_light_detector_ptr" = "Shared traffic-light detector dependency used for signal-state decisions."
+"__constructor__.parameters" = "State-machine configuration bundle containing route, control-topic, and steering parameters."
+update = "Runs one state-machine update cycle, evaluating inputs and publishing current control outputs."
+set_state = "Forces the state machine into the specified behavior state."
+"set_state.state" = "Target behavior state to apply."
+get_state = "Returns the current behavior state."
+get_navigation_preview = "Returns the latest navigation preview produced by the underlying navigation manager."
+states_e = { __description__ = "Behavior states used by the runtime control loop.", driving = "Normal driving state.", stopped_at_red_light = "Stopped state enforced by red-light detection." }
+parameters_t = { __description__ = "State-machine configuration values for route following and control publishing.", track_file = "Path to the route/track file to load.", motor_speed_zenoh_topic = "Zenoh key expression/topic used to publish motor speed commands.", steering_angle_zenoh_topic = "Zenoh key expression/topic used to publish steering commands.", default_motor_speed = "Default motor speed command used while driving.", lookahead_dist = "Forward lookahead distance in meters used by steering logic.", steering_gain = "Gain applied to steering response.", wheelbase = "Vehicle wheelbase in meters used for steering geometry." }
+
+["logic/steering_handler"]
+__overview__ = "Steering computation helper that applies pure-pursuit geometry and command-range mapping to produce steering outputs from track data."
+__constructor__ = "Creates a steering handler with vehicle geometry and steering-command range parameters."
+"__constructor__.parameters" = "Steering-handler configuration bundle used for pure-pursuit and actuator mapping."
+compute_pure_pursuit = "Computes pure-pursuit steering outputs for the current position and heading against a reference track."
+"compute_pure_pursuit.current_position" = "Current vehicle position in map/projected coordinates."
+"compute_pure_pursuit.heading_rad" = "Current vehicle heading in radians."
+"compute_pure_pursuit.reference_track" = "Reference trajectory points to follow."
+"compute_pure_pursuit.lookahead_distance_m" = "Forward lookahead distance in meters used to select the target point."
+parameters_t = { __description__ = "Steering-handler configuration values.", wheelbase = "Vehicle wheelbase in meters used for steering geometry.", steering_gain = "Gain applied to steering response.", min_steering_deg = "Minimum steering angle in degrees.", max_steering_deg = "Maximum steering angle in degrees.", min_steering_cmd = "Minimum actuator steering command value.", max_steering_cmd = "Maximum actuator steering command value." }
+result_t = { __description__ = "Pure-pursuit computation output values.", valid = "Indicates whether a valid steering solution was computed.", steering_command = "Computed actuator steering command.", steering_angle_deg = "Computed steering angle in degrees.", cross_track_error_m = "Lateral cross-track error in meters.", closest_point = "Nearest point on the reference track.", lookahead_point = "Selected lookahead target point on the reference track." }
+
+["opengl/cuda_gl_texture"]
+__overview__ = "CUDA/OpenGL interop texture helper that owns a texture/PBO pair and provides efficient host/device update paths for rendering workflows."
+__constructor__ = "Creates a CUDA-GL texture resource with initial dimensions and associated interop buffers."
+"__constructor__.width" = "Initial texture width in pixels."
+"__constructor__.height" = "Initial texture height in pixels."
+resize = "Resizes the underlying texture/PBO resources to new dimensions."
+"resize.width" = "New texture width in pixels."
+"resize.height" = "New texture height in pixels."
+update_from_device = "Uploads pixel data from device memory into the OpenGL texture through the CUDA-interoperable PBO path."
+"update_from_device.device_data" = "Pointer to source pixel data in device (GPU) memory."
+"update_from_device.src_pitch" = "Source row stride in bytes for the device image buffer."
+update_from_host = "Uploads pixel data from host memory directly into the texture resource."
+"update_from_host.host_data" = "Pointer to source pixel data in host (CPU) memory."
+get_texture_id = "Returns the OpenGL texture object ID."
+get_pbo_id = "Returns the OpenGL pixel-buffer object (PBO) ID used for interop transfers."
+get_width = "Returns the current texture width in pixels."
+get_height = "Returns the current texture height in pixels."
+bind_texture = "Binds the texture on the current OpenGL context for subsequent operations."
+unbind_texture = "Unbinds the texture from the current OpenGL context."
 
 ["core/interfaces/i_object"]
 __overview__ = "Base interface for all ACS components, providing shared identity and lifecycle integration points."

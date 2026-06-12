@@ -15,7 +15,8 @@ Interface for reading GPS receiver data, parsing supported message formats, and 
 ```mermaid
 graph LR
     i_gps["i_gps"]
-    i_gps["i_gps"] --> i_object["i_object"]
+    i_gps["i_gps"] --> i_threaded_object["i_threaded_object"]
+    i_threaded_object["i_threaded_object"] --> i_object["i_object"]
 ```
 
 ### Derived Diagram
@@ -31,7 +32,8 @@ graph LR
 ### Base Hierarchy
 
 - [`i_gps`](i_gps.md)
-  - [`i_object`](../../core/interfaces/i_object.md)
+  - [`i_threaded_object`](../../core/interfaces/i_threaded_object.md)
+    - [`i_object`](../../core/interfaces/i_object.md)
 
 ### Derived Hierarchy
 
@@ -68,7 +70,7 @@ Parses a UBX binary frame from the GPS receiver stream.
 #### Get Latest Point
 
 ```cpp
-[[nodiscard]] virtual gps_point get_latest_point() const = 0;
+[[nodiscard]] virtual gps_point get_latest_point() = 0;
 ```
 Returns the most recently parsed GPS point.
 
@@ -84,31 +86,6 @@ Converts the provided latitude and longitude to UTM coordinates.
 ##### Parameters
 - `lat` (`double`): Latitude in decimal degrees.
 - `lon` (`double`): Longitude in decimal degrees.
-
-!!! note
-    Pure virtual method, must be implemented by derived classes.
-#### Load Reference Points
-
-```cpp
-[[nodiscard]] virtual std::vector<gps_point> load_reference_points(std::string_view file_path) const = 0;
-```
-Loads a list of reference GPS points from a file.
-
-##### Parameters
-- `file_path` (`std::string_view`): Path to the reference-point file to load.
-
-!!! note
-    Pure virtual method, must be implemented by derived classes.
-#### Read Point
-
-```cpp
-[[nodiscard]] virtual gps_point read_point(int index, std::string_view file_path) const = 0;
-```
-Reads a single GPS point by index from a file.
-
-##### Parameters
-- `index` (`int`): Zero-based point index to read.
-- `file_path` (`std::string_view`): Path to the GPS point file to read from.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.

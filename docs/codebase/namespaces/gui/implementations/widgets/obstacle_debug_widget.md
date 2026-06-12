@@ -48,7 +48,8 @@ graph LR
 ```cpp
 obstacle_debug_widget(float update_rate,
                       std::shared_ptr<vision::i_camera> camera_ptr,
-                      std::shared_ptr<vision::i_obstacle_detector> obstacle_detector_ptr);
+                      std::shared_ptr<vision::i_obstacle_detector> obstacle_detector_ptr,
+                      std::shared_ptr<vision::i_floor_detector> floor_detector_ptr);
 ```
 Creates an obstacle debug widget bound to camera and obstacle-detector dependencies with a periodic refresh loop.
 
@@ -56,6 +57,7 @@ Creates an obstacle debug widget bound to camera and obstacle-detector dependenc
 - `update_rate` (`float`): Requested widget update frequency in Hz for refreshing obstacle diagnostics.
 - `camera_ptr` (`std::shared_ptr<vision::i_camera>`): Shared camera dependency that provides the latest imagery used by the diagnostic view.
 - `obstacle_detector_ptr` (`std::shared_ptr<vision::i_obstacle_detector>`): Shared obstacle-detector dependency that provides zone and union-detection outputs.
+- `floor_detector_ptr` (`std::shared_ptr<vision::i_floor_detector>`): Shared floor-detector dependency that provides the latest estimated floor plane for obstacle-context visualization.
 
 ### Protected Methods
 #### Update

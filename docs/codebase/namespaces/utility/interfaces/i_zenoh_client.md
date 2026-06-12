@@ -41,6 +41,15 @@ graph LR
 ## API
 
 ### Public Methods
+#### Disconnect
+
+```cpp
+virtual void disconnect() = 0;
+```
+Closes any active Zenoh session and releases related transport resources.
+
+!!! note
+    Pure virtual method, must be implemented by derived classes.
 #### Get Address
 
 ```cpp
@@ -98,6 +107,31 @@ Returns a pointer to the active Zenoh session object, if initialized.
 [[nodiscard]] virtual zenoh::Config *get_config_ptr() const = 0;
 ```
 Returns a pointer to the active Zenoh configuration object, if initialized.
+
+!!! note
+    Pure virtual method, must be implemented by derived classes.
+#### Put
+
+```cpp
+virtual void put(std::string_view key, const std::any &value) = 0;
+```
+Publishes a value to the specified Zenoh key expression/topic.
+
+##### Parameters
+- `key` (`std::string_view`): Zenoh key expression/topic to publish to.
+- `value` (`const std::any &`): Type-erased payload value to serialize and publish.
+
+!!! note
+    Pure virtual method, must be implemented by derived classes.
+#### Convert To Zenoh Bytes
+
+```cpp
+[[nodiscard]] virtual zenoh::Bytes convert_to_zenoh_bytes(const std::any &value) const = 0;
+```
+Converts a type-erased payload into a Zenoh byte buffer suitable for publishing.
+
+##### Parameters
+- `value` (`const std::any &`): Type-erased payload value to serialize into `zenoh::Bytes`.
 
 !!! note
     Pure virtual method, must be implemented by derived classes.
