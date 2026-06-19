@@ -1,4 +1,4 @@
-# Vision
+# Zone
 
 - **Namespace**: `acs::vision`
 - **Include**: `#include "vision/types/zone.h"`

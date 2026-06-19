@@ -1,4 +1,4 @@
-# Vision
+# Camera Intrinsics
 
 - **Namespace**: `acs::vision`
 - **Include**: `#include "vision/types/camera_intrinsics.h"`
